@@ -18,6 +18,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SpendWise - Expense Tracker & Financial Insight",
   description: "Track your expenses, manage your finances, and gain insights with SpendWise",
+  icons: {
+    icon: [
+      { url: "/spendwise.svg", type: "image/svg+xml" },
+    ],
+    apple: "/spendwise.svg",
+  },
 };
 
 export default function RootLayout({

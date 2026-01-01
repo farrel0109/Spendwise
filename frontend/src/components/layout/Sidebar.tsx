@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { useLanguage } from "@/context/LanguageContext";
@@ -40,9 +41,6 @@ export default function Sidebar() {
         <div className="flex flex-col gap-6">
           {/* Branding */}
           <div className="flex items-center gap-3 px-2">
-            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#007bff] to-blue-400 flex items-center justify-center shadow-lg shadow-[#007bff]/20">
-              <Wallet className="w-6 h-6 text-white" />
-            </div>
             <div>
               <h1 className="text-white text-lg font-bold tracking-tight">SpendWise</h1>
               <p className="text-slate-500 text-xs font-medium">{t('nav.premium')}</p>
@@ -73,13 +71,21 @@ export default function Sidebar() {
           </nav>
         </div>
 
-        {/* User Profile */}
-        <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition-colors mt-auto">
-          {user?.imageUrl ? (
-            <img src={user.imageUrl} alt="Profile" className="h-9 w-9 rounded-full object-cover" />
-          ) : (
-            <div className="h-9 w-9 rounded-full bg-slate-700" />
-          )}
+        {/* User Profile with Logout */}
+        <div className="flex items-center gap-3 px-3 py-3 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 transition-colors mt-auto">
+          <UserButton 
+            afterSignOutUrl="/sign-in"  
+            appearance={{
+              elements: {
+                avatarBox: "w-9 h-9 border border-white/10",
+                userButtonPopoverCard: "bg-[#1a2332] border border-white/10",
+                userButtonPopoverActionButton: "text-slate-300 hover:bg-white/10",
+                userButtonPopoverActionButtonText: "text-slate-300",
+                userButtonPopoverActionButtonIcon: "text-slate-400",
+                userButtonPopoverFooter: "hidden"
+              }
+            }}
+          />
           <div className="flex flex-col overflow-hidden">
             <p className="text-white text-sm font-medium truncate">{user?.fullName || "User"}</p>
             <p className="text-slate-500 text-xs truncate">{user?.primaryEmailAddress?.emailAddress}</p>
