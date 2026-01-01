@@ -2,7 +2,7 @@
 
 SpendWise adalah aplikasi manajemen keuangan pribadi yang modern, minimalis, dan powerful. Didesain dengan gaya **iOS/Apple aesthetic** yang bersih dan profesional, SpendWise membantu Anda melacak kekayaan bersih, mengelola banyak akun, merencanakan anggaran, dan mencapai tujuan finansial dengan cara yang menyenangkan melalui gamifikasi.
 
-![SpendWise](https://img.shields.io/badge/SpendWise-v2.0-007aff?style=for-the-badge&logo=apple) ![Status](https://img.shields.io/badge/Status-Beta-34c759?style=for-the-badge)
+![SpendWise](https://img.shields.io/badge/SpendWise-v2.0-007aff?style=for-the-badge&logo=apple) ![Status](https://img.shields.io/badge/Status-Beta-34c759?style=for-the-badge) [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/farrel0109/Spendwise)
 
 ## ✨ Fitur Utama
 
@@ -83,7 +83,30 @@ npm install
 
 ### 4. Konfigurasi Environment
 
-Buat file `.env` di backend dan `.env.local` di frontend sesuai contoh di atas.
+**Backend** (`backend/.env`):
+
+```env
+# Salin dari backend/.env.example
+CLERK_SECRET_KEY=sk_test_your_clerk_secret_key_here
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.your_service_key_here
+PORT=3001
+FRONTEND_URL=http://localhost:3000
+```
+
+**Frontend** (`frontend/.env.local`):
+
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+CLERK_SECRET_KEY=sk_test_xxxxx
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
+
+> ⚠️ **PENTING**: File `.env` dan `.env.local` sudah di-ignore oleh git. Jangan pernah commit file yang berisi secret keys!
 
 ### 5. Jalankan Aplikasi
 
@@ -104,6 +127,40 @@ Buka **http://localhost:3000** di browser Anda.
 - **Secure Auth**: Menggunakan Clerk untuk manajemen sesi yang aman.
 - **Row Level Security**: Data di database terlindungi di level baris (RLS).
 - **Data Validation**: Validasi input ketat di frontend dan backend (Zod).
+- **Environment Variables**: Semua secret keys disimpan di file `.env` yang di-ignore oleh git.
+- **No Hardcoded Secrets**: Tidak ada API key atau password yang di-hardcode di source code.
+
+### File yang Di-ignore (`.gitignore`):
+
+```
+.env
+.env.local
+.env.*
+node_modules/
+.next/
+dist/
+```
+
+## 🤝 Contributing
+
+Kontribusi sangat diterima! Silakan:
+
+1. Fork repository ini
+2. Buat branch baru (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buka Pull Request
+
+### Setup untuk Contributor
+
+1. Clone repository:
+   ```bash
+   git clone https://github.com/farrel0109/Spendwise.git
+   cd Spendwise
+   ```
+2. Salin file `.env.example` ke `.env` di folder backend.
+3. Buat file `.env.local` di folder frontend (lihat contoh di atas).
+4. Ikuti langkah "Cara Menjalankan" di atas.
 
 ## 📝 Lisensi
 
