@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
-    "start": "node index.js"
-   },
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
   "keywords": [
     "expense-tracker",
     "api",
