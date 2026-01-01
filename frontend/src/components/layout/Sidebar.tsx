@@ -13,6 +13,7 @@ import {
   Banknote, 
   BarChart3, 
   Trophy,
+  Settings,
 } from "lucide-react";
 
 export default function Sidebar() {
@@ -29,6 +30,7 @@ export default function Sidebar() {
     { href: "/dashboard/debts", label: t('nav.debts'), icon: Banknote },
     { href: "/dashboard/analytics", label: t('nav.analytics'), icon: BarChart3 },
     { href: "/dashboard/achievements", label: t('nav.rewards'), icon: Trophy },
+    { href: "/dashboard/settings", label: t('nav.settings') || 'Settings', icon: Settings },
   ];
 
   return (

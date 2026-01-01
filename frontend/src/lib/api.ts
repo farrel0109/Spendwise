@@ -22,7 +22,33 @@ export interface Profile {
   avatar_url: string;
   currency: string;
   onboarding_completed: boolean;
+  display_name?: string;
+  bio?: string;
+  theme?: 'light' | 'dark' | 'system';
+  accent_color?: string;
+  language?: 'id' | 'en';
+  date_format?: string;
+  notification_budget?: boolean;
+  notification_goals?: boolean;
+  notification_achievements?: boolean;
+  privacy_hide_amounts?: boolean;
 }
+
+export interface UserSettings {
+  displayName?: string;
+  bio?: string;
+  avatarUrl?: string;
+  currency: string;
+  theme: 'light' | 'dark' | 'system';
+  accentColor: string;
+  language: 'id' | 'en';
+  dateFormat: string;
+  notificationBudget: boolean;
+  notificationGoals: boolean;
+  notificationAchievements: boolean;
+  privacyHideAmounts: boolean;
+}
+
 
 export interface Account {
   id: string;
@@ -187,6 +213,35 @@ export async function completeOnboarding(token: string) {
   const response = await api.post('/api/users/complete-onboarding', {}, authHeader(token));
   return response.data;
 }
+
+export async function getUserSettings(token: string): Promise<UserSettings> {
+  const response = await api.get('/api/users/settings', authHeader(token));
+  return response.data;
+}
+
+export async function updateProfile(token: string, data: {
+  displayName?: string;
+  bio?: string;
+  avatarUrl?: string;
+  currency?: string;
+  theme?: 'light' | 'dark' | 'system';
+  accentColor?: string;
+  language?: 'id' | 'en';
+  dateFormat?: string;
+  notificationBudget?: boolean;
+  notificationGoals?: boolean;
+  notificationAchievements?: boolean;
+  privacyHideAmounts?: boolean;
+}): Promise<Profile> {
+  const response = await api.patch('/api/users/profile', data, authHeader(token));
+  return response.data;
+}
+
+export async function exportUserData(token: string) {
+  const response = await api.post('/api/users/export', {}, authHeader(token));
+  return response.data;
+}
+
 
 // ============================================
 // Accounts API

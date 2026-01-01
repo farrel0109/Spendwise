@@ -58,6 +58,19 @@ const translations = {
     'common.income': 'Income',
     'common.expense': 'Expense',
     'common.transfer': 'Transfer',
+
+    // Settings
+    'nav.settings': 'Settings',
+    'settings.title': 'Settings',
+    'settings.subtitle': 'Customize your SpendWise experience',
+    'settings.profile': 'Profile',
+    'settings.appearance': 'Appearance',
+    'settings.preferences': 'Preferences',
+    'settings.notifications': 'Notifications',
+    'settings.privacy': 'Privacy & Data',
+    'settings.save': 'Save Changes',
+    'settings.saved': 'Saved!',
+    'settings.saving': 'Saving...',
   },
   id: {
     // Sidebar
@@ -106,6 +119,19 @@ const translations = {
     'common.income': 'Pemasukan',
     'common.expense': 'Pengeluaran',
     'common.transfer': 'Transfer',
+
+    // Settings
+    'nav.settings': 'Pengaturan',
+    'settings.title': 'Pengaturan',
+    'settings.subtitle': 'Sesuaikan pengalaman SpendWise Anda',
+    'settings.profile': 'Profil',
+    'settings.appearance': 'Tampilan',
+    'settings.preferences': 'Preferensi',
+    'settings.notifications': 'Notifikasi',
+    'settings.privacy': 'Privasi & Data',
+    'settings.save': 'Simpan Perubahan',
+    'settings.saved': 'Tersimpan!',
+    'settings.saving': 'Menyimpan...',
   }
 };
 
