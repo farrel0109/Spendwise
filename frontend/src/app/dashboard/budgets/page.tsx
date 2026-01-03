@@ -11,8 +11,11 @@ import {
   Trash2, 
   AlertTriangle, 
   CheckCircle,
-  X
+  X,
+  Banknote // Added import
 } from "lucide-react";
+
+
 import { motion, AnimatePresence } from "framer-motion";
 
 
@@ -198,7 +201,11 @@ function BudgetCardSkeleton() {
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-[var(--color-surface)] border border-white/5">
-                    {budget.categories?.icon || "💰"}
+                    {budget.categories?.icon ? (
+                      <span>{budget.categories.icon}</span>
+                    ) : (
+                      <Banknote className="w-6 h-6 text-slate-400" />
+                    )}
                   </div>
                   <div>
                     <h3 className="font-bold text-white text-lg">{budget.categories?.name}</h3>

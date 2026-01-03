@@ -386,7 +386,7 @@ export default function SettingsPage() {
                               : "bg-white/5 border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
                           }`}
                         >
-                          <span className="text-2xl">🇮🇩</span>
+                          <span className="font-bold text-lg">ID</span>
                           <span className="font-medium">Bahasa Indonesia</span>
                         </button>
                         <button
@@ -397,7 +397,7 @@ export default function SettingsPage() {
                               : "bg-white/5 border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
                           }`}
                         >
-                          <span className="text-2xl">🇺🇸</span>
+                          <span className="font-bold text-lg">EN</span>
                           <span className="font-medium">English</span>
                         </button>
                       </div>

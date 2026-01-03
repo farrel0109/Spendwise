@@ -1,6 +1,6 @@
 "use client";
 
-import { Smile, ArrowRight } from "lucide-react";
+import { Smile, ArrowRight, Banknote, ShoppingCart, RefreshCw, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 import { formatDate } from "@/utils";
 import type { Transaction } from "@/types";
@@ -13,11 +13,11 @@ interface TransactionsTableProps {
   t: (key: string) => string;
 }
 
-// Transaction type emojis
-const TYPE_EMOJIS: Record<string, string> = {
-  income: '💰',
-  expense: '🛒',
-  transfer: '🔄',
+// Transaction type icons
+const TYPE_ICONS: Record<string, any> = {
+  income: Banknote,
+  expense: ShoppingCart,
+  transfer: RefreshCw,
 };
 
 /**
@@ -130,7 +130,7 @@ interface TransactionRowProps {
  * Individual transaction table row
  */
 function TransactionRow({ transaction, formatAmount, language, index }: TransactionRowProps) {
-  const emoji = TYPE_EMOJIS[transaction.type] || '📝';
+  const Icon = TYPE_ICONS[transaction.type] || FileText;
   const isIncome = transaction.type === 'income';
   
   return (
@@ -143,8 +143,8 @@ function TransactionRow({ transaction, formatAmount, language, index }: Transact
       {/* Merchant/Description */}
       <td className="py-4 pl-2">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-lg shrink-0 border border-white/5">
-            {emoji}
+          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-lg shrink-0 border border-white/5 text-slate-400">
+            <Icon className="w-5 h-5" />
           </div>
           <div>
             <p className="text-white font-medium">
