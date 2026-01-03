@@ -13,6 +13,8 @@ import {
   CheckCircle,
   X
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 export default function BudgetsPage() {
   const { getToken } = useAuth();
@@ -103,13 +105,31 @@ export default function BudgetsPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#007bff] border-t-transparent shadow-lg shadow-[#007bff]/20"></div>
+
+// Budget Card Skeleton
+function BudgetCardSkeleton() {
+  return (
+    <div className="premium-card p-6 rounded-3xl animate-pulse">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-xl bg-white/10" />
+          <div>
+            <div className="h-5 w-24 bg-white/10 rounded mb-2" />
+            <div className="h-3 w-32 bg-white/5 rounded" />
+          </div>
+        </div>
+        <div className="w-8 h-8 bg-white/5 rounded-xl" />
       </div>
-    );
-  }
+      <div className="space-y-3">
+        <div className="flex justify-between">
+          <div className="h-3 w-20 bg-white/5 rounded" />
+          <div className="h-3 w-16 bg-white/10 rounded" />
+        </div>
+        <div className="h-2.5 w-full bg-white/5 rounded-full" />
+      </div>
+    </div>
+  );
+}
 
   return (
     <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
@@ -117,8 +137,8 @@ export default function BudgetsPage() {
       <div className="flex items-center justify-between pt-4">
         <div>
           <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <div className="p-2 bg-[#007bff]/10 rounded-xl">
-              <PieChart className="w-8 h-8 text-[#007bff]" />
+            <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
+              <PieChart className="w-8 h-8 text-[var(--accent-color)]" />
             </div>
             {t('nav.budgeting')}
           </h1>
@@ -126,29 +146,58 @@ export default function BudgetsPage() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#007bff] hover:bg-[#0056b3] text-white rounded-2xl font-semibold shadow-lg shadow-[#007bff]/20 hover:shadow-[#007bff]/40 hover:-translate-y-0.5 transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-2xl font-semibold shadow-lg shadow-[var(--accent-color)]/20 hover:shadow-[var(--accent-color)]/40 hover:-translate-y-0.5 transition-all"
         >
           <Plus className="w-5 h-5" />
           <span>Add Budget</span>
         </button>
       </div>
 
-      {/* Budgets Grid */}
-      {budgets.length === 0 ? (
-        <div className="bg-[#18222d] rounded-3xl p-16 text-center border border-dashed border-[#232e3b]">
-          <div className="w-20 h-20 bg-[#0f1923] rounded-full flex items-center justify-center mx-auto mb-6 border border-[#232e3b]">
-            <PieChart className="w-10 h-10 text-slate-500" />
+      {/* Budgets Grid with Progressive Loading */}
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <div key="budget-skeleton" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <BudgetCardSkeleton />
+            <BudgetCardSkeleton />
+            <BudgetCardSkeleton />
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">No budgets set</h3>
-          <p className="text-slate-400 max-w-sm mx-auto">Create a budget to track your spending and save more.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {budgets.map((budget) => (
-            <div key={budget.id} className="apple-card p-6 rounded-3xl relative overflow-hidden group">
+        ) : budgets.length === 0 ? (
+          <motion.div 
+            key="budget-empty"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="premium-card rounded-3xl p-16 text-center"
+          >
+            <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
+              <PieChart className="w-10 h-10 text-zinc-500" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">No budgets set</h3>
+            <p className="text-zinc-500 max-w-sm mx-auto mb-4">Create a budget to track your spending and save more.</p>
+            <button 
+              onClick={() => setShowForm(true)}
+              className="text-[var(--accent-color)] text-sm font-medium hover:opacity-80 transition-opacity"
+            >
+              + Create Budget
+            </button>
+          </motion.div>
+        ) : (
+          <motion.div 
+            key="budget-content"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"
+          >
+            {budgets.map((budget, index) => (
+              <motion.div
+                key={budget.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <div className="premium-card p-6 rounded-3xl relative overflow-hidden group">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-[#0f1923] border border-[#232e3b]">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-[var(--color-surface)] border border-white/5">
                     {budget.categories?.icon || "💰"}
                   </div>
                   <div>
@@ -170,18 +219,18 @@ export default function BudgetsPage() {
                     <span className="text-slate-400">Spent</span>
                     <span className="text-white font-bold">Rp {formatCurrency(budget.spent)}</span>
                   </div>
-                  <div className="w-full bg-[#0f1923] rounded-full h-3 border border-[#232e3b] overflow-hidden">
+                  <div className="w-full bg-[var(--color-surface)] rounded-full h-3 border border-white/5 overflow-hidden">
                     <div 
                       className={`h-full rounded-full transition-all duration-500 ${
                         budget.isOverBudget ? "bg-red-500" : 
-                        budget.isNearLimit ? "bg-yellow-500" : "bg-[#007bff]"
+                        budget.isNearLimit ? "bg-yellow-500" : "bg-[var(--accent-color)]"
                       }`}
                       style={{ width: `${Math.min(budget.percentUsed, 100)}%` }}
                     />
                   </div>
                 </div>
 
-                <div className="flex justify-between items-end pt-2 border-t border-[#232e3b]">
+                <div className="flex justify-between items-end pt-2 border-t border-white/5">
                   <div>
                     <p className="text-xs text-slate-500 mb-1">Remaining</p>
                     <p className={`font-bold text-xl ${budget.remaining < 0 ? "text-red-500" : "text-emerald-500"}`}>
@@ -202,17 +251,19 @@ export default function BudgetsPage() {
                 )}
               </div>
             </div>
-          ))}
-        </div>
-      )}
+                </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Add Budget Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
-          <div className="absolute inset-0 bg-[#0f1923]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
+          <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
 
-          <div className="relative w-full max-w-lg bg-[#18222d] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-[#232e3b] bg-[#18222d]/50 backdrop-blur-md">
+          <div className="relative w-full max-w-lg bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
               <button onClick={() => setShowForm(false)} className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors rounded-xl hover:bg-white/5">
                 <X className="w-6 h-6" />
               </button>
@@ -226,7 +277,7 @@ export default function BudgetsPage() {
                 <select
                   value={formData.categoryId}
                   onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                  className="w-full bg-[#0f1923] rounded-xl px-4 py-3.5 text-sm text-white border border-[#232e3b] focus:border-[#007bff] focus:ring-4 focus:ring-[#007bff]/10 transition-all appearance-none"
+                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all appearance-none"
                   required
                 >
                   <option value="">Select Category</option>
@@ -238,7 +289,7 @@ export default function BudgetsPage() {
 
               <div>
                 <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Monthly Limit</label>
-                <div className="flex items-center bg-[#0f1923] rounded-xl px-4 border border-[#232e3b] focus-within:border-[#007bff] focus-within:ring-4 focus-within:ring-[#007bff]/10 transition-all">
+                <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all">
                   <span className="text-slate-500 mr-2 font-medium">Rp</span>
                   <input
                     type="number"
@@ -260,14 +311,14 @@ export default function BudgetsPage() {
                   step="5"
                   value={formData.alertThreshold}
                   onChange={(e) => setFormData({ ...formData, alertThreshold: e.target.value })}
-                  className="w-full h-2 bg-[#0f1923] rounded-lg appearance-none cursor-pointer accent-[#007bff]"
+                  className="w-full h-2 bg-[var(--color-surface)] rounded-lg appearance-none cursor-pointer accent-[var(--accent-color)]"
                 />
-                <div className="text-right text-sm text-[#007bff] font-bold mt-1">{formData.alertThreshold}%</div>
+                <div className="text-right text-sm text-[var(--accent-color)] font-bold mt-1">{formData.alertThreshold}%</div>
               </div>
 
               <button 
                 disabled={formLoading} 
-                className="w-full py-4 bg-[#007bff] hover:bg-[#0056b3] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[#007bff]/20 hover:shadow-[#007bff]/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
+                className="w-full py-4 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[var(--accent-color)]/20 hover:shadow-[var(--accent-color)]/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
               >
                 {formLoading ? (
                   <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />

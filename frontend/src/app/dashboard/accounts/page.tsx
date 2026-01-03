@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { getAccounts, createAccount, deleteAccount } from "@/lib/api";
 import { formatCurrency } from "@/utils";
@@ -57,6 +58,39 @@ interface AccountFormData {
   color: string;
   initialBalance: string;
   institution: string;
+}
+
+// ============================================
+// Skeleton Components
+// ============================================
+
+function SummaryCardSkeleton() {
+  return (
+    <div className="premium-card rounded-3xl p-6 animate-pulse">
+      <div className="flex items-center gap-2 mb-2">
+        <div className="w-4 h-4 bg-white/10 rounded" />
+        <div className="h-3 w-24 bg-white/10 rounded" />
+      </div>
+      <div className="h-9 w-40 bg-white/10 rounded" />
+    </div>
+  );
+}
+
+function AccountCardSkeleton() {
+  return (
+    <div className="premium-card rounded-3xl p-6 animate-pulse">
+      <div className="flex justify-between mb-6">
+        <div className="w-14 h-14 bg-white/10 rounded-2xl" />
+        <div className="w-10 h-10 bg-white/5 rounded-xl" />
+      </div>
+      <div className="h-3 w-16 bg-white/5 rounded mb-2" />
+      <div className="h-6 w-32 bg-white/10 rounded mb-4" />
+      <div className="pt-4 border-t border-white/5">
+        <div className="h-3 w-20 bg-white/5 rounded mb-1" />
+        <div className="h-8 w-36 bg-white/10 rounded" />
+      </div>
+    </div>
+  );
 }
 
 // ============================================
@@ -124,19 +158,49 @@ export default function AccountsPage() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent shadow-lg shadow-blue-500/20" />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
       <PageHeader onAddClick={() => setShowForm(true)} />
-      <SummaryCards summary={summary} />
-      <AccountsGrid accounts={accounts} onDelete={handleDelete} />
+      
+      {/* Summary Cards with Progressive Loading */}
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <div key="summary-skeleton" className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <SummaryCardSkeleton />
+            <SummaryCardSkeleton />
+            <SummaryCardSkeleton />
+          </div>
+        ) : (
+          <motion.div
+            key="summary-content"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <SummaryCards summary={summary} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Accounts Grid with Progressive Loading */}
+      <AnimatePresence mode="wait">
+        {loading ? (
+          <div key="accounts-skeleton" className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <AccountCardSkeleton />
+            <AccountCardSkeleton />
+            <AccountCardSkeleton />
+          </div>
+        ) : (
+          <motion.div
+            key="accounts-content"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <AccountsGrid accounts={accounts} onDelete={handleDelete} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
       {showForm && (
         <AddAccountModal 
           onClose={() => setShowForm(false)} 
@@ -156,8 +220,8 @@ function PageHeader({ onAddClick }: { onAddClick: () => void }) {
     <div className="flex items-center justify-between pt-4">
       <div>
         <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-          <div className="p-2 bg-blue-500/10 rounded-xl">
-            <Wallet className="w-8 h-8 text-blue-500" />
+          <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
+            <Wallet className="w-8 h-8 text-[var(--accent-color)]" />
           </div>
           Accounts
         </h1>
@@ -165,7 +229,7 @@ function PageHeader({ onAddClick }: { onAddClick: () => void }) {
       </div>
       <button
         onClick={onAddClick}
-        className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-semibold shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40 hover:-translate-y-0.5 transition-all"
+        className="flex items-center gap-2 px-6 py-3 bg-[var(--accent-color)] hover:bg-[var(--accent-color)] text-white rounded-2xl font-semibold shadow-lg shadow-[var(--accent-glow)]/20 hover:shadow-[var(--accent-glow)]/40 hover:-translate-y-0.5 transition-all"
       >
         <Plus className="w-5 h-5" />
         <span>Add Account</span>
@@ -189,7 +253,7 @@ function SummaryCards({ summary }: { summary: AccountsSummary }) {
         color="red" 
         icon={CreditCard}
       />
-      <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl p-6 shadow-xl shadow-blue-600/20 relative overflow-hidden group text-white">
+      <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl p-6 shadow-xl shadow-[var(--accent-glow)]/20 relative overflow-hidden group text-white">
         <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
           <Wallet className="w-24 h-24 text-white" />
         </div>
@@ -220,7 +284,7 @@ function SummaryCard({
   };
   
   return (
-    <div className="bg-[#1E293B] rounded-3xl p-6 border border-[#334155]/30 shadow-xl relative overflow-hidden group">
+    <div className="bg-[var(--color-surface-elevated)] rounded-3xl p-6 border border-white/5 shadow-xl relative overflow-hidden group">
       <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
         <Icon className={`w-24 h-24 ${colorClasses[color]}`} />
       </div>
@@ -244,8 +308,8 @@ function AccountsGrid({
 }) {
   if (accounts.length === 0) {
     return (
-      <div className="bg-[#1E293B] rounded-3xl p-16 text-center border border-dashed border-[#334155]">
-        <div className="w-20 h-20 bg-[#0F172A] rounded-full flex items-center justify-center mx-auto mb-6 border border-[#334155]">
+      <div className="bg-[var(--color-surface-elevated)] rounded-3xl p-16 text-center border border-dashed border-white/5">
+        <div className="w-20 h-20 bg-[var(--color-surface)] rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5">
           <Wallet className="w-10 h-10 text-slate-500" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">No accounts yet</h3>
@@ -275,7 +339,7 @@ function AccountCard({
   const TypeIcon = ACCOUNT_TYPES.find(t => t.value === account.type)?.icon || Wallet;
   
   return (
-    <div className="bg-[#1E293B] p-6 rounded-3xl border border-[#334155]/30 hover:border-blue-500/50 transition-all group hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1">
+    <div className="bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-white/5 hover:border-[var(--accent-color)]/50 transition-all group hover:shadow-xl hover:shadow-[var(--accent-glow)]/5 hover:-translate-y-1">
       <div className="flex justify-between items-start mb-6">
         <div 
           className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg" 
@@ -298,14 +362,14 @@ function AccountCard({
             {account.type.replace("_", " ")}
           </p>
           {account.institution && (
-            <span className="px-2 py-0.5 rounded-md bg-[#0F172A] text-[10px] text-slate-400 border border-[#334155]">
+            <span className="px-2 py-0.5 rounded-md bg-[var(--color-surface)] text-[10px] text-slate-400 border border-white/5">
               {account.institution}
             </span>
           )}
         </div>
         <h3 className="font-bold text-white text-xl mb-4 truncate">{account.name}</h3>
         
-        <div className="pt-4 border-t border-[#334155]/50 flex items-end justify-between">
+        <div className="pt-4 border-t border-white/5 flex items-end justify-between">
           <div>
             <p className="text-xs text-slate-500 mb-1">Current Balance</p>
             <p className={`font-bold text-2xl ${account.balance >= 0 ? 'text-white' : 'text-red-500'}`}>
@@ -363,11 +427,11 @@ function AddAccountModal({ onClose, onCreate }: AddAccountModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
-      <div className="absolute inset-0 bg-[#0F172A]/80 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg bg-[#1E293B] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
+      <div className="relative w-full max-w-lg bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-[#334155]/50 bg-[#1E293B]/50 backdrop-blur-md">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
           <button 
             onClick={onClose} 
             className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors rounded-xl hover:bg-white/5"
@@ -389,7 +453,7 @@ function AddAccountModal({ onClose, onCreate }: AddAccountModalProps) {
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="e.g., Main Savings"
-              className="w-full bg-[#0F172A] rounded-xl px-4 py-3.5 text-sm text-white border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 placeholder:text-slate-600 transition-all"
+              className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 placeholder:text-slate-600 transition-all"
               required
             />
           </div>
@@ -407,8 +471,8 @@ function AddAccountModal({ onClose, onCreate }: AddAccountModalProps) {
                   onClick={() => setFormData({ ...formData, type: type.value })}
                   className={`flex flex-col items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
                     formData.type === type.value 
-                      ? "bg-blue-500/10 border-blue-500 text-blue-500 shadow-lg shadow-blue-500/10" 
-                      : "bg-[#0F172A] border-transparent text-slate-400 hover:bg-[#334155]/30 hover:text-white"
+                      ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-[var(--accent-color)] shadow-lg shadow-[var(--accent-glow)]/10" 
+                      : "bg-[var(--color-surface)] border-transparent text-slate-400 hover:bg-white/5 hover:text-white"
                   }`}
                 >
                   <type.icon className="w-5 h-5" />
@@ -424,7 +488,7 @@ function AddAccountModal({ onClose, onCreate }: AddAccountModalProps) {
               <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">
                 Initial Balance
               </label>
-              <div className="flex items-center bg-[#0F172A] rounded-xl px-4 border border-[#334155]/50 focus-within:border-blue-500 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+              <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
                 <span className="text-slate-500 mr-2 font-medium">Rp</span>
                 <input
                   type="number"
@@ -445,7 +509,7 @@ function AddAccountModal({ onClose, onCreate }: AddAccountModalProps) {
                 value={formData.institution}
                 onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
                 placeholder="e.g., BCA"
-                className="w-full bg-[#0F172A] rounded-xl px-4 py-3.5 text-sm text-white border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 placeholder:text-slate-600 transition-all"
+                className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 placeholder:text-slate-600 transition-all"
               />
             </div>
           </div>
@@ -463,7 +527,7 @@ function AddAccountModal({ onClose, onCreate }: AddAccountModalProps) {
                   onClick={() => setFormData({ ...formData, color })}
                   className={`w-10 h-10 rounded-full transition-transform shadow-lg ${
                     formData.color === color 
-                      ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-[#1E293B]" 
+                      ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-[var(--color-surface-elevated)]" 
                       : "hover:scale-105 opacity-80 hover:opacity-100"
                   }`}
                   style={{ backgroundColor: color }}
@@ -476,7 +540,7 @@ function AddAccountModal({ onClose, onCreate }: AddAccountModalProps) {
           <button 
             type="submit"
             disabled={loading} 
-            className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-2xl font-bold text-lg shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4"
+            className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-2xl font-bold text-lg shadow-lg shadow-[var(--accent-glow)]/20 hover:shadow-[var(--accent-glow)]/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4"
           >
             {loading ? (
               <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />

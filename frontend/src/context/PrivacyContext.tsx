@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useSyncExternalStore, useCallback, ReactNode } from 'react';
 
 interface PrivacyContextType {
   isPrivacyMode: boolean;
@@ -9,25 +9,44 @@ interface PrivacyContextType {
 
 const PrivacyContext = createContext<PrivacyContextType | undefined>(undefined);
 
-export function PrivacyProvider({ children }: { children: ReactNode }) {
-  // Start with false for SSR consistency, then hydrate from localStorage
-  const [isPrivacyMode, setIsPrivacyMode] = useState(false);
+const STORAGE_KEY = 'spendwise-privacy-mode';
 
-  // After hydration, load from localStorage
-  useEffect(() => {
-    const savedMode = localStorage.getItem('spendwise-privacy-mode');
-    if (savedMode === 'true') {
-      setIsPrivacyMode(true);
+// Subscribe to localStorage changes
+function subscribeToPrivacyMode(callback: () => void) {
+  const handleStorageChange = (e: StorageEvent) => {
+    if (e.key === STORAGE_KEY) {
+      callback();
     }
-  }, []);
-
-  const togglePrivacyMode = () => {
-    setIsPrivacyMode(prev => {
-      const newValue = !prev;
-      localStorage.setItem('spendwise-privacy-mode', String(newValue));
-      return newValue;
-    });
   };
+  window.addEventListener('storage', handleStorageChange);
+  return () => window.removeEventListener('storage', handleStorageChange);
+}
+
+// Get current value from localStorage
+function getPrivacyModeSnapshot(): boolean {
+  if (typeof window === 'undefined') return false;
+  return localStorage.getItem(STORAGE_KEY) === 'true';
+}
+
+// Server snapshot - always return false for SSR
+function getPrivacyModeServerSnapshot(): boolean {
+  return false;
+}
+
+export function PrivacyProvider({ children }: { children: ReactNode }) {
+  // Use useSyncExternalStore for localStorage sync
+  const isPrivacyMode = useSyncExternalStore(
+    subscribeToPrivacyMode,
+    getPrivacyModeSnapshot,
+    getPrivacyModeServerSnapshot
+  );
+
+  const togglePrivacyMode = useCallback(() => {
+    const newValue = !getPrivacyModeSnapshot();
+    localStorage.setItem(STORAGE_KEY, String(newValue));
+    // Dispatch storage event to trigger re-render
+    window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEY }));
+  }, []);
 
   return (
     <PrivacyContext.Provider value={{ isPrivacyMode, togglePrivacyMode }}>

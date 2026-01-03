@@ -1,6 +1,7 @@
 "use client";
 
 import { Wallet } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface BudgetSummary {
   totalBudget: number;
@@ -17,7 +18,7 @@ interface BudgetCardProps {
 
 /**
  * Budget progress card with circular visualization
- * Shows remaining budget and projected savings
+ * Premium design with accent color support
  */
 export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) {
   const { totalBudget, budgetLeft, budgetProgress } = budgetSummary;
@@ -27,24 +28,29 @@ export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) 
   const projectedSavings = budgetLeft * PROJECTED_SAVINGS_RATE;
   
   return (
-    <div className="col-span-1 md:col-span-4 apple-card rounded-2xl p-6 flex flex-col justify-between relative overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.1 }}
+      className="col-span-1 md:col-span-4 premium-card rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden"
+    >
       <div className="flex justify-between items-start">
         <div>
-          <h3 className="text-slate-400 text-sm font-semibold uppercase tracking-wider mb-1">
+          <h3 className="text-zinc-400 text-sm font-semibold uppercase tracking-wider mb-1">
             {t('dashboard.budget')}
           </h3>
           <p className="text-2xl font-bold text-white tracking-tight">
             {t('dashboard.leftToSpend')}
           </p>
         </div>
-        <div className="bg-[#232e3b] p-2 rounded-lg border border-white/5">
-          <Wallet className="w-6 h-6 text-white" />
+        <div className="bg-white/5 p-3 rounded-xl border border-white/5">
+          <Wallet className="w-6 h-6 text-zinc-400" />
         </div>
       </div>
       
       {/* Circular Progress */}
-      <div className="flex items-center justify-center py-6">
-        <div className="relative h-40 w-40">
+      <div className="flex items-center justify-center py-8">
+        <div className="relative h-44 w-44">
           {/* Background Circle */}
           <svg className="h-full w-full -rotate-90" viewBox="0 0 36 36">
             <path 
@@ -52,26 +58,27 @@ export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) 
               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
               fill="none" 
               stroke="currentColor" 
-              strokeWidth="3"
+              strokeWidth="2.5"
             />
             {/* Progress Arc */}
             <path 
-              className="text-[#007bff] drop-shadow-[0_0_10px_rgba(0,123,255,0.5)] transition-all duration-1000" 
+              className="transition-all duration-1000" 
+              style={{ color: 'var(--accent-color)', filter: 'drop-shadow(0 0 8px var(--accent-glow))' }}
               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
               fill="none" 
               stroke="currentColor" 
               strokeDasharray={`${Math.min(budgetProgress, 100)}, 100`} 
               strokeLinecap="round" 
-              strokeWidth="3"
+              strokeWidth="2.5"
             />
           </svg>
           
           {/* Center Text */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold text-white">
+            <span className="text-3xl font-bold text-white">
               Rp {formatAmount(budgetLeft)}
             </span>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-sm text-zinc-500 font-medium mt-1">
               of Rp {formatAmount(totalBudget)}
             </span>
           </div>
@@ -79,20 +86,23 @@ export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) 
       </div>
       
       {/* Projected Savings */}
-      <div className="mt-2 space-y-3">
+      <div className="space-y-3">
         <div className="flex justify-between text-sm">
-          <span className="text-slate-400">{t('dashboard.projectedSavings')}</span>
+          <span className="text-zinc-400">{t('dashboard.projectedSavings')}</span>
           <span className="text-white font-semibold">
             Rp {formatAmount(projectedSavings)}
           </span>
         </div>
-        <div className="w-full bg-[#232e3b] rounded-full h-1.5">
+        <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
           <div 
-            className="bg-green-500 h-1.5 rounded-full transition-all duration-500" 
+            className="h-full rounded-full transition-all duration-500 bg-emerald-500" 
             style={{ width: '65%' }}
           />
         </div>
       </div>
-    </div>
+      
+      {/* Subtle glow */}
+      <div className="absolute -bottom-16 -right-16 w-40 h-40 bg-[var(--accent-color)]/10 rounded-full blur-[60px] pointer-events-none" />
+    </motion.div>
   );
 }

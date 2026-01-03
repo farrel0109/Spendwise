@@ -173,7 +173,7 @@ function FABButton({ onClick }: FABButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-24 md:bottom-10 right-6 md:right-10 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full shadow-lg shadow-blue-500/40 flex items-center justify-center text-white hover:scale-110 transition-all z-40 group"
+      className="fixed bottom-24 md:bottom-10 right-6 md:right-10 w-16 h-16 bg-[var(--accent-color)] rounded-full shadow-lg shadow-[var(--accent-glow)] flex items-center justify-center text-white hover:scale-110 transition-all z-40 group"
     >
       <Plus className="w-8 h-8 group-hover:rotate-90 transition-transform duration-300" />
     </button>
@@ -211,12 +211,12 @@ function TransactionModal({
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-[#0F172A]/80 backdrop-blur-sm transition-opacity" 
+        className="absolute inset-0 bg-[var(--color-base)]/80 backdrop-blur-sm transition-opacity" 
         onClick={onClose} 
       />
 
       {/* Modal Content */}
-      <div className="relative w-full max-w-lg bg-[#1E293B] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
+      <div className="relative w-full max-w-lg bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
         {/* Header */}
         <ModalHeader onClose={onClose} />
 
@@ -293,7 +293,7 @@ function TransactionModal({
 
 function ModalHeader({ onClose }: { onClose: () => void }) {
   return (
-    <div className="flex items-center justify-between px-6 py-5 border-b border-[#334155]/50 bg-[#1E293B]/50 backdrop-blur-md">
+    <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
       <button 
         onClick={onClose} 
         className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors rounded-xl hover:bg-white/5"
@@ -316,11 +316,11 @@ function TypeSelector({
   const types: { value: TransactionType; label: string; icon: typeof ArrowUpRight; activeClass: string }[] = [
     { value: "expense", label: "Expense", icon: ArrowDownLeft, activeClass: "bg-red-500 text-white shadow-lg shadow-red-500/20" },
     { value: "income", label: "Income", icon: ArrowUpRight, activeClass: "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20" },
-    { value: "transfer", label: "Transfer", icon: RefreshCw, activeClass: "bg-blue-500 text-white shadow-lg shadow-blue-500/20" },
+    { value: "transfer", label: "Transfer", icon: RefreshCw, activeClass: "bg-[var(--accent-color)] text-white shadow-lg shadow-[var(--accent-glow)]" },
   ];
 
   return (
-    <div className="flex bg-[#0F172A] p-1.5 rounded-2xl border border-[#334155]/50">
+    <div className="flex bg-[var(--color-surface)] p-1.5 rounded-2xl border border-white/5">
       {types.map(({ value, label, icon: Icon, activeClass }) => (
         <button
           key={value}
@@ -387,7 +387,7 @@ function AccountSelect({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-[#0F172A] rounded-xl px-4 py-3.5 text-sm text-white border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 appearance-none transition-all"
+          className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 appearance-none transition-all"
           required={required}
         >
           <option value="">Select Account</option>
@@ -420,7 +420,7 @@ function CategorySelect({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-[#0F172A] rounded-xl px-4 py-3.5 text-sm text-white border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 appearance-none transition-all"
+          className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 appearance-none transition-all"
         >
           <option value="">Uncategorized</option>
           {categories.map((cat) => (
@@ -451,7 +451,7 @@ function NoteInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder="What's this for?"
-        className="w-full bg-[#0F172A] rounded-xl px-4 py-3.5 text-sm text-white border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 placeholder:text-slate-600 transition-all"
+        className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 placeholder:text-slate-600 transition-all"
       />
     </div>
   );
@@ -474,7 +474,7 @@ function DateInput({
         type="date"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full bg-[#0F172A] rounded-xl px-4 py-3.5 text-sm text-white border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+        className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
         required
       />
     </div>
@@ -498,7 +498,7 @@ function MoodSelect({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full bg-[#0F172A] rounded-xl px-4 py-3.5 text-sm text-white border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 appearance-none transition-all"
+          className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 appearance-none transition-all"
         >
           <option value="">Neutral</option>
           {EMOTIONS.map((e) => (
@@ -516,7 +516,7 @@ function SubmitButton({ loading }: { loading: boolean }) {
     <button 
       type="submit"
       disabled={loading} 
-      className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-2xl font-bold text-lg shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+      className="w-full py-4 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[var(--accent-glow)] hover:-translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
     >
       {loading ? (
         <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />

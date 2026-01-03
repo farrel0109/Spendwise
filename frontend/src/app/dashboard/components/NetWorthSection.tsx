@@ -2,7 +2,8 @@
 
 import { TrendingUp, Info } from "lucide-react";
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from "recharts";
-import { COLORS, TIME_PERIODS } from "@/constants";
+import { motion } from "framer-motion";
+import { TIME_PERIODS } from "@/constants";
 import type { NetWorthData } from "@/types";
 
 // Mock chart data - will be replaced with real data from API
@@ -24,43 +25,49 @@ interface NetWorthSectionProps {
 
 /**
  * Net Worth card with chart visualization
- * Shows total net worth, trend percentage, and historical chart
+ * Premium design matching landing page aesthetic
  */
 export function NetWorthSection({ netWorth, formatAmount, t }: NetWorthSectionProps) {
   return (
-    <div className="col-span-1 md:col-span-8 apple-card rounded-2xl p-6 relative overflow-hidden group">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 relative z-10">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="col-span-1 md:col-span-8 premium-card rounded-2xl p-8 relative overflow-hidden group"
+    >
+      {/* Header */}
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 relative z-10">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <h3 className="text-slate-400 text-sm font-semibold uppercase tracking-wider">
+          <div className="flex items-center gap-2 mb-2">
+            <h3 className="text-zinc-400 text-sm font-semibold uppercase tracking-wider">
               {t('dashboard.netWorth')}
             </h3>
-            <Info className="w-4 h-4 text-slate-500 cursor-help" />
+            <Info className="w-4 h-4 text-zinc-600 cursor-help hover:text-zinc-400 transition-colors" />
           </div>
-          <div className="flex items-baseline gap-3">
-            <p className="text-4xl md:text-5xl font-black text-white tracking-tight">
+          <div className="flex items-baseline gap-4">
+            <p className="text-5xl md:text-6xl font-black text-white tracking-tight">
               Rp {formatAmount(netWorth?.netWorth || 0)}
             </p>
-            <span className="inline-flex items-center px-2 py-1 rounded-md bg-green-500/10 text-green-400 text-sm font-bold border border-green-500/20">
-              <TrendingUp className="w-4 h-4 mr-0.5" />
+            <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-sm font-bold border border-emerald-500/20">
+              <TrendingUp className="w-4 h-4 mr-1" />
               +5.2%
             </span>
           </div>
         </div>
         
         {/* Time Period Selector */}
-        <div className="mt-4 md:mt-0">
-          <div className="flex gap-4">
-            <button className="text-xs font-medium text-white bg-white/10 px-3 py-1.5 rounded-full hover:bg-white/20 transition-colors">
+        <div className="mt-6 md:mt-0">
+          <div className="flex gap-1 p-1 bg-white/5 rounded-xl border border-white/5">
+            <button className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition-all">
               {TIME_PERIODS.day}
             </button>
-            <button className="text-xs font-medium text-white bg-[#007bff] px-3 py-1.5 rounded-full shadow-lg shadow-[#007bff]/20">
+            <button className="text-xs font-medium text-white bg-[var(--accent-color)] px-3 py-1.5 rounded-lg shadow-lg glow-accent">
               {TIME_PERIODS.week}
             </button>
-            <button className="text-xs font-medium text-slate-400 hover:text-white px-3 py-1.5 rounded-full transition-colors">
+            <button className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition-all">
               {TIME_PERIODS.month}
             </button>
-            <button className="text-xs font-medium text-slate-400 hover:text-white px-3 py-1.5 rounded-full transition-colors">
+            <button className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition-all">
               {TIME_PERIODS.year}
             </button>
           </div>
@@ -73,24 +80,24 @@ export function NetWorthSection({ netWorth, formatAmount, t }: NetWorthSectionPr
           <AreaChart data={MOCK_CHART_DATA}>
             <defs>
               <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={COLORS.primary} stopOpacity={0.3}/>
-                <stop offset="95%" stopColor={COLORS.primary} stopOpacity={0}/>
+                <stop offset="5%" stopColor="var(--accent-color)" stopOpacity={0.3}/>
+                <stop offset="95%" stopColor="var(--accent-color)" stopOpacity={0}/>
               </linearGradient>
             </defs>
             <Area 
               type="monotone" 
               dataKey="value" 
-              stroke={COLORS.primary}
+              stroke="var(--accent-color)"
               strokeWidth={3} 
               fillOpacity={1} 
               fill="url(#chartGradient)" 
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: '#1e2936', 
-                borderRadius: '8px', 
-                border: 'none', 
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' 
+                backgroundColor: 'var(--color-surface-elevated)', 
+                borderRadius: '12px', 
+                border: '1px solid rgba(255,255,255,0.1)', 
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)' 
               }}
               itemStyle={{ color: '#fff', fontWeight: 'bold' }}
               formatter={(value: number | undefined) => [`Rp ${formatAmount(value || 0)}`, 'Net Worth'] as [string, string]}
@@ -100,8 +107,9 @@ export function NetWorthSection({ netWorth, formatAmount, t }: NetWorthSectionPr
         </ResponsiveContainer>
       </div>
       
-      {/* Background glow effect */}
-      <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#007bff]/20 blur-3xl rounded-full pointer-events-none" />
-    </div>
+      {/* Background glow effect - violet gradient like landing page */}
+      <div className="absolute -top-32 -right-32 w-80 h-80 bg-[var(--accent-color)]/20 blur-[100px] rounded-full pointer-events-none group-hover:bg-[var(--accent-color)]/30 transition-all duration-700" />
+      <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-fuchsia-500/10 blur-[80px] rounded-full pointer-events-none" />
+    </motion.div>
   );
 }

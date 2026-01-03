@@ -18,6 +18,8 @@ import {
   Gift,
   TrendingUp
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 const ICONS = [
   { name: "Target", icon: Target },
@@ -30,7 +32,7 @@ const ICONS = [
 ];
 
 const COLORS = [
-  "#007bff", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899"
+  "var(--accent-color)", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899"
 ];
 
 export default function GoalsPage() {
@@ -140,10 +142,22 @@ export default function GoalsPage() {
     }
   };
 
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#007bff] border-t-transparent shadow-lg shadow-[#007bff]/20"></div>
+      <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
+        <div className="flex items-center justify-between pt-4">
+          <div>
+            <div className="h-10 w-48 bg-white/10 rounded-xl animate-pulse mb-2" />
+            <div className="h-4 w-32 bg-white/5 rounded animate-pulse" />
+          </div>
+          <div className="h-12 w-32 bg-white/10 rounded-2xl animate-pulse" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <GoalCardSkeleton />
+          <GoalCardSkeleton />
+          <GoalCardSkeleton />
+        </div>
       </div>
     );
   }
@@ -154,8 +168,8 @@ export default function GoalsPage() {
       <div className="flex items-center justify-between pt-4">
         <div>
           <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <div className="p-2 bg-[#007bff]/10 rounded-xl">
-              <Target className="w-8 h-8 text-[#007bff]" />
+            <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
+              <Target className="w-8 h-8 text-[var(--accent-color)]" />
             </div>
             {t('nav.goals')}
           </h1>
@@ -163,7 +177,7 @@ export default function GoalsPage() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#007bff] hover:bg-[#0056b3] text-white rounded-2xl font-semibold shadow-lg shadow-[#007bff]/20 hover:shadow-[#007bff]/40 hover:-translate-y-0.5 transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-2xl font-semibold shadow-lg shadow-[var(--accent-color)]/20 hover:shadow-[var(--accent-color)]/40 hover:-translate-y-0.5 transition-all"
         >
           <Plus className="w-5 h-5" />
           <span>New Goal</span>
@@ -172,8 +186,8 @@ export default function GoalsPage() {
 
       {/* Goals Grid */}
       {goals.length === 0 ? (
-        <div className="bg-[#18222d] rounded-3xl p-16 text-center border border-dashed border-[#232e3b]">
-          <div className="w-20 h-20 bg-[#0f1923] rounded-full flex items-center justify-center mx-auto mb-6 border border-[#232e3b]">
+        <div className="bg-[var(--color-surface-elevated)] rounded-3xl p-16 text-center border border-dashed border-white/5">
+          <div className="w-20 h-20 bg-[var(--color-surface)] rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5">
             <Trophy className="w-10 h-10 text-slate-500" />
           </div>
           <h3 className="text-xl font-bold text-white mb-2">No goals yet</h3>
@@ -209,7 +223,7 @@ export default function GoalsPage() {
                       <span>Rp {formatCurrency(goal.current_amount)}</span>
                       <span>{Math.round(goal.progress)}%</span>
                     </div>
-                    <div className="w-full bg-[#0f1923] rounded-full h-3 border border-[#232e3b] overflow-hidden">
+                    <div className="w-full bg-[var(--color-surface)] rounded-full h-3 border border-white/5 overflow-hidden">
                       <div 
                         className="h-full rounded-full transition-all duration-500 relative"
                         style={{ width: `${Math.min(goal.progress, 100)}%`, backgroundColor: goal.color }}
@@ -222,14 +236,14 @@ export default function GoalsPage() {
 
                 <button
                   onClick={() => setShowContribute(goal.id)}
-                  className="mt-6 w-full py-3 bg-[#232e3b] hover:bg-[#2d3b4b] text-white rounded-xl font-semibold border border-white/5 transition-all flex items-center justify-center gap-2"
+                  className="mt-6 w-full py-3 bg-white/5 hover:bg-[#2d3b4b] text-white rounded-xl font-semibold border border-white/5 transition-all flex items-center justify-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
                   Add Savings
                 </button>
 
                 {goal.is_completed && (
-                  <div className="absolute inset-0 bg-[#0f1923]/80 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 animate-fadeIn">
+                  <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 animate-fadeIn">
                     <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mb-4 shadow-lg shadow-yellow-500/50 animate-bounce">
                       <Trophy className="w-8 h-8 text-white" />
                     </div>
@@ -246,9 +260,9 @@ export default function GoalsPage() {
       {/* Add Goal Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
-          <div className="absolute inset-0 bg-[#0f1923]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
-          <div className="relative w-full max-w-lg bg-[#18222d] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-[#232e3b] bg-[#18222d]/50 backdrop-blur-md">
+          <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
+          <div className="relative w-full max-w-lg bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
               <button onClick={() => setShowForm(false)} className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors rounded-xl hover:bg-white/5">
                 <X className="w-6 h-6" />
               </button>
@@ -263,13 +277,13 @@ export default function GoalsPage() {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   placeholder="e.g., New Laptop"
-                  className="w-full bg-[#0f1923] rounded-xl px-4 py-3.5 text-sm text-white border border-[#232e3b] focus:border-[#007bff] focus:ring-4 focus:ring-[#007bff]/10 transition-all"
+                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
                   required
                 />
               </div>
               <div>
                 <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Target Amount</label>
-                <div className="flex items-center bg-[#0f1923] rounded-xl px-4 border border-[#232e3b] focus-within:border-[#007bff] focus-within:ring-4 focus-within:ring-[#007bff]/10 transition-all">
+                <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all">
                   <span className="text-slate-500 mr-2 font-medium">Rp</span>
                   <input
                     type="number"
@@ -291,8 +305,8 @@ export default function GoalsPage() {
                       onClick={() => setFormData({ ...formData, icon: item.name })}
                       className={`flex flex-col items-center justify-center gap-2 p-3 rounded-xl border transition-all ${
                         formData.icon === item.name 
-                          ? "bg-[#007bff]/10 border-[#007bff] text-[#007bff]" 
-                          : "bg-[#0f1923] border-transparent text-slate-400 hover:bg-[#232e3b]"
+                          ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-[var(--accent-color)]" 
+                          : "bg-[var(--color-surface)] border-transparent text-slate-400 hover:bg-white/5"
                       }`}
                     >
                       <item.icon className="w-5 h-5" />
@@ -307,7 +321,7 @@ export default function GoalsPage() {
                       type="button"
                       onClick={() => setFormData({ ...formData, color })}
                       className={`w-8 h-8 rounded-full transition-transform shadow-lg ${
-                        formData.color === color ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-[#18222d]" : "hover:scale-105 opacity-80"
+                        formData.color === color ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-[var(--color-surface-elevated)]" : "hover:scale-105 opacity-80"
                       }`}
                       style={{ backgroundColor: color }}
                     />
@@ -316,7 +330,7 @@ export default function GoalsPage() {
               </div>
               <button 
                 disabled={formLoading} 
-                className="w-full py-4 bg-[#007bff] hover:bg-[#0056b3] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[#007bff]/20 hover:shadow-[#007bff]/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
+                className="w-full py-4 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[var(--accent-color)]/20 hover:shadow-[var(--accent-color)]/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
               >
                 {formLoading ? <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Create Goal"}
               </button>
@@ -328,11 +342,11 @@ export default function GoalsPage() {
       {/* Contribute Modal */}
       {showContribute && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
-          <div className="absolute inset-0 bg-[#0f1923]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowContribute(null)} />
-          <div className="relative w-full max-w-sm bg-[#18222d] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10 p-6">
+          <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowContribute(null)} />
+          <div className="relative w-full max-w-sm bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10 p-6">
             <h3 className="text-lg font-bold text-white mb-4">Add Savings</h3>
             <form onSubmit={handleContribute}>
-              <div className="flex items-center bg-[#0f1923] rounded-xl px-4 border border-[#232e3b] focus-within:border-[#007bff] focus-within:ring-4 focus-within:ring-[#007bff]/10 transition-all mb-4">
+              <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all mb-4">
                 <span className="text-slate-500 mr-2 font-medium">Rp</span>
                 <input
                   type="number"
@@ -346,7 +360,7 @@ export default function GoalsPage() {
               </div>
               <button 
                 disabled={formLoading} 
-                className="w-full py-3 bg-[#007bff] hover:bg-[#0056b3] text-white rounded-xl font-bold shadow-lg shadow-[#007bff]/20 transition-all disabled:opacity-50"
+                className="w-full py-3 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-xl font-bold shadow-lg shadow-[var(--accent-color)]/20 transition-all disabled:opacity-50"
               >
                 {formLoading ? "Saving..." : "Confirm"}
               </button>
@@ -354,6 +368,27 @@ export default function GoalsPage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Goal Card Skeleton
+function GoalCardSkeleton() {
+  return (
+    <div className="premium-card p-6 rounded-3xl animate-pulse">
+      <div className="flex justify-between mb-4">
+        <div className="w-16 h-16 rounded-full bg-white/10" />
+        <div className="w-8 h-8 bg-white/5 rounded-xl" />
+      </div>
+      <div className="h-5 w-32 bg-white/10 rounded mb-2" />
+      <div className="h-3 w-20 bg-white/5 rounded mb-4" />
+      <div className="space-y-2">
+        <div className="flex justify-between">
+          <div className="h-3 w-16 bg-white/5 rounded" />
+          <div className="h-3 w-16 bg-white/5 rounded" />
+        </div>
+        <div className="h-2.5 w-full bg-white/5 rounded-full" />
+      </div>
     </div>
   );
 }

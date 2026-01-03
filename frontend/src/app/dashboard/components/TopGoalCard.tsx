@@ -1,6 +1,7 @@
 "use client";
 
 import { Target } from "lucide-react";
+import { motion } from "framer-motion";
 import type { SavingsGoal } from "@/types";
 
 interface TopGoalCardProps {
@@ -12,28 +13,33 @@ interface TopGoalCardProps {
 
 /**
  * Top goal card showing the highest progress savings goal
- * Displays goal progress with visual progress bar
+ * Premium design with animations
  */
 export function TopGoalCard({ goal, formatAmount, onCreateGoal, t }: TopGoalCardProps) {
   return (
-    <div className="col-span-1 md:col-span-1 flex flex-col h-full">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+      className="col-span-1 md:col-span-1 flex flex-col h-full"
+    >
       {/* Header */}
       <div className="flex items-center justify-between px-1 mb-4">
         <h3 className="text-white font-bold text-lg">{t('dashboard.topGoal')}</h3>
       </div>
       
       {/* Goal Card */}
-      <div className="flex-1 apple-card rounded-2xl p-6 flex flex-col justify-center items-center relative overflow-hidden text-center group">
+      <div className="flex-1 premium-card rounded-2xl p-6 flex flex-col justify-center items-center relative overflow-hidden text-center group">
         {goal ? (
           <GoalContent goal={goal} formatAmount={formatAmount} t={t} />
         ) : (
           <EmptyGoalState onCreateGoal={onCreateGoal} />
         )}
         
-        {/* Confetti texture overlay */}
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 pointer-events-none" />
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -52,40 +58,40 @@ function GoalContent({ goal, formatAmount, t }: GoalContentProps) {
   return (
     <>
       {/* Goal Icon */}
-      <div 
-        className="h-20 w-20 rounded-full flex items-center justify-center mb-4 shadow-[0_0_20px_rgba(251,191,36,0.4)] group-hover:scale-110 transition-transform duration-500" 
-        style={{ background: goal.color || '#F59E0B' }}
+      <motion.div 
+        whileHover={{ scale: 1.1 }}
+        transition={{ type: "spring", stiffness: 300 }}
+        className="h-20 w-20 rounded-full flex items-center justify-center mb-4 shadow-lg glow-accent" 
+        style={{ background: `linear-gradient(135deg, var(--accent-color), ${goal.color || '#ec4899'})` }}
       >
         <Target className="w-10 h-10 text-white" />
-      </div>
+      </motion.div>
       
       {/* Goal Name */}
       <h4 className="text-white text-xl font-bold mb-1">{goal.name}</h4>
-      <p className="text-slate-400 text-sm mb-6">
-        Keep saving! You&apos;re almost halfway there.
+      <p className="text-zinc-500 text-sm mb-6">
+        Keep saving! You&apos;re making great progress.
       </p>
       
       {/* Progress Section */}
-      <div className="w-full space-y-2">
-        <div className="flex justify-between text-xs font-semibold text-slate-300">
+      <div className="w-full space-y-3">
+        <div className="flex justify-between text-xs font-semibold text-zinc-400">
           <span>Rp {formatAmount(goal.current_amount)}</span>
           <span>Rp {formatAmount(goal.target_amount)}</span>
         </div>
         
         {/* Progress Bar */}
-        <div className="w-full bg-[#232e3b] rounded-full h-3 border border-white/5">
-          <div 
-            className="h-full rounded-full relative transition-all duration-1000" 
-            style={{ 
-              width: `${progressPercent}%`, 
-              background: goal.color || '#007bff' 
-            }}
-          >
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-full bg-white/50 rounded-r-full" />
-          </div>
+        <div className="w-full bg-white/5 rounded-full h-2.5 border border-white/5 overflow-hidden">
+          <motion.div 
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercent}%` }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="h-full rounded-full relative progress-accent" 
+            style={{ background: `linear-gradient(90deg, var(--accent-color), ${goal.color || '#ec4899'})` }}
+          />
         </div>
         
-        <p className="text-right text-xs text-[#007bff] font-bold mt-1">
+        <p className="text-right text-xs text-[var(--accent-color)] font-bold mt-2">
           {Math.round(goal.progress)}% {t('dashboard.funded')}
         </p>
       </div>
@@ -103,13 +109,13 @@ interface EmptyGoalStateProps {
 function EmptyGoalState({ onCreateGoal }: EmptyGoalStateProps) {
   return (
     <div className="text-center">
-      <div className="h-20 w-20 rounded-full bg-[#232e3b] flex items-center justify-center mb-4 mx-auto">
-        <Target className="w-10 h-10 text-slate-500" />
+      <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center mb-4 mx-auto border border-white/5">
+        <Target className="w-10 h-10 text-zinc-600" />
       </div>
       <h4 className="text-white text-lg font-bold mb-2">No Goals Yet</h4>
       <button 
         onClick={onCreateGoal}
-        className="text-[#007bff] text-sm font-bold hover:underline"
+        className="text-[var(--accent-color)] text-sm font-bold hover:opacity-80 transition-opacity"
       >
         Create a Goal
       </button>

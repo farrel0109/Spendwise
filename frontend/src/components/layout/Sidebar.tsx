@@ -8,7 +8,7 @@ import { NAV_ITEMS, MOBILE_NAV_ITEMS, type NavItem } from "@/constants/navigatio
 
 /**
  * Main sidebar navigation component
- * Displays desktop sidebar and mobile bottom navigation
+ * Premium dark theme matching landing page aesthetic
  */
 export default function Sidebar() {
   const pathname = usePathname();
@@ -42,13 +42,13 @@ interface DesktopSidebarProps {
 
 function DesktopSidebar({ pathname, user, t }: DesktopSidebarProps) {
   return (
-    <aside className="hidden lg:flex flex-col w-64 bg-[#101418] border-r border-white/5 pt-6 pb-4 px-4 justify-between shrink-0 z-20 h-screen sticky top-0">
+    <aside className="hidden lg:flex flex-col w-64 bg-[var(--color-surface)]/80 backdrop-blur-xl border-r border-white/5 pt-6 pb-4 px-4 justify-between shrink-0 z-20 h-screen sticky top-0">
       <div className="flex flex-col gap-6">
         {/* Branding */}
         <div className="flex items-center gap-3 px-2">
           <div>
             <h1 className="text-white text-lg font-bold tracking-tight">SpendWise</h1>
-            <p className="text-slate-500 text-xs font-medium">{t('nav.premium')}</p>
+            <p className="text-zinc-500 text-xs font-medium">{t('nav.premium')}</p>
           </div>
         </div>
 
@@ -93,8 +93,8 @@ function NavLink({ item, pathname, t }: NavLinkProps) {
       href={item.href}
       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group ${
         isActive
-          ? "bg-[#007bff] text-white shadow-md shadow-[#007bff]/20"
-          : "text-slate-400 hover:bg-white/5 hover:text-white"
+          ? "bg-[var(--accent-color)] text-white shadow-lg glow-accent"
+          : "text-zinc-400 hover:bg-white/5 hover:text-white"
       }`}
     >
       <Icon className={`w-[22px] h-[22px] transition-transform ${!isActive && "group-hover:scale-110"}`} />
@@ -119,10 +119,10 @@ function UserProfile({ user }: UserProfileProps) {
         appearance={{
           elements: {
             avatarBox: "w-9 h-9 border border-white/10",
-            userButtonPopoverCard: "bg-[#1a2332] border border-white/10",
-            userButtonPopoverActionButton: "text-slate-300 hover:bg-white/10",
-            userButtonPopoverActionButtonText: "text-slate-300",
-            userButtonPopoverActionButtonIcon: "text-slate-400",
+            userButtonPopoverCard: "bg-[var(--color-surface-elevated)] border border-white/10",
+            userButtonPopoverActionButton: "text-zinc-300 hover:bg-white/10",
+            userButtonPopoverActionButtonText: "text-zinc-300",
+            userButtonPopoverActionButtonIcon: "text-zinc-400",
             userButtonPopoverFooter: "hidden"
           }
         }}
@@ -131,7 +131,7 @@ function UserProfile({ user }: UserProfileProps) {
         <p className="text-white text-sm font-medium truncate">
           {user?.fullName || "User"}
         </p>
-        <p className="text-slate-500 text-xs truncate">
+        <p className="text-zinc-500 text-xs truncate">
           {user?.primaryEmailAddress?.emailAddress}
         </p>
       </div>
@@ -150,7 +150,7 @@ interface MobileNavProps {
 
 function MobileNav({ pathname, t }: MobileNavProps) {
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#101418]/90 backdrop-blur-xl border-t border-white/5 z-50 pb-safe">
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-[var(--color-surface)]/90 backdrop-blur-xl border-t border-white/5 z-50 pb-safe">
       <div className="flex justify-around items-center h-[70px] px-2">
         {MOBILE_NAV_ITEMS.map((item) => (
           <MobileNavItem
@@ -182,11 +182,11 @@ function MobileNavItem({ item, pathname, t }: MobileNavItemProps) {
     <Link
       href={item.href}
       className={`flex-1 flex flex-col items-center justify-center py-2 group ${
-        isActive ? "text-[#007bff]" : "text-slate-500"
+        isActive ? "text-[var(--accent-color)]" : "text-zinc-500"
       }`}
     >
       <div className={`p-1.5 rounded-full transition-all duration-300 ${
-        isActive ? "bg-[#007bff]/10 -translate-y-1" : "group-active:scale-90"
+        isActive ? "bg-[var(--accent-color)]/10 -translate-y-1" : "group-active:scale-90"
       }`}>
         <Icon className="w-6 h-6" />
       </div>

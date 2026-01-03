@@ -16,6 +16,8 @@ import {
   Calendar,
   User
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
 
 export default function DebtsPage() {
   const { getToken } = useAuth();
@@ -122,11 +124,24 @@ export default function DebtsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#007bff] border-t-transparent shadow-lg shadow-[#007bff]/20"></div>
+      <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
+        <div className="flex items-center justify-between pt-4">
+          <div>
+            <div className="h-10 w-48 bg-white/10 rounded-xl animate-pulse mb-2" />
+            <div className="h-4 w-32 bg-white/5 rounded animate-pulse" />
+          </div>
+          <div className="h-12 w-32 bg-white/10 rounded-2xl animate-pulse" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <DebtCardSkeleton />
+          <DebtCardSkeleton />
+          <DebtCardSkeleton />
+        </div>
       </div>
     );
   }
+
+
 
   return (
     <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
@@ -134,8 +149,8 @@ export default function DebtsPage() {
       <div className="flex items-center justify-between pt-4">
         <div>
           <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <div className="p-2 bg-[#007bff]/10 rounded-xl">
-              <Banknote className="w-8 h-8 text-[#007bff]" />
+            <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
+              <Banknote className="w-8 h-8 text-[var(--accent-color)]" />
             </div>
             {t('nav.debts')}
           </h1>
@@ -143,7 +158,7 @@ export default function DebtsPage() {
         </div>
         <button
           onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#007bff] hover:bg-[#0056b3] text-white rounded-2xl font-semibold shadow-lg shadow-[#007bff]/20 hover:shadow-[#007bff]/40 hover:-translate-y-0.5 transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-2xl font-semibold shadow-lg shadow-[var(--accent-color)]/20 hover:shadow-[var(--accent-color)]/40 hover:-translate-y-0.5 transition-all"
         >
           <Plus className="w-5 h-5" />
           <span>Add Record</span>
@@ -151,12 +166,12 @@ export default function DebtsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex p-1 bg-[#18222d] rounded-2xl w-fit border border-[#232e3b]">
+      <div className="flex p-1 bg-[var(--color-surface-elevated)] rounded-2xl w-fit border border-white/5">
         <button
           onClick={() => setActiveTab('owe')}
           className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
             activeTab === 'owe' 
-              ? "bg-[#0f1923] text-red-400 shadow-sm border border-[#232e3b]" 
+              ? "bg-[var(--color-surface)] text-red-400 shadow-sm border border-white/5" 
               : "text-slate-400 hover:text-white"
           }`}
         >
@@ -166,7 +181,7 @@ export default function DebtsPage() {
           onClick={() => setActiveTab('owed')}
           className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
             activeTab === 'owed' 
-              ? "bg-[#0f1923] text-emerald-400 shadow-sm border border-[#232e3b]" 
+              ? "bg-[var(--color-surface)] text-emerald-400 shadow-sm border border-white/5" 
               : "text-slate-400 hover:text-white"
           }`}
         >
@@ -176,8 +191,8 @@ export default function DebtsPage() {
 
       {/* Debts Grid */}
       {filteredDebts.length === 0 ? (
-        <div className="bg-[#18222d] rounded-3xl p-16 text-center border border-dashed border-[#232e3b]">
-          <div className="w-20 h-20 bg-[#0f1923] rounded-full flex items-center justify-center mx-auto mb-6 border border-[#232e3b]">
+        <div className="bg-[var(--color-surface-elevated)] rounded-3xl p-16 text-center border border-dashed border-white/5">
+          <div className="w-20 h-20 bg-[var(--color-surface)] rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5">
             <CheckCircle className="w-10 h-10 text-slate-500" />
           </div>
           <h3 className="text-xl font-bold text-white mb-2">All clear!</h3>
@@ -223,7 +238,7 @@ export default function DebtsPage() {
                 </div>
 
                 {debt.due_date && (
-                  <div className="flex items-center gap-2 text-slate-400 text-sm bg-[#0f1923] p-2 rounded-lg border border-[#232e3b] w-fit">
+                  <div className="flex items-center gap-2 text-slate-400 text-sm bg-[var(--color-surface)] p-2 rounded-lg border border-white/5 w-fit">
                     <Calendar className="w-4 h-4" />
                     Due: {new Date(debt.due_date).toLocaleDateString()}
                   </div>
@@ -232,7 +247,7 @@ export default function DebtsPage() {
                 {!debt.is_settled && (
                   <button
                     onClick={() => handleSettle(debt.id)}
-                    className="w-full py-3 bg-[#232e3b] hover:bg-[#2d3b4b] text-white rounded-xl font-semibold border border-white/5 transition-all flex items-center justify-center gap-2 mt-2"
+                    className="w-full py-3 bg-white/5 hover:bg-[#2d3b4b] text-white rounded-xl font-semibold border border-white/5 transition-all flex items-center justify-center gap-2 mt-2"
                   >
                     <CheckCircle className="w-4 h-4" />
                     Mark as Settled
@@ -247,9 +262,9 @@ export default function DebtsPage() {
       {/* Add Debt Modal */}
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
-          <div className="absolute inset-0 bg-[#0f1923]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
-          <div className="relative w-full max-w-lg bg-[#18222d] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-[#232e3b] bg-[#18222d]/50 backdrop-blur-md">
+          <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
+          <div className="relative w-full max-w-lg bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
               <button onClick={() => setShowForm(false)} className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors rounded-xl hover:bg-white/5">
                 <X className="w-6 h-6" />
               </button>
@@ -264,7 +279,7 @@ export default function DebtsPage() {
                   className={`p-4 rounded-xl border text-center transition-all ${
                     formData.type === 'owe' 
                       ? "bg-red-500/10 border-red-500 text-red-500" 
-                      : "bg-[#0f1923] border-[#232e3b] text-slate-400 hover:bg-[#232e3b]"
+                      : "bg-[var(--color-surface)] border-white/5 text-slate-400 hover:bg-white/5"
                   }`}
                 >
                   <p className="font-bold">I Owe</p>
@@ -276,7 +291,7 @@ export default function DebtsPage() {
                   className={`p-4 rounded-xl border text-center transition-all ${
                     formData.type === 'owed' 
                       ? "bg-emerald-500/10 border-emerald-500 text-emerald-500" 
-                      : "bg-[#0f1923] border-[#232e3b] text-slate-400 hover:bg-[#232e3b]"
+                      : "bg-[var(--color-surface)] border-white/5 text-slate-400 hover:bg-white/5"
                   }`}
                 >
                   <p className="font-bold">Owed to Me</p>
@@ -291,14 +306,14 @@ export default function DebtsPage() {
                   value={formData.personName}
                   onChange={(e) => setFormData({ ...formData, personName: e.target.value })}
                   placeholder="e.g., John Doe"
-                  className="w-full bg-[#0f1923] rounded-xl px-4 py-3.5 text-sm text-white border border-[#232e3b] focus:border-[#007bff] focus:ring-4 focus:ring-[#007bff]/10 transition-all"
+                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
                   required
                 />
               </div>
 
               <div>
                 <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Amount</label>
-                <div className="flex items-center bg-[#0f1923] rounded-xl px-4 border border-[#232e3b] focus-within:border-[#007bff] focus-within:ring-4 focus-within:ring-[#007bff]/10 transition-all">
+                <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all">
                   <span className="text-slate-500 mr-2 font-medium">Rp</span>
                   <input
                     type="number"
@@ -317,13 +332,13 @@ export default function DebtsPage() {
                   type="date"
                   value={formData.dueDate}
                   onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                  className="w-full bg-[#0f1923] rounded-xl px-4 py-3.5 text-sm text-white border border-[#232e3b] focus:border-[#007bff] focus:ring-4 focus:ring-[#007bff]/10 transition-all"
+                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
                 />
               </div>
 
               <button 
                 disabled={formLoading} 
-                className="w-full py-4 bg-[#007bff] hover:bg-[#0056b3] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[#007bff]/20 hover:shadow-[#007bff]/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
+                className="w-full py-4 bg-[var(--accent-color)] hover:bg-[var(--accent-color-hover)] text-white rounded-2xl font-bold text-lg shadow-lg shadow-[var(--accent-color)]/20 hover:shadow-[var(--accent-color)]/40 hover:-translate-y-0.5 transition-all disabled:opacity-50 flex items-center justify-center gap-2 mt-4"
               >
                 {formLoading ? <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Save Record"}
               </button>
@@ -331,6 +346,27 @@ export default function DebtsPage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Debt Card Skeleton
+function DebtCardSkeleton() {
+  return (
+    <div className="premium-card p-6 rounded-3xl animate-pulse">
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full bg-white/10" />
+          <div>
+            <div className="h-5 w-28 bg-white/10 rounded mb-2" />
+            <div className="h-3 w-20 bg-white/5 rounded" />
+          </div>
+        </div>
+        <div className="w-8 h-8 bg-white/5 rounded-xl" />
+      </div>
+      <div className="pt-4 border-t border-white/5">
+        <div className="h-7 w-32 bg-white/10 rounded" />
+      </div>
     </div>
   );
 }

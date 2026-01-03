@@ -1,8 +1,36 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useSyncExternalStore, useCallback, ReactNode } from 'react';
 
 type Language = 'en' | 'id';
+
+const STORAGE_KEY = 'spendwise-lang';
+
+// Get language from localStorage or browser
+function getLanguageFromStorage(): Language {
+  if (typeof window === 'undefined') return 'en';
+  const savedLang = localStorage.getItem(STORAGE_KEY);
+  if (savedLang === 'en' || savedLang === 'id') return savedLang;
+  // Auto-detect from browser
+  const browserLang = navigator.language.split('-')[0];
+  return browserLang === 'id' ? 'id' : 'en';
+}
+
+// Subscribe to localStorage changes
+function subscribeToLanguage(callback: () => void) {
+  const handleStorageChange = (e: StorageEvent) => {
+    if (e.key === STORAGE_KEY) {
+      callback();
+    }
+  };
+  window.addEventListener('storage', handleStorageChange);
+  return () => window.removeEventListener('storage', handleStorageChange);
+}
+
+// Server snapshot - always return 'en' for SSR
+function getLanguageServerSnapshot(): Language {
+  return 'en';
+}
 
 interface LanguageContextType {
   language: Language;
@@ -137,31 +165,22 @@ const translations: Record<Language, TranslationRecord> = {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Start with default 'en' for SSR consistency, then hydrate from localStorage
-  const [language, setLanguageState] = useState<Language>('en');
+  // Use useSyncExternalStore for localStorage sync
+  const language = useSyncExternalStore(
+    subscribeToLanguage,
+    getLanguageFromStorage,
+    getLanguageServerSnapshot
+  );
 
-  // After hydration, load language from localStorage
-  useEffect(() => {
-    const savedLang = localStorage.getItem('spendwise-lang') as Language | null;
-    if (savedLang && (savedLang === 'en' || savedLang === 'id')) {
-      setLanguageState(savedLang);
-    } else {
-      // Auto-detect from browser
-      const browserLang = navigator.language.split('-')[0];
-      if (browserLang === 'id') {
-        setLanguageState('id');
-      }
-    }
+  const setLanguage = useCallback((lang: Language) => {
+    localStorage.setItem(STORAGE_KEY, lang);
+    // Dispatch storage event to trigger re-render
+    window.dispatchEvent(new StorageEvent('storage', { key: STORAGE_KEY }));
   }, []);
 
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
-    localStorage.setItem('spendwise-lang', lang);
-  };
-
-  const t = (key: string): string => {
+  const t = useCallback((key: string): string => {
     return translations[language][key] || key;
-  };
+  }, [language]);
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

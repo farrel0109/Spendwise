@@ -13,13 +13,10 @@ export default function TopBar() {
   const { t, language, setLanguage } = useLanguage();
   const { isPrivacyMode, togglePrivacyMode } = usePrivacy();
   
-  // Ref to track if we've already fetched to prevent double-fetching in strict mode
-  // or rapid re-renders
   const hasFetched = useRef(false);
 
   useEffect(() => {
     const fetchStats = async () => {
-      // Simple cache/debounce mechanism: only fetch once per mount
       if (hasFetched.current) return;
       
       try {
@@ -27,12 +24,9 @@ export default function TopBar() {
         if (!token) return;
         
         hasFetched.current = true;
-        // Stats fetched but not used currently (can be used for gamification display later)
         await getUserStats(token);
       } catch (error) {
         console.error("Error fetching stats:", error);
-        // Reset fetch flag on error so we might try again later if needed
-        // But for 429, we probably shouldn't retry immediately
       }
     };
     
@@ -58,40 +52,43 @@ export default function TopBar() {
   };
 
   return (
-    <header className="h-20 shrink-0 px-6 md:px-10 flex items-center justify-between border-b border-white/5 bg-[#0f1923]/90 backdrop-blur-md sticky top-0 z-10">
+    <header className="h-20 shrink-0 px-6 md:px-10 flex items-center justify-between border-b border-white/5 bg-[var(--color-surface)]/80 backdrop-blur-xl sticky top-0 z-10">
       <div className="flex flex-col">
         <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight">
           {getGreeting()}, {user?.firstName || "User"}
         </h2>
-        <p className="text-slate-500 text-sm hidden md:block">
+        <p className="text-zinc-500 text-sm hidden md:block">
           {t('header.subtitle')} {currentDate}.
         </p>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        {/* Language Toggle */}
         <button 
           onClick={toggleLanguage}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#232e3b] border border-white/5 text-slate-300 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/5 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/10 transition-all text-sm font-medium"
           title={language === 'en' ? 'Switch to Indonesian' : 'Switch to English'}
         >
           <Globe className="w-[18px] h-[18px]" />
           <span className="uppercase">{language}</span>
         </button>
 
+        {/* Privacy Toggle */}
         <button 
           onClick={togglePrivacyMode}
-          className="hidden md:flex items-center gap-2 px-4 py-2 rounded-lg bg-[#232e3b] border border-white/5 text-slate-300 hover:text-white hover:bg-white/10 transition-all text-sm font-medium"
+          className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-zinc-400 hover:text-white hover:bg-white/10 hover:border-white/10 transition-all text-sm font-medium"
         >
           {isPrivacyMode ? <Eye className="w-[18px] h-[18px]" /> : <EyeOff className="w-[18px] h-[18px]" />}
-          {isPrivacyMode ? t('header.showAmounts') : t('header.hideAmounts')}
+          <span className="hidden lg:inline">{isPrivacyMode ? t('header.showAmounts') : t('header.hideAmounts')}</span>
         </button>
 
-        <button className="relative p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-all">
-          <Bell className="w-6 h-6" />
-          <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 border border-[#0f1923]"></span>
+        {/* Notifications */}
+        <button className="relative p-2.5 rounded-xl text-zinc-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/10 transition-all">
+          <Bell className="w-5 h-5" />
+          <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[var(--accent-color)] border-2 border-[var(--color-surface)]"></span>
         </button>
 
-        {/* Mobile Profile (Replaces Menu) */}
+        {/* Mobile Profile */}
         <div className="md:hidden flex items-center">
           <UserButton 
             afterSignOutUrl="/sign-in"

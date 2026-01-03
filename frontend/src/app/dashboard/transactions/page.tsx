@@ -130,8 +130,8 @@ function PageHeader() {
   return (
     <div className="pt-4">
       <h1 className="text-3xl font-bold text-white flex items-center gap-3 mb-2">
-        <div className="p-2 bg-blue-500/10 rounded-xl">
-          <RefreshCw className="w-8 h-8 text-blue-500" />
+        <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
+          <RefreshCw className="w-8 h-8 text-[var(--accent-color)]" />
         </div>
         Transactions
       </h1>
@@ -150,8 +150,8 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
   const TYPES = ["", "expense", "income", "transfer"] as const;
   
   return (
-    <div className="flex flex-col xl:flex-row gap-6 mb-8 bg-[#1E293B] p-6 rounded-3xl border border-[#334155]/30 shadow-xl">
-      <div className="flex items-center gap-3 text-slate-400 text-sm font-bold uppercase tracking-wider xl:border-r border-[#334155]/50 xl:pr-6 min-w-fit">
+    <div className="flex flex-col xl:flex-row gap-6 mb-8 bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-white/5 shadow-xl">
+      <div className="flex items-center gap-3 text-slate-400 text-sm font-bold uppercase tracking-wider xl:border-r border-white/5 xl:pr-6 min-w-fit">
         <Filter className="w-5 h-5" />
         Filter By
       </div>
@@ -159,22 +159,22 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
       <div className="flex flex-wrap gap-4 flex-1">
         {/* Month Filter */}
         <div className="relative group">
-          <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-hover:text-blue-500 transition-colors" />
+          <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-hover:text-[var(--accent-color)] transition-colors" />
           <input
             type="month"
             value={filters.month}
             onChange={(e) => setFilters({ ...filters, month: e.target.value })}
-            className="bg-[#0F172A] text-white text-sm rounded-2xl pl-12 pr-6 py-3 border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-[#334155]/30 transition-all min-w-[180px]"
+            className="bg-[var(--color-surface)] text-white text-sm rounded-2xl pl-12 pr-6 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[180px]"
           />
         </div>
         
         {/* Account Filter */}
         <div className="relative group">
-          <Wallet className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-hover:text-blue-500 transition-colors" />
+          <Wallet className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-hover:text-[var(--accent-color)] transition-colors" />
           <select
             value={filters.accountId}
             onChange={(e) => setFilters({ ...filters, accountId: e.target.value })}
-            className="bg-[#0F172A] text-white text-sm rounded-2xl pl-12 pr-10 py-3 border border-[#334155]/50 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-[#334155]/30 transition-all min-w-[200px]"
+            className="bg-[var(--color-surface)] text-white text-sm rounded-2xl pl-12 pr-10 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[200px]"
           >
             <option value="">All Accounts</option>
             {accounts.map((acc) => (
@@ -185,15 +185,15 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
         </div>
 
         {/* Type Filter */}
-        <div className="flex bg-[#0F172A] p-1.5 rounded-2xl border border-[#334155]/50 ml-auto">
+        <div className="flex bg-[var(--color-surface)] p-1.5 rounded-2xl border border-white/5 ml-auto">
           {TYPES.map((t) => (
             <button
               key={t}
               onClick={() => setFilters({ ...filters, type: t })}
               className={`px-5 py-2 text-xs font-bold rounded-xl transition-all capitalize ${
                 filters.type === t 
-                  ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" 
-                  : "text-slate-400 hover:text-white hover:bg-[#334155]/50"
+                  ? "bg-[var(--accent-color)] text-white shadow-lg shadow-[var(--accent-glow)]/20" 
+                  : "text-slate-400 hover:text-white hover:bg-white/5"
               }`}
             >
               {t || "All"}
@@ -205,41 +205,87 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
   );
 }
 
+import { motion, AnimatePresence } from "framer-motion";
+
 interface TransactionsListProps {
   loading: boolean;
   transactions: Transaction[];
   onDelete: (id: string) => void;
 }
 
+// Skeleton component for transaction rows
+function TransactionRowSkeleton() {
+  return (
+    <div className="flex items-center justify-between p-6 animate-pulse">
+      <div className="flex items-center gap-5">
+        <div className="w-14 h-14 rounded-2xl bg-white/10" />
+        <div>
+          <div className="h-5 w-48 bg-white/10 rounded mb-2" />
+          <div className="flex items-center gap-3">
+            <div className="h-4 w-24 bg-white/5 rounded" />
+            <div className="h-4 w-20 bg-white/5 rounded" />
+          </div>
+        </div>
+      </div>
+      <div className="h-6 w-32 bg-white/10 rounded" />
+    </div>
+  );
+}
+
 function TransactionsList({ loading, transactions, onDelete }: TransactionsListProps) {
+  // Skeleton loading state
   if (loading && transactions.length === 0) {
     return (
-      <div className="bg-[#1E293B] rounded-3xl p-20 flex justify-center border border-[#334155]/30 shadow-xl">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent shadow-lg shadow-blue-500/20" />
+      <div className="premium-card rounded-3xl overflow-hidden divide-y divide-white/5">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <TransactionRowSkeleton key={i} />
+        ))}
       </div>
     );
   }
 
+  // Empty state
   if (transactions.length === 0) {
     return (
-      <div className="bg-[#1E293B] rounded-3xl p-20 text-center border border-[#334155]/30 shadow-xl">
-        <div className="w-20 h-20 bg-[#0F172A] rounded-full flex items-center justify-center mx-auto mb-6 border border-[#334155]">
-          <Search className="w-10 h-10 text-slate-600" />
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="premium-card rounded-3xl p-20 text-center"
+      >
+        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
+          <Search className="w-10 h-10 text-zinc-500" />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">No transactions found</h3>
-        <p className="text-slate-500 max-w-sm mx-auto">
+        <p className="text-zinc-500 max-w-sm mx-auto mb-4">
           Try adjusting your filters or add a new transaction.
         </p>
-      </div>
+        <button className="text-[var(--accent-color)] text-sm font-medium hover:opacity-80 transition-opacity">
+          + Add Transaction
+        </button>
+      </motion.div>
     );
   }
 
+  // Loaded state with animations
   return (
-    <div className="bg-[#1E293B] rounded-3xl overflow-hidden border border-[#334155]/30 shadow-xl divide-y divide-[#334155]/30">
-      {transactions.map((txn) => (
-        <TransactionRow key={txn.id} transaction={txn} onDelete={onDelete} />
-      ))}
-    </div>
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="premium-card rounded-3xl overflow-hidden divide-y divide-white/5"
+    >
+      <AnimatePresence>
+        {transactions.map((txn, index) => (
+          <motion.div
+            key={txn.id}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: index * 0.03 }}
+          >
+            <TransactionRow transaction={txn} onDelete={onDelete} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
@@ -252,13 +298,13 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
   const typeColors = {
     income: "bg-emerald-500/10 text-emerald-500 shadow-emerald-500/10",
     expense: "bg-red-500/10 text-red-500 shadow-red-500/10",
-    transfer: "bg-blue-500/10 text-blue-500 shadow-blue-500/10",
+    transfer: "bg-[var(--accent-color)]/10 text-[var(--accent-color)] shadow-[var(--accent-glow)]/10",
   };
   
   const TypeIcon = txn.type === "income" ? ArrowUpRight : txn.type === "expense" ? ArrowDownLeft : RefreshCw;
 
   return (
-    <div className="flex items-center justify-between p-6 hover:bg-[#0F172A]/50 transition-all group cursor-pointer">
+    <div className="flex items-center justify-between p-6 hover:bg-[var(--color-surface)]/50 transition-all group cursor-pointer">
       <div className="flex items-center gap-5">
         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg ${typeColors[txn.type]}`}>
           <TypeIcon className="w-7 h-7" />
@@ -269,7 +315,7 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
               {txn.description || txn.categories?.name || "Transaction"}
             </p>
             {txn.emotion && (
-              <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[#0F172A] text-slate-400 border border-[#334155] font-medium uppercase tracking-wider">
+              <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[var(--color-surface)] text-slate-400 border border-white/5 font-medium uppercase tracking-wider">
                 {txn.emotion}
               </span>
             )}
@@ -316,7 +362,7 @@ function LoadMoreButton({ onClick }: { onClick: () => void }) {
     <div className="flex justify-center pt-8">
       <button
         onClick={onClick}
-        className="px-8 py-3 bg-[#1E293B] text-blue-500 text-sm font-bold rounded-2xl hover:bg-[#334155]/50 hover:text-blue-400 transition-all shadow-lg border border-[#334155]/30"
+        className="px-8 py-3 bg-[var(--color-surface-elevated)] text-[var(--accent-color)] text-sm font-bold rounded-2xl hover:bg-white/5 hover:text-blue-400 transition-all shadow-lg border border-white/5"
       >
         Load More Transactions
       </button>

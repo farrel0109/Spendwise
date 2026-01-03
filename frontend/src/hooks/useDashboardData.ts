@@ -66,11 +66,17 @@ export function useDashboardData(): UseDashboardDataReturn {
 
   // Prevent duplicate user sync
   const hasSyncedUser = useRef(false);
+  const hasFetchedData = useRef(false);
 
   const fetchData = useCallback(async () => {
+    // Prevent duplicate fetches from React Strict Mode
+    if (hasFetchedData.current) return;
+    
     try {
       const token = await getAuthToken();
       if (!token) return;
+
+      hasFetchedData.current = true;
 
       // Only sync user once per session/mount
       if (!hasSyncedUser.current && user) {

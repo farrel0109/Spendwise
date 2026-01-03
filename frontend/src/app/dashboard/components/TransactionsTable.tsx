@@ -1,6 +1,7 @@
 "use client";
 
 import { Smile, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { formatDate } from "@/utils";
 import type { Transaction } from "@/types";
 import type { Language } from "@/types";
@@ -21,22 +22,27 @@ const TYPE_EMOJIS: Record<string, string> = {
 
 /**
  * Recent transactions table component
- * Displays last transactions with filtering options
+ * Premium design with subtle animations
  */
 export function TransactionsTable({ transactions, formatAmount, onViewAll, t }: TransactionsTableProps) {
-  // Determine language from t function (simple detection)
+  // Determine language from t function
   const isIndonesian = t('common.loading') === 'Memuat...';
   const language: Language = isIndonesian ? 'id' : 'en';
   
   return (
-    <div className="col-span-1 md:col-span-12 apple-card rounded-2xl p-6">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.4 }}
+      className="col-span-1 md:col-span-12 premium-card rounded-2xl p-6"
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-white font-bold text-lg">
           {t('dashboard.recentTransactions')}
         </h3>
-        <div className="flex gap-2">
-          <FilterButton active>{t('common.loading') === 'Memuat...' ? 'Semua' : 'All'}</FilterButton>
+        <div className="flex gap-1 p-1 bg-white/5 rounded-xl border border-white/5">
+          <FilterButton active>{isIndonesian ? 'Semua' : 'All'}</FilterButton>
           <FilterButton>{t('common.expense')}</FilterButton>
           <FilterButton>{t('common.income')}</FilterButton>
         </div>
@@ -46,7 +52,7 @@ export function TransactionsTable({ transactions, formatAmount, onViewAll, t }: 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="text-xs text-slate-500 border-b border-white/5">
+            <tr className="text-xs text-zinc-500 border-b border-white/5">
               <th className="font-medium py-3 pl-2">Merchant</th>
               <th className="font-medium py-3">Category</th>
               <th className="font-medium py-3">Date</th>
@@ -55,19 +61,20 @@ export function TransactionsTable({ transactions, formatAmount, onViewAll, t }: 
             </tr>
           </thead>
           <tbody className="text-sm">
-            {transactions.map((txn) => (
+            {transactions.map((txn, idx) => (
               <TransactionRow 
                 key={txn.id} 
                 transaction={txn} 
                 formatAmount={formatAmount}
                 language={language}
+                index={idx}
               />
             ))}
             
             {/* Empty state */}
             {transactions.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-8 text-center text-slate-500">
+                <td colSpan={5} className="py-12 text-center text-zinc-500">
                   {t('dashboard.noTransactions')}
                 </td>
               </tr>
@@ -77,16 +84,16 @@ export function TransactionsTable({ transactions, formatAmount, onViewAll, t }: 
       </div>
       
       {/* View All Link */}
-      <div className="mt-4 flex justify-center">
+      <div className="mt-6 flex justify-center">
         <button 
           onClick={onViewAll}
-          className="text-sm text-[#007bff] font-medium hover:text-[#0056b3] transition-colors flex items-center gap-1"
+          className="text-sm text-[var(--accent-color)] font-medium hover:opacity-80 transition-opacity flex items-center gap-1 group"
         >
           {t('dashboard.viewAll')} 
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -101,10 +108,10 @@ interface FilterButtonProps {
 function FilterButton({ children, active }: FilterButtonProps) {
   return (
     <button 
-      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
         active 
-          ? 'bg-[#232e3b] text-white border border-white/5' 
-          : 'text-slate-400 hover:text-white hover:bg-white/5'
+          ? 'bg-[var(--accent-color)] text-white shadow-sm' 
+          : 'text-zinc-400 hover:text-white hover:bg-white/5'
       }`}
     >
       {children}
@@ -116,28 +123,34 @@ interface TransactionRowProps {
   transaction: Transaction;
   formatAmount: (amount: number) => string;
   language: Language;
+  index: number;
 }
 
 /**
  * Individual transaction table row
  */
-function TransactionRow({ transaction, formatAmount, language }: TransactionRowProps) {
+function TransactionRow({ transaction, formatAmount, language, index }: TransactionRowProps) {
   const emoji = TYPE_EMOJIS[transaction.type] || '📝';
   const isIncome = transaction.type === 'income';
   
   return (
-    <tr className="group hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
+    <motion.tr 
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
+      className="group hover:bg-white/[0.02] transition-colors border-b border-white/5 last:border-0"
+    >
       {/* Merchant/Description */}
       <td className="py-4 pl-2">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-lg shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-lg shrink-0 border border-white/5">
             {emoji}
           </div>
           <div>
             <p className="text-white font-medium">
               {transaction.description || "Transaction"}
             </p>
-            <p className="text-slate-500 text-xs">
+            <p className="text-zinc-600 text-xs">
               {transaction.accounts?.name}
             </p>
           </div>
@@ -145,12 +158,12 @@ function TransactionRow({ transaction, formatAmount, language }: TransactionRowP
       </td>
       
       {/* Category */}
-      <td className="py-4 text-slate-400">
+      <td className="py-4 text-zinc-400">
         {transaction.categories?.name || "Uncategorized"}
       </td>
       
       {/* Date */}
-      <td className="py-4 text-slate-400">
+      <td className="py-4 text-zinc-500">
         {formatDate(transaction.txn_date, 'short', language)}
       </td>
       
@@ -158,18 +171,18 @@ function TransactionRow({ transaction, formatAmount, language }: TransactionRowP
       <td className="py-4 text-center">
         {transaction.emotion && (
           <div 
-            className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-slate-400 border border-white/10" 
+            className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-white/5 text-zinc-500 border border-white/5" 
             title={transaction.emotion}
           >
-            <Smile className="w-[18px] h-[18px]" />
+            <Smile className="w-4 h-4" />
           </div>
         )}
       </td>
       
       {/* Amount */}
-      <td className={`py-4 pr-2 text-right font-bold ${isIncome ? 'text-green-400' : 'text-white'}`}>
+      <td className={`py-4 pr-2 text-right font-bold ${isIncome ? 'text-emerald-400' : 'text-white'}`}>
         {isIncome ? '+' : '-'}Rp {formatAmount(transaction.amount)}
       </td>
-    </tr>
+    </motion.tr>
   );
 }

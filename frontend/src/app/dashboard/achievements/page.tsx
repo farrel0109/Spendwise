@@ -67,7 +67,7 @@ export default function AchievementsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[var(--accent-color)]"></div>
       </div>
     );
   }
@@ -82,14 +82,14 @@ export default function AchievementsPage() {
 
       {/* Stats Card */}
       {stats && (
-        <div className="bg-gradient-to-br from-purple-600/20 via-pink-600/20 to-orange-600/20 backdrop-blur-xl rounded-2xl border border-purple-500/30 p-6">
+        <div className="bg-gradient-to-br from-purple-600/20 via-pink-600/20 to-orange-600/20 backdrop-blur-xl rounded-2xl border border-[var(--accent-color)]/30 p-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {/* Level */}
             <div className="text-center">
               <div className="text-5xl font-bold text-white mb-1">
                 {stats.level}
               </div>
-              <p className="text-purple-400 text-sm">Level</p>
+              <p className="text-[var(--accent-color)] text-sm">Level</p>
               <p className="text-slate-400 text-xs">
                 {LEVEL_TITLES[stats.level - 1] || "Legend"}
               </p>
@@ -100,11 +100,11 @@ export default function AchievementsPage() {
               <div className="text-3xl font-bold text-white mb-1">
                 {stats.xp}
               </div>
-              <p className="text-purple-400 text-sm">Total XP</p>
+              <p className="text-[var(--accent-color)] text-sm">Total XP</p>
               <div className="mt-2">
-                <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-[var(--accent-color)] to-pink-500 transition-all duration-500"
                     style={{ width: `${stats.progressPercent}%` }}
                   />
                 </div>
@@ -141,16 +141,16 @@ export default function AchievementsPage() {
       )}
 
       {/* Achievement Progress */}
-      <div className="bg-slate-800/30 rounded-xl border border-slate-700/50 p-4">
+      <div className="bg-[var(--color-surface-elevated)] rounded-xl border border-white/5 p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-white">Badge Collection</h3>
-          <span className="text-purple-400 font-medium">
+          <span className="text-[var(--accent-color)] font-medium">
             {summary.earnedCount}/{summary.totalCount} ({summary.completionPercent}%)
           </span>
         </div>
-        <div className="h-3 bg-slate-700 rounded-full overflow-hidden">
+        <div className="h-3 bg-white/10 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 transition-all duration-500"
+            className="h-full bg-gradient-to-r from-[var(--accent-color)] via-pink-500 to-orange-500 transition-all duration-500"
             style={{ width: `${summary.completionPercent}%` }}
           />
         </div>
@@ -163,8 +163,8 @@ export default function AchievementsPage() {
             key={achievement.id}
             className={`relative rounded-2xl border p-6 text-center transition-all ${
               achievement.earned
-                ? "bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30"
-                : "bg-slate-800/30 border-slate-700/50 grayscale opacity-60"
+                ? "bg-gradient-to-br from-[var(--accent-color)]/10 to-pink-500/10 border-[var(--accent-color)]/30"
+                : "bg-[var(--color-surface-elevated)] border-white/5 grayscale opacity-60"
             }`}
           >
             {/* Badge Icon */}
@@ -184,7 +184,7 @@ export default function AchievementsPage() {
 
             {/* Earned Date */}
             {achievement.earned && achievement.earnedAt && (
-              <p className="text-purple-400 text-xs mt-2">
+              <p className="text-[var(--accent-color)] text-xs mt-2">
                 Earned {new Date(achievement.earnedAt).toLocaleDateString("id-ID")}
               </p>
             )}
@@ -200,7 +200,7 @@ export default function AchievementsPage() {
       </div>
 
       {/* Tips */}
-      <div className="bg-slate-800/30 rounded-xl border border-slate-700/50 p-6">
+      <div className="bg-[var(--color-surface-elevated)] rounded-xl border border-white/5 p-6">
         <h3 className="text-lg font-semibold text-white mb-4">💡 How to Earn More</h3>
         <ul className="space-y-2 text-slate-400 text-sm">
           <li>• Log transactions daily to build your streak 🔥</li>

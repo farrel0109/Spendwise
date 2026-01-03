@@ -23,8 +23,10 @@ import {
   PieChart as RePieChart,
   Pie
 } from "recharts";
+import { motion, AnimatePresence } from "framer-motion";
 
-const COLORS = ["#007bff", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899"];
+
+const COLORS = ["var(--accent-color)", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899"];
 
 // Types for API responses
 interface TrendData {
@@ -84,13 +86,35 @@ export default function AnalyticsPage() {
     fetchData();
   }, [fetchData]);
 
+
+
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-[#007bff] border-t-transparent shadow-lg shadow-[#007bff]/20"></div>
+      <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
+        <div className="flex items-center justify-between pt-4">
+          <div>
+            <div className="h-10 w-48 bg-white/10 rounded-xl animate-pulse mb-2" />
+            <div className="h-4 w-32 bg-white/5 rounded animate-pulse" />
+          </div>
+          <div className="h-12 w-32 bg-white/10 rounded-2xl animate-pulse" />
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <ScoreSkeleton />
+          <div className="lg:col-span-2">
+            <ChartSkeleton />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <ChartSkeleton />
+          <ChartSkeleton />
+        </div>
       </div>
     );
   }
+
+
 
   return (
     <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
@@ -98,22 +122,22 @@ export default function AnalyticsPage() {
       <div className="flex items-center justify-between pt-4">
         <div>
           <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <div className="p-2 bg-[#007bff]/10 rounded-xl">
-              <BarChart3 className="w-8 h-8 text-[#007bff]" />
+            <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
+              <BarChart3 className="w-8 h-8 text-[var(--accent-color)]" />
             </div>
             {t('nav.analytics')}
           </h1>
           <p className="text-slate-400 mt-1 ml-14">Deep dive into your financial habits</p>
         </div>
         
-        <div className="flex items-center gap-2 bg-[#18222d] p-1 rounded-xl border border-[#232e3b]">
+        <div className="flex items-center gap-2 bg-[var(--color-surface-elevated)] p-1 rounded-xl border border-white/5">
           {["3", "6", "12"].map((m) => (
             <button
               key={m}
               onClick={() => setPeriod(m)}
               className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 period === m 
-                  ? "bg-[#007bff] text-white shadow-lg shadow-[#007bff]/20" 
+                  ? "bg-[var(--accent-color)] text-white shadow-lg shadow-[var(--accent-color)]/20" 
                   : "text-slate-400 hover:text-white"
               }`}
             >
@@ -133,7 +157,7 @@ export default function AnalyticsPage() {
             </h3>
             <span className={`px-3 py-1 rounded-lg text-sm font-bold ${
               healthScore?.grade === 'A' ? 'bg-emerald-500/10 text-emerald-500' :
-              healthScore?.grade === 'B' ? 'bg-blue-500/10 text-blue-500' :
+              healthScore?.grade === 'B' ? 'bg-[var(--accent-color)]/10 text-[var(--accent-color)]' :
               'bg-yellow-500/10 text-yellow-500'
             }`}>
               Grade {healthScore?.grade || 'N/A'}
@@ -145,8 +169,8 @@ export default function AnalyticsPage() {
           </div>
           <div className="mt-4 space-y-2">
             {healthScore?.tips.slice(0, 2).map((tip, i) => (
-              <div key={i} className="flex items-start gap-2 text-xs text-slate-300 bg-[#0f1923] p-2 rounded-lg border border-[#232e3b]">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#007bff] mt-1.5 shrink-0" />
+              <div key={i} className="flex items-start gap-2 text-xs text-slate-300 bg-[var(--color-surface)] p-2 rounded-lg border border-white/5">
+                <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-color)] mt-1.5 shrink-0" />
                 {tip}
               </div>
             ))}
@@ -155,7 +179,7 @@ export default function AnalyticsPage() {
 
         <div className="lg:col-span-2 apple-card p-6 rounded-3xl relative overflow-hidden">
           <h3 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-[#007bff]" />
+            <TrendingUp className="w-5 h-5 text-[var(--accent-color)]" />
             Income vs Expense Trend
           </h3>
           <div className="h-48 w-full">
@@ -235,7 +259,7 @@ export default function AnalyticsPage() {
           </h3>
           <div className="space-y-4">
             {trends.slice(-5).reverse().map((month, i) => (
-              <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-[#0f1923] border border-[#232e3b]">
+              <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-[var(--color-surface)] border border-white/5">
                 <div>
                   <p className="text-white font-bold">{month.month}</p>
                   <p className="text-xs text-slate-500">Net: Rp {formatCurrency(month.net_savings)}</p>
@@ -255,6 +279,30 @@ export default function AnalyticsPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// Chart Skeleton
+function ChartSkeleton() {
+  return (
+    <div className="premium-card p-6 rounded-3xl animate-pulse">
+      <div className="flex justify-between mb-6">
+        <div className="h-5 w-32 bg-white/10 rounded" />
+        <div className="h-4 w-16 bg-white/5 rounded" />
+      </div>
+      <div className="h-64 w-full bg-white/5 rounded-xl" />
+    </div>
+  );
+}
+
+// Score Skeleton
+function ScoreSkeleton() {
+  return (
+    <div className="premium-card p-6 rounded-3xl animate-pulse text-center">
+      <div className="w-32 h-32 rounded-full bg-white/10 mx-auto mb-4" />
+      <div className="h-5 w-24 bg-white/10 rounded mx-auto mb-2" />
+      <div className="h-3 w-32 bg-white/5 rounded mx-auto" />
     </div>
   );
 }
