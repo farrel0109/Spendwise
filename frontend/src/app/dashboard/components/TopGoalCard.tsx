@@ -62,7 +62,7 @@ function GoalContent({ goal, formatAmount, t }: GoalContentProps) {
       {/* Goal Name */}
       <h4 className="text-white text-xl font-bold mb-1">{goal.name}</h4>
       <p className="text-slate-400 text-sm mb-6">
-        Keep saving! You're almost halfway there.
+        Keep saving! You&apos;re almost halfway there.
       </p>
       
       {/* Progress Section */}

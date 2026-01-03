@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@clerk/nextjs";
 import toast from "react-hot-toast";
 import { createTransaction, getCategories } from "@/lib/api";
-import { EMOTIONS, COLORS } from "@/constants";
+import { EMOTIONS } from "@/constants";
 import { getTodayDate } from "@/utils";
 import type { Account, Category, TransactionType } from "@/types";
 import { 

@@ -3,7 +3,7 @@
 import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
-import { getDebts, createDebt, payDebt, settleDebt, deleteDebt, type Debt } from "@/lib/api";
+import { getDebts, createDebt, settleDebt, deleteDebt, type Debt } from "@/lib/api";
 import { useLanguage } from "@/context/LanguageContext";
 import { 
   Banknote, 

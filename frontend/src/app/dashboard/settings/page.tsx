@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
+import toast from "react-hot-toast";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePrivacy } from "@/context/PrivacyContext";
-import { getUserSettings, updateProfile, exportUserData, type UserSettings } from "@/lib/api";
+import { getUserSettings, updateProfile, exportUserData } from "@/lib/api";
 import { 
   User, 
   Palette, 
@@ -45,11 +46,10 @@ type TabType = "profile" | "appearance" | "preferences" | "notifications" | "pri
 
 export default function SettingsPage() {
   const { getToken } = useAuth();
-  const { t, language, setLanguage } = useLanguage();
+  const { language, setLanguage } = useLanguage();
   const { isPrivacyMode, togglePrivacyMode } = usePrivacy();
   
   const [activeTab, setActiveTab] = useState<TabType>("profile");
-  const [settings, setSettings] = useState<UserSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -73,9 +73,8 @@ export default function SettingsPage() {
         if (!token) return;
         
         const data = await getUserSettings(token);
-        setSettings(data);
         
-        // Populate form
+        // Populate form with values from settings
         setDisplayName(data.displayName || "");
         setBio(data.bio || "");
         setTheme(data.theme || "dark");
@@ -87,6 +86,7 @@ export default function SettingsPage() {
         setNotificationAchievements(data.notificationAchievements ?? true);
       } catch (error) {
         console.error("Error fetching settings:", error);
+        toast.error("Failed to load settings");
       } finally {
         setLoading(false);
       }
@@ -118,9 +118,11 @@ export default function SettingsPage() {
       });
 
       setSaved(true);
+      toast.success("Settings saved successfully!");
       setTimeout(() => setSaved(false), 2000);
     } catch (error) {
       console.error("Error saving settings:", error);
+      toast.error("Failed to save settings");
     } finally {
       setSaving(false);
     }
@@ -145,8 +147,10 @@ export default function SettingsPage() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
+      toast.success("Data exported successfully!");
     } catch (error) {
       console.error("Error exporting data:", error);
+      toast.error("Failed to export data");
     } finally {
       setExporting(false);
     }

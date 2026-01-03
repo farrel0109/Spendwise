@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -10,9 +9,7 @@ import {
   BarChart3, 
   Shield, 
   Zap,
-  TrendingUp,
   Trophy,
-  Wallet,
   ChevronRight
 } from "lucide-react";
 

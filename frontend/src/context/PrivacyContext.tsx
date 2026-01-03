@@ -10,10 +10,11 @@ interface PrivacyContextType {
 const PrivacyContext = createContext<PrivacyContextType | undefined>(undefined);
 
 export function PrivacyProvider({ children }: { children: ReactNode }) {
+  // Start with false for SSR consistency, then hydrate from localStorage
   const [isPrivacyMode, setIsPrivacyMode] = useState(false);
 
+  // After hydration, load from localStorage
   useEffect(() => {
-    // Restore preference from local storage
     const savedMode = localStorage.getItem('spendwise-privacy-mode');
     if (savedMode === 'true') {
       setIsPrivacyMode(true);

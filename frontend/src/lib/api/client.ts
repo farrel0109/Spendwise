@@ -42,7 +42,7 @@ export async function apiCall<T>(
   try {
     const response = await request();
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       throw new ApiError(
         error.response?.data?.message || error.message,

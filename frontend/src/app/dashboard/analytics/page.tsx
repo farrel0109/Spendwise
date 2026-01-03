@@ -11,19 +11,14 @@ import {
   TrendingUp, 
   Activity,
   Calendar,
-  ArrowUpRight,
-  ArrowDownLeft
 } from "lucide-react";
 import { 
   AreaChart, 
   Area, 
   XAxis, 
   YAxis, 
-  CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  BarChart,
-  Bar,
   Cell,
   PieChart as RePieChart,
   Pie
@@ -31,12 +26,28 @@ import {
 
 const COLORS = ["#007bff", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6", "#EC4899"];
 
+// Types for API responses
+interface TrendData {
+  month: string;
+  income: number;
+  expense: number;
+  net_savings: number;
+  [key: string]: string | number;
+}
+
+interface PatternData {
+  category_name: string;
+  total_amount: number;
+  percentage: number;
+  [key: string]: string | number;
+}
+
 export default function AnalyticsPage() {
   const { getToken } = useAuth();
   const { t } = useLanguage();
   const [loading, setLoading] = useState(true);
-  const [trends, setTrends] = useState<any[]>([]);
-  const [patterns, setPatterns] = useState<any[]>([]);
+  const [trends, setTrends] = useState<TrendData[]>([]);
+  const [patterns, setPatterns] = useState<PatternData[]>([]);
   const [healthScore, setHealthScore] = useState<HealthScore | null>(null);
   const [period, setPeriod] = useState("6"); // months
 

@@ -1,5 +1,3 @@
-import type { Language } from '@/types';
-
 /**
  * Currency formatting options for Indonesian Rupiah
  */

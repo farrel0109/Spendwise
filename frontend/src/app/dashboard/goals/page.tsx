@@ -10,7 +10,6 @@ import {
   Plus, 
   Trash2, 
   Trophy, 
-  CheckCircle,
   X,
   Plane,
   Car,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useAuth, useUser, UserButton } from "@clerk/nextjs";
-import { useEffect, useState, useRef } from "react";
-import { getUserStats, type UserStats } from "@/lib/api";
+import { useEffect, useRef } from "react";
+import { getUserStats } from "@/lib/api";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePrivacy } from "@/context/PrivacyContext";
 import { Bell, Eye, EyeOff, Globe } from "lucide-react";
@@ -12,7 +12,6 @@ export default function TopBar() {
   const { user } = useUser();
   const { t, language, setLanguage } = useLanguage();
   const { isPrivacyMode, togglePrivacyMode } = usePrivacy();
-  const [stats, setStats] = useState<UserStats | null>(null);
   
   // Ref to track if we've already fetched to prevent double-fetching in strict mode
   // or rapid re-renders
@@ -28,8 +27,8 @@ export default function TopBar() {
         if (!token) return;
         
         hasFetched.current = true;
-        const data = await getUserStats(token);
-        setStats(data);
+        // Stats fetched but not used currently (can be used for gamification display later)
+        await getUserStats(token);
       } catch (error) {
         console.error("Error fetching stats:", error);
         // Reset fetch flag on error so we might try again later if needed

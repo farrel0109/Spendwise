@@ -5,7 +5,6 @@ import { useDashboardData } from "@/hooks";
 import { useLanguage } from "@/context/LanguageContext";
 import { usePrivacy } from "@/context/PrivacyContext";
 import { formatCurrency } from "@/utils";
-import { COLORS } from "@/constants";
 
 // Dashboard Components
 import QuickAddFAB from "@/components/dashboard/QuickAddFAB";
