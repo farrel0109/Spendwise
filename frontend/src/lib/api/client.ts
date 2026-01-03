@@ -8,8 +8,8 @@ import { API_CONFIG } from '@/constants';
 const requestCache = new Map<string, { data: unknown; timestamp: number }>();
 const CACHE_TTL_MS = 2000; // 2 seconds
 
-function getCacheKey(config: { method?: string; url?: string; data?: unknown }): string {
-  return `${config.method || 'GET'}:${config.url}:${JSON.stringify(config.data || {})}`;
+function getCacheKey(config: { method?: string; url?: string; data?: unknown; params?: unknown }): string {
+  return `${config.method || 'GET'}:${config.url}:${JSON.stringify(config.params || {})}:${JSON.stringify(config.data || {})}`;
 }
 
 function getCachedResponse(key: string): unknown | null {

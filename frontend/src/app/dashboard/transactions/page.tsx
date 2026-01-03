@@ -46,18 +46,30 @@ export default function TransactionsPage() {
     type: "",
   });
 
-  const fetchData = useCallback(async (isLoadMore = false) => {
+  // Fetch accounts only once on mount
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const token = await getToken();
+        if (!token) return;
+        const accData = await getAccounts(token);
+        setAccounts(accData.accounts || []);
+      } catch (error) {
+        console.error("Error fetching accounts:", error);
+      }
+    };
+    fetchAccounts();
+  }, [getToken]);
+
+  const fetchData = useCallback(async (currentPage: number, isLoadMore: boolean) => {
     try {
       const token = await getToken();
       if (!token) return;
 
       if (!isLoadMore) {
         setLoading(true);
-        const accData = await getAccounts(token);
-        setAccounts(accData.accounts || []);
       }
 
-      const currentPage = isLoadMore ? page : 1;
       const limit = PAGINATION.defaultLimit;
       const offset = (currentPage - 1) * limit;
 
@@ -82,11 +94,21 @@ export default function TransactionsPage() {
     } finally {
       setLoading(false);
     }
-  }, [getToken, page, filters]);
+  }, [getToken, filters]);
 
+  // Initial fetch and filter changes
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    setPage(1);
+    fetchData(1, false);
+  }, [filters, fetchData]);
+
+  // Load more (Page changes)
+  useEffect(() => {
+    if (page > 1) {
+      fetchData(page, true);
+    }
+  }, [page, fetchData]);
+
 
   const handleDelete = async (id: string) => {
     if (!confirm("Are you sure you want to delete this transaction?")) return;
@@ -95,7 +117,8 @@ export default function TransactionsPage() {
       if (!token) return;
       await deleteTransaction(token, id);
       toast.success("Deleted");
-      fetchData();
+      setPage(1);
+      fetchData(1, false);
     } catch (error) {
       console.error("Error:", error);
       toast.error("Failed to delete");
@@ -129,13 +152,13 @@ export default function TransactionsPage() {
 function PageHeader() {
   return (
     <div className="pt-4">
-      <h1 className="text-3xl font-bold text-white flex items-center gap-3 mb-2">
+      <h1 className="text-3xl font-bold text-primary flex items-center gap-3 mb-2">
         <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
           <RefreshCw className="w-8 h-8 text-[var(--accent-color)]" />
         </div>
         Transactions
       </h1>
-      <p className="text-slate-400 ml-14 mb-8">Track your income and expenses</p>
+      <p className="text-secondary ml-14 mb-8">Track your income and expenses</p>
     </div>
   );
 }
@@ -151,7 +174,7 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
   
   return (
     <div className="flex flex-col xl:flex-row gap-6 mb-8 bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-white/5 shadow-xl">
-      <div className="flex items-center gap-3 text-slate-400 text-sm font-bold uppercase tracking-wider xl:border-r border-white/5 xl:pr-6 min-w-fit">
+      <div className="flex items-center gap-3 text-secondary text-sm font-bold uppercase tracking-wider xl:border-r border-white/5 xl:pr-6 min-w-fit">
         <Filter className="w-5 h-5" />
         Filter By
       </div>
@@ -159,29 +182,29 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
       <div className="flex flex-wrap gap-4 flex-1">
         {/* Month Filter */}
         <div className="relative group">
-          <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-hover:text-[var(--accent-color)] transition-colors" />
+          <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted group-hover:text-[var(--accent-color)] transition-colors" />
           <input
             type="month"
             value={filters.month}
             onChange={(e) => setFilters({ ...filters, month: e.target.value })}
-            className="bg-[var(--color-surface)] text-white text-sm rounded-2xl pl-12 pr-6 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[180px]"
+            className="bg-[var(--color-surface)] text-primary text-sm rounded-2xl pl-12 pr-6 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[180px]"
           />
         </div>
         
         {/* Account Filter */}
         <div className="relative group">
-          <Wallet className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500 group-hover:text-[var(--accent-color)] transition-colors" />
+          <Wallet className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted group-hover:text-[var(--accent-color)] transition-colors" />
           <select
             value={filters.accountId}
             onChange={(e) => setFilters({ ...filters, accountId: e.target.value })}
-            className="bg-[var(--color-surface)] text-white text-sm rounded-2xl pl-12 pr-10 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[200px]"
+            className="bg-[var(--color-surface)] text-primary text-sm rounded-2xl pl-12 pr-10 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[200px]"
           >
             <option value="">All Accounts</option>
             {accounts.map((acc) => (
               <option key={acc.id} value={acc.id}>{acc.name}</option>
             ))}
           </select>
-          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 pointer-events-none" />
+          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted pointer-events-none" />
         </div>
 
         {/* Type Filter */}
@@ -192,8 +215,8 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
               onClick={() => setFilters({ ...filters, type: t })}
               className={`px-5 py-2 text-xs font-bold rounded-xl transition-all capitalize ${
                 filters.type === t 
-                  ? "bg-[var(--accent-color)] text-white shadow-lg shadow-[var(--accent-glow)]/20" 
-                  : "text-slate-400 hover:text-white hover:bg-white/5"
+                  ? "bg-[var(--accent-color)] text-primary shadow-lg shadow-[var(--accent-glow)]/20" 
+                  : "text-secondary hover:text-primary hover:bg-white/5"
               }`}
             >
               {t || "All"}
@@ -253,10 +276,10 @@ function TransactionsList({ loading, transactions, onDelete }: TransactionsListP
         className="premium-card rounded-3xl p-20 text-center"
       >
         <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
-          <Search className="w-10 h-10 text-zinc-500" />
+          <Search className="w-10 h-10 text-muted" />
         </div>
-        <h3 className="text-xl font-bold text-white mb-2">No transactions found</h3>
-        <p className="text-zinc-500 max-w-sm mx-auto mb-4">
+        <h3 className="text-xl font-bold text-primary mb-2">No transactions found</h3>
+        <p className="text-muted max-w-sm mx-auto mb-4">
           Try adjusting your filters or add a new transaction.
         </p>
         <button className="text-[var(--accent-color)] text-sm font-medium hover:opacity-80 transition-opacity">
@@ -311,16 +334,16 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
         </div>
         <div>
           <div className="flex items-center gap-3 mb-1">
-            <p className="font-bold text-white text-lg">
+            <p className="font-bold text-primary text-lg">
               {txn.description || txn.categories?.name || "Transaction"}
             </p>
             {txn.emotion && (
-              <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[var(--color-surface)] text-slate-400 border border-white/5 font-medium uppercase tracking-wider">
+              <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[var(--color-surface)] text-secondary border border-white/5 font-medium uppercase tracking-wider">
                 {txn.emotion}
               </span>
             )}
           </div>
-          <div className="flex items-center gap-3 text-sm text-slate-500 font-medium">
+          <div className="flex items-center gap-3 text-sm text-muted font-medium">
             <span className="flex items-center gap-1.5">
               <Calendar className="w-4 h-4" />
               {formatDate(txn.txn_date, 'medium')}
@@ -328,7 +351,7 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
             {txn.accounts?.name && (
               <>
                 <span className="w-1 h-1 rounded-full bg-slate-600" />
-                <span className="flex items-center gap-1.5 text-slate-400">
+                <span className="flex items-center gap-1.5 text-secondary">
                   <Wallet className="w-4 h-4" />
                   {txn.accounts.name}
                 </span>
@@ -339,7 +362,7 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
       </div>
 
       <div className="flex items-center gap-8">
-        <p className={`font-bold text-xl ${txn.type === "income" ? "text-emerald-500" : "text-white"}`}>
+        <p className={`font-bold text-xl ${txn.type === "income" ? "text-emerald-500" : "text-primary"}`}>
           {txn.type === "income" ? "+" : "-"} Rp {formatCurrency(txn.amount)}
         </p>
         <button
@@ -347,7 +370,7 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
             e.stopPropagation();
             onDelete(txn.id);
           }}
-          className="p-3 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all opacity-0 group-hover:opacity-100"
+          className="p-3 text-muted hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all opacity-0 group-hover:opacity-100"
           title="Delete Transaction"
         >
           <Trash2 className="w-5 h-5" />

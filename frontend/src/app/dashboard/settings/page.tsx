@@ -182,7 +182,7 @@ export default function SettingsPage() {
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-8 h-8 animate-spin text-[var(--accent-color)]" />
-          <p className="text-zinc-500 text-sm">Loading settings...</p>
+          <p className="text-muted text-sm">Loading settings...</p>
         </div>
       </div>
     );
@@ -196,8 +196,8 @@ export default function SettingsPage() {
     >
       {/* Header */}
       <div className="mb-10">
-        <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Settings</h1>
-        <p className="text-zinc-500">Customize your SpendWise experience</p>
+        <h1 className="text-4xl font-bold text-primary mb-2 tracking-tight">Settings</h1>
+        <p className="text-muted">Customize your SpendWise experience</p>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
@@ -210,8 +210,8 @@ export default function SettingsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
                   activeTab === tab.id 
-                    ? "bg-[var(--accent-color)] text-white shadow-lg" 
-                    : "text-zinc-400 hover:bg-white/5 hover:text-white"
+                    ? "bg-[var(--accent-color)] text-primary shadow-lg" 
+                    : "text-secondary hover:bg-white/5 hover:text-primary"
                 }`}
               >
                 <tab.icon className="w-5 h-5" />
@@ -236,13 +236,13 @@ export default function SettingsPage() {
               {activeTab === "profile" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-1">Profile</h2>
-                    <p className="text-zinc-500 text-sm">Personalize how others see you</p>
+                    <h2 className="text-2xl font-bold text-primary mb-1">Profile</h2>
+                    <p className="text-muted text-sm">Personalize how others see you</p>
                   </div>
 
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-zinc-300 mb-3">
+                      <label className="block text-sm font-medium text-secondary mb-3">
                         Display Name
                       </label>
                       <input
@@ -251,12 +251,12 @@ export default function SettingsPage() {
                         onChange={(e) => setDisplayName(e.target.value)}
                         maxLength={50}
                         placeholder="Your display name"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-primary placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-zinc-300 mb-3">
+                      <label className="block text-sm font-medium text-secondary mb-3">
                         Bio
                       </label>
                       <textarea
@@ -265,9 +265,9 @@ export default function SettingsPage() {
                         maxLength={160}
                         rows={3}
                         placeholder="Tell us about yourself..."
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all resize-none"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-primary placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all resize-none"
                       />
-                      <p className="text-xs text-zinc-600 mt-2 text-right">{bio.length}/160</p>
+                      <p className="text-xs text-muted mt-2 text-right">{bio.length}/160</p>
                     </div>
                   </div>
                 </div>
@@ -277,14 +277,14 @@ export default function SettingsPage() {
               {activeTab === "appearance" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-1">Appearance</h2>
-                    <p className="text-zinc-500 text-sm">Customize how SpendWise looks</p>
+                    <h2 className="text-2xl font-bold text-primary mb-1">Appearance</h2>
+                    <p className="text-muted text-sm">Customize how SpendWise looks</p>
                   </div>
 
                   <div className="space-y-8">
                     {/* Theme Selector */}
                     <div>
-                      <label className="block text-sm font-medium text-zinc-300 mb-4">
+                      <label className="block text-sm font-medium text-secondary mb-4">
                         Theme
                       </label>
                       <div className="grid grid-cols-3 gap-4">
@@ -298,8 +298,8 @@ export default function SettingsPage() {
                             onClick={() => setTheme(t.value)}
                             className={`flex flex-col items-center gap-3 p-4 rounded-xl border transition-all ${
                               theme === t.value
-                                ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-white"
-                                : "bg-white/5 border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
+                                ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-primary"
+                                : "bg-white/5 border-white/10 text-secondary hover:border-white/20 hover:text-primary"
                             }`}
                           >
                             <t.icon className="w-6 h-6" />
@@ -311,7 +311,7 @@ export default function SettingsPage() {
 
                     {/* Accent Color */}
                     <div>
-                      <label className="block text-sm font-medium text-zinc-300 mb-4">
+                      <label className="block text-sm font-medium text-secondary mb-4">
                         Accent Color
                       </label>
                       <div className="flex flex-wrap gap-4">
@@ -328,7 +328,7 @@ export default function SettingsPage() {
                             title={color.name}
                           >
                             {accentColor === color.value && (
-                              <Check className="w-5 h-5 text-white absolute inset-0 m-auto" />
+                              <Check className="w-5 h-5 text-primary absolute inset-0 m-auto" />
                             )}
                           </button>
                         ))}
@@ -336,10 +336,10 @@ export default function SettingsPage() {
                       
                       {/* Preview */}
                       <div className="mt-6 p-4 rounded-xl bg-white/5 border border-white/10">
-                        <p className="text-xs text-zinc-500 mb-3">Preview</p>
+                        <p className="text-xs text-muted mb-3">Preview</p>
                         <div className="flex items-center gap-3">
                           <button 
-                            className="px-4 py-2 rounded-lg text-sm font-medium text-white transition-all"
+                            className="px-4 py-2 rounded-lg text-sm font-medium text-primary transition-all"
                             style={{ backgroundColor: accentColor }}
                           >
                             Primary Button
@@ -356,19 +356,19 @@ export default function SettingsPage() {
               {activeTab === "preferences" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-1">Preferences</h2>
-                    <p className="text-zinc-500 text-sm">Set your preferred currency and language</p>
+                    <h2 className="text-2xl font-bold text-primary mb-1">Preferences</h2>
+                    <p className="text-muted text-sm">Set your preferred currency and language</p>
                   </div>
 
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-zinc-300 mb-3">
+                      <label className="block text-sm font-medium text-secondary mb-3">
                         Currency
                       </label>
                       <select
                         value={currency}
                         onChange={(e) => setCurrency(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
                       >
                         {CURRENCIES.map((c) => (
                           <option key={c.code} value={c.code} className="bg-[var(--color-surface-elevated)]">
@@ -379,7 +379,7 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-zinc-300 mb-3">
+                      <label className="block text-sm font-medium text-secondary mb-3">
                         Language
                       </label>
                       <div className="grid grid-cols-2 gap-4">
@@ -387,8 +387,8 @@ export default function SettingsPage() {
                           onClick={() => setLanguage("id")}
                           className={`px-4 py-4 rounded-xl border transition-all flex items-center gap-3 ${
                             language === "id"
-                              ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-white"
-                              : "bg-white/5 border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
+                              ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-primary"
+                              : "bg-white/5 border-white/10 text-secondary hover:border-white/20 hover:text-primary"
                           }`}
                         >
                           <span className="font-bold text-lg">ID</span>
@@ -398,8 +398,8 @@ export default function SettingsPage() {
                           onClick={() => setLanguage("en")}
                           className={`px-4 py-4 rounded-xl border transition-all flex items-center gap-3 ${
                             language === "en"
-                              ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-white"
-                              : "bg-white/5 border-white/10 text-zinc-400 hover:border-white/20 hover:text-white"
+                              ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-primary"
+                              : "bg-white/5 border-white/10 text-secondary hover:border-white/20 hover:text-primary"
                           }`}
                         >
                           <span className="font-bold text-lg">EN</span>
@@ -409,13 +409,13 @@ export default function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-zinc-300 mb-3">
+                      <label className="block text-sm font-medium text-secondary mb-3">
                         Date Format
                       </label>
                       <select
                         value={dateFormat}
                         onChange={(e) => setDateFormat(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
                       >
                         <option value="DD/MM/YYYY" className="bg-[var(--color-surface-elevated)]">DD/MM/YYYY (31/12/2025)</option>
                         <option value="MM/DD/YYYY" className="bg-[var(--color-surface-elevated)]">MM/DD/YYYY (12/31/2025)</option>
@@ -430,8 +430,8 @@ export default function SettingsPage() {
               {activeTab === "notifications" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-1">Notifications</h2>
-                    <p className="text-zinc-500 text-sm">Control what notifications you receive</p>
+                    <h2 className="text-2xl font-bold text-primary mb-1">Notifications</h2>
+                    <p className="text-muted text-sm">Control what notifications you receive</p>
                   </div>
 
                   <div className="space-y-4">
@@ -463,8 +463,8 @@ export default function SettingsPage() {
                         className="flex items-center justify-between p-5 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors"
                       >
                         <div>
-                          <p className="text-white font-medium">{item.label}</p>
-                          <p className="text-zinc-500 text-sm mt-0.5">{item.description}</p>
+                          <p className="text-primary font-medium">{item.label}</p>
+                          <p className="text-muted text-sm mt-0.5">{item.description}</p>
                         </div>
                         <button
                           onClick={() => item.onChange(!item.value)}
@@ -488,15 +488,15 @@ export default function SettingsPage() {
               {activeTab === "privacy" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-1">Privacy & Data</h2>
-                    <p className="text-zinc-500 text-sm">Manage your privacy settings and data</p>
+                    <h2 className="text-2xl font-bold text-primary mb-1">Privacy & Data</h2>
+                    <p className="text-muted text-sm">Manage your privacy settings and data</p>
                   </div>
 
                   <div className="space-y-4">
                     <div className="flex items-center justify-between p-5 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
                       <div>
-                        <p className="text-white font-medium">Hide Amounts by Default</p>
-                        <p className="text-zinc-500 text-sm mt-0.5">Blur all monetary values for privacy</p>
+                        <p className="text-primary font-medium">Hide Amounts by Default</p>
+                        <p className="text-muted text-sm mt-0.5">Blur all monetary values for privacy</p>
                       </div>
                       <button
                         onClick={togglePrivacyMode}
@@ -515,13 +515,13 @@ export default function SettingsPage() {
                     <div className="p-5 bg-white/5 rounded-xl border border-white/5">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-white font-medium">Export Your Data</p>
-                          <p className="text-zinc-500 text-sm mt-0.5">Download all your SpendWise data as JSON</p>
+                          <p className="text-primary font-medium">Export Your Data</p>
+                          <p className="text-muted text-sm mt-0.5">Download all your SpendWise data as JSON</p>
                         </div>
                         <button
                           onClick={handleExport}
                           disabled={exporting}
-                          className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/15 text-white rounded-xl font-medium transition-all disabled:opacity-50 border border-white/5"
+                          className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/15 text-primary rounded-xl font-medium transition-all disabled:opacity-50 border border-white/5"
                         >
                           {exporting ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -545,8 +545,8 @@ export default function SettingsPage() {
                   whileTap={{ scale: 0.98 }}
                   className={`flex items-center gap-2 px-8 py-3.5 rounded-xl font-medium transition-all ${
                     saved 
-                      ? "bg-emerald-500 text-white" 
-                      : "bg-[var(--accent-color)] hover:opacity-90 text-white shadow-lg glow-accent"
+                      ? "bg-emerald-500 text-primary" 
+                      : "bg-[var(--accent-color)] hover:opacity-90 text-primary shadow-lg glow-accent"
                   } disabled:opacity-50`}
                 >
                   {saving ? (

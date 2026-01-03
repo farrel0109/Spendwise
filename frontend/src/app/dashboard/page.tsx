@@ -161,10 +161,10 @@ function EmptyState({
       className="flex flex-col items-center justify-center text-center py-12"
     >
       <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
-        <Icon className="w-8 h-8 text-zinc-500" />
+        <Icon className="w-8 h-8 text-muted" />
       </div>
-      <h3 className="text-lg font-bold text-white mb-1">{title}</h3>
-      <p className="text-zinc-500 text-sm mb-4 max-w-xs">{description}</p>
+      <h3 className="text-lg font-bold text-primary mb-1">{title}</h3>
+      <p className="text-muted text-sm mb-4 max-w-xs">{description}</p>
       {action && actionLabel && (
         <button
           onClick={action}
@@ -319,7 +319,7 @@ export default function Dashboard() {
                   className="flex flex-col h-full"
                 >
                   <div className="px-1 mb-4">
-                    <h3 className="text-white font-bold text-lg">{t('dashboard.topGoal')}</h3>
+                    <h3 className="text-primary font-bold text-lg">{t('dashboard.topGoal')}</h3>
                   </div>
                   <div className="flex-1 premium-card rounded-2xl">
                     <EmptyState
