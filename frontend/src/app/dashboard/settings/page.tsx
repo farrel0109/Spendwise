@@ -46,10 +46,15 @@ const CURRENCIES = [
 
 type TabType = "profile" | "appearance" | "preferences" | "notifications" | "privacy";
 
+import { useTheme } from "@/context/ThemeContext";
+
+// ...
+
 export default function SettingsPage() {
   const { getToken } = useAuth();
   const { language, setLanguage } = useLanguage();
   const { isPrivacyMode, togglePrivacyMode } = usePrivacy();
+  const { theme, setTheme, accentColor, setAccentColor } = useTheme();
   
   const [activeTab, setActiveTab] = useState<TabType>("profile");
   const [loading, setLoading] = useState(true);
@@ -60,8 +65,7 @@ export default function SettingsPage() {
   // Form states
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
-  const [theme, setTheme] = useState<"light" | "dark" | "system">("dark");
-  const [accentColor, setAccentColor] = useState("#8b5cf6");
+  // Theme and Accent are now managed by Context
   const [currency, setCurrency] = useState("IDR");
   const [dateFormat, setDateFormat] = useState("DD/MM/YYYY");
   const [notificationBudget, setNotificationBudget] = useState(true);
@@ -78,8 +82,15 @@ export default function SettingsPage() {
         
         setDisplayName(data.displayName || "");
         setBio(data.bio || "");
-        setTheme(data.theme || "dark");
-        setAccentColor(data.accentColor || "#8b5cf6");
+        // Sync context with backend data if needed, but local preference should take precedence or sync?
+        // For now, let's assume context initializes from localStorage, which is "current session".
+        // But if user logs in on new device, we might want to pull from backend.
+        // Let's update context ONLY if it differs and we trust backend more? 
+        // Or just let user manually change it. 
+        // For better UX, let's update context if backend has value.
+        if (data.theme) setTheme(data.theme as any);
+        if (data.accentColor) setAccentColor(data.accentColor);
+
         setCurrency(data.currency || "IDR");
         setDateFormat(data.dateFormat || "DD/MM/YYYY");
         setNotificationBudget(data.notificationBudget ?? true);
@@ -94,15 +105,9 @@ export default function SettingsPage() {
     };
 
     fetchSettings();
-  }, [getToken]);
+  }, [getToken, setTheme, setAccentColor]);
 
-  // Apply accent color to document
-  useEffect(() => {
-    const color = ACCENT_COLORS.find(c => c.value === accentColor);
-    if (color) {
-      document.documentElement.setAttribute('data-accent', color.key);
-    }
-  }, [accentColor]);
+  // Removed local accent color effect as it is handled in Context now
 
   const handleSave = async () => {
     setSaving(true);

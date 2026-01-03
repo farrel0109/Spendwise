@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -37,16 +38,20 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <LanguageProvider>
-            {children}
-            <Toaster position="bottom-right" toastOptions={{
-              style: {
-                background: '#18222d',
-                color: '#fff',
-                border: '1px solid rgba(255, 255, 255, 0.05)'
-              }
-            }} />
-          </LanguageProvider>
+
+
+          <ThemeProvider>
+            <LanguageProvider>
+              {children}
+              <Toaster position="bottom-right" toastOptions={{
+                style: {
+                  background: '#18222d',
+                  color: '#fff',
+                  border: '1px solid rgba(255, 255, 255, 0.05)'
+                }
+              }} />
+            </LanguageProvider>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

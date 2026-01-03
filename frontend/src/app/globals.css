@@ -14,6 +14,72 @@
   --color-surface: #0a0f18;
   --color-surface-elevated: #111827;
   --color-surface-highlight: #1f2937;
+}
+
+/* Light Mode Overrides */
+.light {
+  --color-base: #ffffff;
+  --color-surface: #f3f4f6; /* gray-100 */
+  --color-surface-elevated: #ffffff;
+  --color-surface-highlight: #e5e7eb; /* gray-200 */
+  
+  /* Text Colors */
+  --color-text-primary: #111827; /* gray-900 */
+  --color-text-secondary: #4b5563; /* gray-600 */
+  --color-text-muted: #6b7280; /* gray-500 */
+  
+  color: var(--color-text-primary);
+}
+
+/* Dark Mode Defaults (explicit) */
+.dark {
+  --color-base: #030712;
+  --color-surface: #0a0f18;
+  --color-surface-elevated: #111827;
+  --color-surface-highlight: #1f2937;
+  
+  /* Text Colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a1a1aa; /* zinc-400 */
+  --color-text-muted: #71717a; /* zinc-500 */
+  
+  color: var(--color-text-primary);
+}
+
+/* ... (keep @theme block) ... */
+
+/* Typography Utilities */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-color), #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Muted text levels */
+.text-primary {
+  color: var(--color-text-primary);
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.text-muted {
+  color: var(--color-text-muted);
+}
+.text-subtle {
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* Base colors - aligned with landing page (#030712) */
+  --color-base: var(--color-base);
+  --color-surface: var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-surface-highlight: var(--color-surface-highlight);
 
   /* Accent system - CSS variables for dynamic theming */
   /* Default: Violet to match landing page gradient */
@@ -175,13 +241,19 @@ body {
 .premium-card {
   background: linear-gradient(
     180deg,
-    rgba(17, 24, 39, 0.8) 0%,
-    rgba(10, 15, 24, 0.9) 100%
+    var(--color-surface-elevated) 0%,
+    var(--color-surface) 100%
   );
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
     0 2px 4px -1px rgba(0, 0, 0, 0.1), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
+}
+
+.light .premium-card {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03);
 }
 
 .premium-card:hover {
@@ -258,8 +330,15 @@ select,
 textarea {
   background-color: var(--color-surface);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: white;
+  color: inherit;
   transition: all 0.2s ease;
+}
+
+.light input,
+.light select,
+.light textarea {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
 input:focus,
@@ -321,16 +400,26 @@ textarea::placeholder {
   background-clip: text;
 }
 
+/* Typography Utilities */
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-color), #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* Muted text levels */
 .text-primary {
-  color: #ffffff;
+  color: var(--color-text-primary);
 }
 .text-secondary {
-  color: #a1a1aa;
+  color: var(--color-text-secondary);
 }
 .text-muted {
-  color: #71717a;
+  color: var(--color-text-muted);
 }
 .text-subtle {
-  color: #52525b;
+  color: var(--color-text-muted);
+  opacity: 0.8;
 }
