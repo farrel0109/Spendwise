@@ -36,15 +36,15 @@ export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) 
     >
       <div className="flex justify-between items-start">
         <div>
-          <h3 className="text-zinc-400 text-sm font-semibold uppercase tracking-wider mb-1">
+          <h3 className="text-secondary text-sm font-semibold uppercase tracking-wider mb-1">
             {t('dashboard.budget')}
           </h3>
-          <p className="text-2xl font-bold text-white tracking-tight">
+          <p className="text-2xl font-bold text-primary tracking-tight">
             {t('dashboard.leftToSpend')}
           </p>
         </div>
-        <div className="bg-white/5 p-3 rounded-xl border border-white/5">
-          <Wallet className="w-6 h-6 text-zinc-400" />
+        <div className="bg-zinc-100 dark:bg-white/5 p-3 rounded-xl border border-zinc-200 dark:border-white/5">
+          <Wallet className="w-6 h-6 text-secondary" />
         </div>
       </div>
       
@@ -54,7 +54,7 @@ export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) 
           {/* Background Circle */}
           <svg className="h-full w-full -rotate-90" viewBox="0 0 36 36">
             <path 
-              className="text-white/5" 
+              className="text-zinc-200 dark:text-white/5" 
               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" 
               fill="none" 
               stroke="currentColor" 
@@ -75,10 +75,10 @@ export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) 
           
           {/* Center Text */}
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-3xl font-bold text-white">
+            <span className="text-3xl font-bold text-primary">
               Rp {formatAmount(budgetLeft)}
             </span>
-            <span className="text-sm text-zinc-500 font-medium mt-1">
+            <span className="text-sm text-muted font-medium mt-1">
               of Rp {formatAmount(totalBudget)}
             </span>
           </div>
@@ -88,12 +88,12 @@ export function BudgetCard({ budgetSummary, formatAmount, t }: BudgetCardProps) 
       {/* Projected Savings */}
       <div className="space-y-3">
         <div className="flex justify-between text-sm">
-          <span className="text-zinc-400">{t('dashboard.projectedSavings')}</span>
-          <span className="text-white font-semibold">
+          <span className="text-secondary">{t('dashboard.projectedSavings')}</span>
+          <span className="text-primary font-semibold">
             Rp {formatAmount(projectedSavings)}
           </span>
         </div>
-        <div className="w-full bg-white/5 rounded-full h-1.5 overflow-hidden">
+        <div className="w-full bg-zinc-100 dark:bg-white/5 rounded-full h-1.5 overflow-hidden">
           <div 
             className="h-full rounded-full transition-all duration-500 bg-emerald-500" 
             style={{ width: '65%' }}

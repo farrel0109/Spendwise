@@ -38,10 +38,10 @@ export function TransactionsTable({ transactions, formatAmount, onViewAll, t }: 
     >
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h3 className="text-white font-bold text-lg">
+        <h3 className="text-primary font-bold text-lg">
           {t('dashboard.recentTransactions')}
         </h3>
-        <div className="flex gap-1 p-1 bg-white/5 rounded-xl border border-white/5">
+        <div className="flex gap-1 p-1 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/5">
           <FilterButton active>{isIndonesian ? 'Semua' : 'All'}</FilterButton>
           <FilterButton>{t('common.expense')}</FilterButton>
           <FilterButton>{t('common.income')}</FilterButton>
@@ -52,7 +52,7 @@ export function TransactionsTable({ transactions, formatAmount, onViewAll, t }: 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="text-xs text-zinc-500 border-b border-white/5">
+            <tr className="text-xs text-muted border-b border-zinc-200 dark:border-white/5">
               <th className="font-medium py-3 pl-2">Merchant</th>
               <th className="font-medium py-3">Category</th>
               <th className="font-medium py-3">Date</th>
@@ -74,7 +74,7 @@ export function TransactionsTable({ transactions, formatAmount, onViewAll, t }: 
             {/* Empty state */}
             {transactions.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-12 text-center text-zinc-500">
+                <td colSpan={5} className="py-12 text-center text-muted">
                   {t('dashboard.noTransactions')}
                 </td>
               </tr>
@@ -111,7 +111,7 @@ function FilterButton({ children, active }: FilterButtonProps) {
       className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
         active 
           ? 'bg-[var(--accent-color)] text-white shadow-sm' 
-          : 'text-zinc-400 hover:text-white hover:bg-white/5'
+          : 'text-secondary hover:text-primary hover:bg-zinc-100 dark:hover:bg-white/5'
       }`}
     >
       {children}
@@ -138,19 +138,19 @@ function TransactionRow({ transaction, formatAmount, language, index }: Transact
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay: 0.5 + index * 0.05 }}
-      className="group hover:bg-white/[0.02] transition-colors border-b border-white/5 last:border-0"
+      className="group hover:bg-zinc-50 dark:hover:bg-white/[0.02] transition-colors border-b border-zinc-100 dark:border-white/5 last:border-0"
     >
       {/* Merchant/Description */}
       <td className="py-4 pl-2">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-lg shrink-0 border border-white/5 text-slate-400">
+          <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-white/5 flex items-center justify-center text-lg shrink-0 border border-zinc-200 dark:border-white/5 text-muted">
             <Icon className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-white font-medium">
+            <p className="text-primary font-medium">
               {transaction.description || "Transaction"}
             </p>
-            <p className="text-zinc-600 text-xs">
+            <p className="text-muted text-xs">
               {transaction.accounts?.name}
             </p>
           </div>
@@ -158,12 +158,12 @@ function TransactionRow({ transaction, formatAmount, language, index }: Transact
       </td>
       
       {/* Category */}
-      <td className="py-4 text-zinc-400">
+      <td className="py-4 text-secondary">
         {transaction.categories?.name || "Uncategorized"}
       </td>
       
       {/* Date */}
-      <td className="py-4 text-zinc-500">
+      <td className="py-4 text-muted">
         {formatDate(transaction.txn_date, 'short', language)}
       </td>
       
@@ -171,7 +171,7 @@ function TransactionRow({ transaction, formatAmount, language, index }: Transact
       <td className="py-4 text-center">
         {transaction.emotion && (
           <div 
-            className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-white/5 text-zinc-500 border border-white/5" 
+            className="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-zinc-100 dark:bg-white/5 text-muted border border-zinc-200 dark:border-white/5" 
             title={transaction.emotion}
           >
             <Smile className="w-4 h-4" />
@@ -180,7 +180,7 @@ function TransactionRow({ transaction, formatAmount, language, index }: Transact
       </td>
       
       {/* Amount */}
-      <td className={`py-4 pr-2 text-right font-bold ${isIncome ? 'text-emerald-400' : 'text-white'}`}>
+      <td className={`py-4 pr-2 text-right font-bold ${isIncome ? 'text-emerald-500' : 'text-primary'}`}>
         {isIncome ? '+' : '-'}Rp {formatAmount(transaction.amount)}
       </td>
     </motion.tr>

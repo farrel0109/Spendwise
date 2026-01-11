@@ -179,10 +179,36 @@ export default function SettingsPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-8 h-8 animate-spin text-[var(--accent-color)]" />
-          <p className="text-muted text-sm">Loading settings...</p>
+      <div className="max-w-5xl mx-auto space-y-8">
+        <div className="mb-10">
+          <div className="h-10 w-48 bg-zinc-200 dark:bg-white/10 rounded-xl animate-pulse mb-2" />
+          <div className="h-4 w-64 bg-zinc-100 dark:bg-white/5 rounded animate-pulse" />
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-8">
+          <div className="lg:w-56 shrink-0">
+            <div className="bg-[var(--color-surface-elevated)] rounded-2xl p-2 border border-zinc-200 dark:border-white/5 animate-pulse">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <div key={i} className="h-12 w-full bg-zinc-100 dark:bg-white/5 rounded-xl mb-2 last:mb-0" />
+              ))}
+            </div>
+          </div>
+
+          <div className="flex-1">
+            <div className="bg-[var(--color-surface-elevated)] rounded-2xl p-8 border border-zinc-200 dark:border-white/5 animate-pulse">
+              <div className="h-8 w-32 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
+              <div className="h-4 w-48 bg-zinc-100 dark:bg-white/5 rounded mb-8" />
+              
+              <div className="space-y-6">
+                {[1, 2].map((i) => (
+                  <div key={i}>
+                    <div className="h-4 w-24 bg-zinc-100 dark:bg-white/5 rounded mb-3" />
+                    <div className="h-12 w-full bg-zinc-100 dark:bg-white/5 rounded-xl" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -192,7 +218,7 @@ export default function SettingsPage() {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="max-w-5xl mx-auto py-2"
+      className="max-w-5xl mx-auto"
     >
       {/* Header */}
       <div className="mb-10">
@@ -203,7 +229,7 @@ export default function SettingsPage() {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Sidebar Tabs */}
         <div className="lg:w-56 shrink-0">
-          <div className="premium-card rounded-2xl overflow-hidden p-2">
+          <div className="bg-[var(--color-surface-elevated)] rounded-2xl overflow-hidden p-2 border border-zinc-200 dark:border-white/5">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
@@ -211,7 +237,7 @@ export default function SettingsPage() {
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
                   activeTab === tab.id 
                     ? "bg-[var(--accent-color)] text-primary shadow-lg" 
-                    : "text-secondary hover:bg-white/5 hover:text-primary"
+                    : "text-secondary hover:bg-zinc-100 dark:hover:bg-white/5 hover:text-primary"
                 }`}
               >
                 <tab.icon className="w-5 h-5" />
@@ -230,7 +256,7 @@ export default function SettingsPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="premium-card rounded-2xl p-8"
+              className="bg-[var(--color-surface-elevated)] rounded-2xl p-8 border border-zinc-200 dark:border-white/5"
             >
               {/* Profile Tab */}
               {activeTab === "profile" && (
@@ -251,7 +277,7 @@ export default function SettingsPage() {
                         onChange={(e) => setDisplayName(e.target.value)}
                         maxLength={50}
                         placeholder="Your display name"
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-primary placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
+                        className="w-full px-4 py-3 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-primary placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
                       />
                     </div>
 
@@ -265,7 +291,7 @@ export default function SettingsPage() {
                         maxLength={160}
                         rows={3}
                         placeholder="Tell us about yourself..."
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-primary placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all resize-none"
+                        className="w-full px-4 py-3 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-primary placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all resize-none"
                       />
                       <p className="text-xs text-muted mt-2 text-right">{bio.length}/160</p>
                     </div>
@@ -299,7 +325,7 @@ export default function SettingsPage() {
                             className={`flex flex-col items-center gap-3 p-4 rounded-xl border transition-all ${
                               theme === t.value
                                 ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-primary"
-                                : "bg-white/5 border-white/10 text-secondary hover:border-white/20 hover:text-primary"
+                                : "bg-zinc-100 dark:bg-white/5 border-zinc-200 dark:border-white/10 text-secondary hover:border-zinc-300 dark:hover:border-white/20 hover:text-primary"
                             }`}
                           >
                             <t.icon className="w-6 h-6" />
@@ -335,7 +361,7 @@ export default function SettingsPage() {
                       </div>
                       
                       {/* Preview */}
-                      <div className="mt-6 p-4 rounded-xl bg-white/5 border border-white/10">
+                      <div className="mt-6 p-4 rounded-xl bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10">
                         <p className="text-xs text-muted mb-3">Preview</p>
                         <div className="flex items-center gap-3">
                           <button 
@@ -388,7 +414,7 @@ export default function SettingsPage() {
                           className={`px-4 py-4 rounded-xl border transition-all flex items-center gap-3 ${
                             language === "id"
                               ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-primary"
-                              : "bg-white/5 border-white/10 text-secondary hover:border-white/20 hover:text-primary"
+                              : "bg-zinc-100 dark:bg-white/5 border-zinc-200 dark:border-white/10 text-secondary hover:border-zinc-300 dark:hover:border-white/20 hover:text-primary"
                           }`}
                         >
                           <span className="font-bold text-lg">ID</span>
@@ -399,7 +425,7 @@ export default function SettingsPage() {
                           className={`px-4 py-4 rounded-xl border transition-all flex items-center gap-3 ${
                             language === "en"
                               ? "bg-[var(--accent-color)]/10 border-[var(--accent-color)] text-primary"
-                              : "bg-white/5 border-white/10 text-secondary hover:border-white/20 hover:text-primary"
+                              : "bg-zinc-100 dark:bg-white/5 border-zinc-200 dark:border-white/10 text-secondary hover:border-zinc-300 dark:hover:border-white/20 hover:text-primary"
                           }`}
                         >
                           <span className="font-bold text-lg">EN</span>
@@ -415,7 +441,7 @@ export default function SettingsPage() {
                       <select
                         value={dateFormat}
                         onChange={(e) => setDateFormat(e.target.value)}
-                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
+                        className="w-full px-4 py-3 bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 rounded-xl text-primary focus:outline-none focus:ring-2 focus:ring-[var(--accent-color)]/50 focus:border-[var(--accent-color)]/50 transition-all"
                       >
                         <option value="DD/MM/YYYY" className="bg-[var(--color-surface-elevated)]">DD/MM/YYYY (31/12/2025)</option>
                         <option value="MM/DD/YYYY" className="bg-[var(--color-surface-elevated)]">MM/DD/YYYY (12/31/2025)</option>
@@ -460,7 +486,7 @@ export default function SettingsPage() {
                     ].map((item) => (
                       <div 
                         key={item.id}
-                        className="flex items-center justify-between p-5 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors"
+                        className="flex items-center justify-between p-5 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 transition-colors"
                       >
                         <div>
                           <p className="text-primary font-medium">{item.label}</p>
@@ -469,7 +495,7 @@ export default function SettingsPage() {
                         <button
                           onClick={() => item.onChange(!item.value)}
                           className={`relative w-14 h-8 rounded-full transition-all ${
-                            item.value ? "bg-[var(--accent-color)]" : "bg-white/10"
+                            item.value ? "bg-[var(--accent-color)]" : "bg-zinc-200 dark:bg-white/10"
                           }`}
                         >
                           <motion.div 
@@ -493,7 +519,7 @@ export default function SettingsPage() {
                   </div>
 
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-5 bg-white/5 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+                    <div className="flex items-center justify-between p-5 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 transition-colors">
                       <div>
                         <p className="text-primary font-medium">Hide Amounts by Default</p>
                         <p className="text-muted text-sm mt-0.5">Blur all monetary values for privacy</p>
@@ -501,7 +527,7 @@ export default function SettingsPage() {
                       <button
                         onClick={togglePrivacyMode}
                         className={`relative w-14 h-8 rounded-full transition-all ${
-                          isPrivacyMode ? "bg-[var(--accent-color)]" : "bg-white/10"
+                          isPrivacyMode ? "bg-[var(--accent-color)]" : "bg-zinc-200 dark:bg-white/10"
                         }`}
                       >
                         <motion.div 
@@ -512,7 +538,7 @@ export default function SettingsPage() {
                       </button>
                     </div>
 
-                    <div className="p-5 bg-white/5 rounded-xl border border-white/5">
+                    <div className="p-5 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/5">
                       <div className="flex items-center justify-between">
                         <div>
                           <p className="text-primary font-medium">Export Your Data</p>
@@ -521,7 +547,7 @@ export default function SettingsPage() {
                         <button
                           onClick={handleExport}
                           disabled={exporting}
-                          className="flex items-center gap-2 px-5 py-2.5 bg-white/10 hover:bg-white/15 text-primary rounded-xl font-medium transition-all disabled:opacity-50 border border-white/5"
+                          className="flex items-center gap-2 px-5 py-2.5 bg-zinc-200 dark:bg-white/10 hover:bg-zinc-300 dark:hover:bg-white/15 text-primary rounded-xl font-medium transition-all disabled:opacity-50 border border-zinc-200 dark:border-white/5"
                         >
                           {exporting ? (
                             <Loader2 className="w-4 h-4 animate-spin" />
@@ -537,7 +563,7 @@ export default function SettingsPage() {
               )}
 
               {/* Save Button */}
-              <div className="mt-10 pt-8 border-t border-white/5">
+              <div className="mt-10 pt-8 border-t border-zinc-200 dark:border-white/5">
                 <motion.button
                   onClick={handleSave}
                   disabled={saving}

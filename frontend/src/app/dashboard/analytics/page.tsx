@@ -93,10 +93,10 @@ export default function AnalyticsPage() {
       <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="flex items-center justify-between pt-4">
           <div>
-            <div className="h-10 w-48 bg-white/10 rounded-xl animate-pulse mb-2" />
-            <div className="h-4 w-32 bg-white/5 rounded animate-pulse" />
+            <div className="h-10 w-48 bg-zinc-200 dark:bg-white/10 rounded-xl animate-pulse mb-2" />
+            <div className="h-4 w-32 bg-zinc-100 dark:bg-white/5 rounded animate-pulse" />
           </div>
-          <div className="h-12 w-32 bg-white/10 rounded-2xl animate-pulse" />
+          <div className="h-12 w-32 bg-zinc-200 dark:bg-white/10 rounded-2xl animate-pulse" />
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -117,20 +117,20 @@ export default function AnalyticsPage() {
 
 
   return (
-    <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between pt-4">
         <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-primary flex items-center gap-3">
             <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
               <BarChart3 className="w-8 h-8 text-[var(--accent-color)]" />
             </div>
             {t('nav.analytics')}
           </h1>
-          <p className="text-slate-400 mt-1 ml-14">Deep dive into your financial habits</p>
+          <p className="text-muted mt-1 ml-14">Deep dive into your financial habits</p>
         </div>
         
-        <div className="flex items-center gap-2 bg-[var(--color-surface-elevated)] p-1 rounded-xl border border-white/5">
+        <div className="flex items-center gap-2 bg-[var(--color-surface-elevated)] p-1 rounded-xl border border-zinc-200 dark:border-white/5">
           {["3", "6", "12"].map((m) => (
             <button
               key={m}
@@ -138,7 +138,7 @@ export default function AnalyticsPage() {
               className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 period === m 
                   ? "bg-[var(--accent-color)] text-white shadow-lg shadow-[var(--accent-color)]/20" 
-                  : "text-slate-400 hover:text-white"
+                  : "text-muted hover:text-primary"
               }`}
             >
               {m}M
@@ -149,9 +149,9 @@ export default function AnalyticsPage() {
 
       {/* Health Score */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="apple-card p-6 rounded-3xl relative overflow-hidden group">
+        <div className="bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-zinc-200 dark:border-white/5 relative overflow-hidden group">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-bold text-lg flex items-center gap-2">
+            <h3 className="text-primary font-bold text-lg flex items-center gap-2">
               <Activity className="w-5 h-5 text-emerald-500" />
               Financial Health
             </h3>
@@ -164,12 +164,12 @@ export default function AnalyticsPage() {
             </span>
           </div>
           <div className="flex items-end gap-4">
-            <p className="text-5xl font-black text-white">{healthScore?.score || 0}</p>
-            <p className="text-slate-400 mb-2 font-medium">/ 100 Points</p>
+            <p className="text-5xl font-black text-primary">{healthScore?.score || 0}</p>
+            <p className="text-muted mb-2 font-medium">/ 100 Points</p>
           </div>
           <div className="mt-4 space-y-2">
             {healthScore?.tips.slice(0, 2).map((tip, i) => (
-              <div key={i} className="flex items-start gap-2 text-xs text-slate-300 bg-[var(--color-surface)] p-2 rounded-lg border border-white/5">
+              <div key={i} className="flex items-start gap-2 text-xs text-secondary bg-[var(--color-surface)] p-2 rounded-lg border border-zinc-200 dark:border-white/5">
                 <div className="w-1.5 h-1.5 rounded-full bg-[var(--accent-color)] mt-1.5 shrink-0" />
                 {tip}
               </div>
@@ -177,8 +177,8 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        <div className="lg:col-span-2 apple-card p-6 rounded-3xl relative overflow-hidden">
-          <h3 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
+        <div className="lg:col-span-2 bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-zinc-200 dark:border-white/5 relative overflow-hidden">
+          <h3 className="text-primary font-bold text-lg mb-6 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-[var(--accent-color)]" />
             Income vs Expense Trend
           </h3>
@@ -212,8 +212,8 @@ export default function AnalyticsPage() {
 
       {/* Spending Breakdown */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="apple-card p-6 rounded-3xl">
-          <h3 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
+        <div className="bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-zinc-200 dark:border-white/5">
+          <h3 className="text-primary font-bold text-lg mb-6 flex items-center gap-2">
             <PieChart className="w-5 h-5 text-purple-500" />
             Spending by Category
           </h3>
@@ -243,34 +243,34 @@ export default function AnalyticsPage() {
           </div>
           <div className="grid grid-cols-2 gap-2 mt-4">
             {patterns.slice(0, 6).map((entry, index) => (
-              <div key={index} className="flex items-center gap-2 text-xs text-slate-400">
+              <div key={index} className="flex items-center gap-2 text-xs text-muted">
                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
                 <span className="truncate">{entry.category_name}</span>
-                <span className="ml-auto font-bold text-white">{Math.round(entry.percentage)}%</span>
+                <span className="ml-auto font-bold text-primary">{Math.round(entry.percentage)}%</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="apple-card p-6 rounded-3xl">
-          <h3 className="text-white font-bold text-lg mb-6 flex items-center gap-2">
+        <div className="bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-zinc-200 dark:border-white/5">
+          <h3 className="text-primary font-bold text-lg mb-6 flex items-center gap-2">
             <Calendar className="w-5 h-5 text-orange-500" />
             Monthly Summary
           </h3>
           <div className="space-y-4">
             {trends.slice(-5).reverse().map((month, i) => (
-              <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-[var(--color-surface)] border border-white/5">
+              <div key={i} className="flex items-center justify-between p-4 rounded-2xl bg-[var(--color-surface)] border border-zinc-200 dark:border-white/5">
                 <div>
-                  <p className="text-white font-bold">{month.month}</p>
-                  <p className="text-xs text-slate-500">Net: Rp {formatCurrency(month.net_savings)}</p>
+                  <p className="text-primary font-bold">{month.month}</p>
+                  <p className="text-xs text-muted">Net: Rp {formatCurrency(month.net_savings)}</p>
                 </div>
                 <div className="flex gap-4 text-right">
                   <div>
-                    <p className="text-xs text-slate-500 mb-0.5">In</p>
+                    <p className="text-xs text-muted mb-0.5">In</p>
                     <p className="text-emerald-500 font-bold text-sm">+Rp {formatCurrency(month.income)}</p>
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 mb-0.5">Out</p>
+                    <p className="text-xs text-muted mb-0.5">Out</p>
                     <p className="text-red-500 font-bold text-sm">-Rp {formatCurrency(month.expense)}</p>
                   </div>
                 </div>
@@ -288,10 +288,10 @@ function ChartSkeleton() {
   return (
     <div className="premium-card p-6 rounded-3xl animate-pulse">
       <div className="flex justify-between mb-6">
-        <div className="h-5 w-32 bg-white/10 rounded" />
-        <div className="h-4 w-16 bg-white/5 rounded" />
+        <div className="h-5 w-32 bg-zinc-200 dark:bg-white/10 rounded" />
+        <div className="h-4 w-16 bg-zinc-100 dark:bg-white/5 rounded" />
       </div>
-      <div className="h-64 w-full bg-white/5 rounded-xl" />
+      <div className="h-64 w-full bg-zinc-100 dark:bg-white/5 rounded-xl" />
     </div>
   );
 }
@@ -300,9 +300,9 @@ function ChartSkeleton() {
 function ScoreSkeleton() {
   return (
     <div className="premium-card p-6 rounded-3xl animate-pulse text-center">
-      <div className="w-32 h-32 rounded-full bg-white/10 mx-auto mb-4" />
-      <div className="h-5 w-24 bg-white/10 rounded mx-auto mb-2" />
-      <div className="h-3 w-32 bg-white/5 rounded mx-auto" />
+      <div className="w-32 h-32 rounded-full bg-zinc-200 dark:bg-white/10 mx-auto mb-4" />
+      <div className="h-5 w-24 bg-zinc-200 dark:bg-white/10 rounded mx-auto mb-2" />
+      <div className="h-3 w-32 bg-zinc-100 dark:bg-white/5 rounded mx-auto" />
     </div>
   );
 }

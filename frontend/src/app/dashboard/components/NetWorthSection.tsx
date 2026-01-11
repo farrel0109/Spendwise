@@ -39,13 +39,13 @@ export function NetWorthSection({ netWorth, formatAmount, t }: NetWorthSectionPr
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 relative z-10">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-zinc-400 text-sm font-semibold uppercase tracking-wider">
+            <h3 className="text-secondary text-sm font-semibold uppercase tracking-wider">
               {t('dashboard.netWorth')}
             </h3>
             <Info className="w-4 h-4 text-zinc-600 cursor-help hover:text-zinc-400 transition-colors" />
           </div>
           <div className="flex items-baseline gap-4">
-            <p className="text-5xl md:text-6xl font-black text-white tracking-tight">
+            <p className="text-5xl md:text-6xl font-black text-primary tracking-tight">
               Rp {formatAmount(netWorth?.netWorth || 0)}
             </p>
             <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 text-sm font-bold border border-emerald-500/20">
@@ -57,17 +57,17 @@ export function NetWorthSection({ netWorth, formatAmount, t }: NetWorthSectionPr
         
         {/* Time Period Selector */}
         <div className="mt-6 md:mt-0">
-          <div className="flex gap-1 p-1 bg-white/5 rounded-xl border border-white/5">
-            <button className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition-all">
+          <div className="flex gap-1 p-1 bg-zinc-100 dark:bg-white/5 rounded-xl border border-zinc-200 dark:border-white/5">
+            <button className="text-xs font-medium text-secondary hover:text-primary px-3 py-1.5 rounded-lg transition-all">
               {TIME_PERIODS.day}
             </button>
             <button className="text-xs font-medium text-white bg-[var(--accent-color)] px-3 py-1.5 rounded-lg shadow-lg glow-accent">
               {TIME_PERIODS.week}
             </button>
-            <button className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition-all">
+            <button className="text-xs font-medium text-secondary hover:text-primary px-3 py-1.5 rounded-lg transition-all">
               {TIME_PERIODS.month}
             </button>
-            <button className="text-xs font-medium text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg transition-all">
+            <button className="text-xs font-medium text-secondary hover:text-primary px-3 py-1.5 rounded-lg transition-all">
               {TIME_PERIODS.year}
             </button>
           </div>

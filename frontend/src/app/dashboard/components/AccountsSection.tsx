@@ -33,7 +33,7 @@ export function AccountsSection({ accounts, formatAmount, onAddNew, t }: Account
     >
       {/* Header */}
       <div className="flex items-center justify-between px-1">
-        <h3 className="text-white font-bold text-lg">
+        <h3 className="text-primary font-bold text-lg">
           {t('dashboard.myAccounts')}
         </h3>
         <button 
@@ -59,10 +59,10 @@ export function AccountsSection({ accounts, formatAmount, onAddNew, t }: Account
         
         {/* Empty state if no accounts */}
         {displayAccounts.length === 0 && (
-          <div className="col-span-2 h-48 rounded-2xl border border-dashed border-white/10 flex items-center justify-center hover:border-white/20 transition-colors">
+          <div className="col-span-2 h-48 rounded-2xl border border-dashed border-zinc-300 dark:border-white/10 flex items-center justify-center hover:border-zinc-400 dark:hover:border-white/20 transition-colors">
             <button
               onClick={onAddNew}
-              className="text-zinc-500 hover:text-white transition-colors text-sm"
+              className="text-muted hover:text-primary transition-colors text-sm"
             >
               + Add your first account
             </button>
@@ -91,7 +91,7 @@ function AccountCard({ account, formatAmount, gradientIndex, t, delay }: Account
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
       whileHover={{ y: -4, scale: 1.02 }}
-      className="group relative h-48 rounded-2xl p-6 flex flex-col justify-between border border-white/5 hover:border-white/10 overflow-hidden cursor-pointer transition-colors"
+      className="group relative h-48 rounded-2xl p-6 flex flex-col justify-between border border-zinc-200 dark:border-white/5 hover:border-zinc-300 dark:hover:border-white/10 overflow-hidden cursor-pointer transition-colors"
       style={{ backgroundImage: CARD_GRADIENTS[gradientIndex % CARD_GRADIENTS.length] }}
     >
       {/* Card Header */}
@@ -100,12 +100,12 @@ function AccountCard({ account, formatAmount, gradientIndex, t, delay }: Account
           <div className="w-3 h-3 rounded-full bg-red-500/80 -mr-1" />
           <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
         </div>
-        <CreditCard className="text-zinc-500 w-5 h-5 group-hover:text-zinc-400 transition-colors" />
+        <CreditCard className="text-zinc-400 w-5 h-5 group-hover:text-white transition-colors" />
       </div>
       
       {/* Account Info */}
       <div className="z-10">
-        <p className="text-zinc-500 text-sm font-medium mb-1 capitalize">
+        <p className="text-zinc-400 text-sm font-medium mb-1 capitalize">
           {account.type.replace('_', ' ')}
         </p>
         <p className="text-white text-xl font-bold tracking-tight truncate">
@@ -116,7 +116,7 @@ function AccountCard({ account, formatAmount, gradientIndex, t, delay }: Account
       {/* Balance */}
       <div className="flex justify-between items-end z-10">
         <div>
-          <p className="text-xs text-zinc-600 uppercase tracking-wider mb-0.5">
+          <p className="text-xs text-zinc-400 uppercase tracking-wider mb-0.5">
             {t('dashboard.balance')}
           </p>
           <p className="text-white text-lg font-bold">

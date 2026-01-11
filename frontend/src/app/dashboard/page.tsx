@@ -35,13 +35,13 @@ function NetWorthSkeleton() {
     <CardSkeleton className="col-span-1 md:col-span-8 p-8">
       <div className="flex justify-between items-start mb-8">
         <div>
-          <div className="h-3 w-32 bg-white/10 rounded mb-3" />
-          <div className="h-14 w-72 bg-white/10 rounded mb-2" />
+          <div className="h-3 w-32 bg-zinc-200 dark:bg-white/10 rounded mb-3" />
+          <div className="h-14 w-72 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
           <div className="h-6 w-20 bg-emerald-500/20 rounded-lg" />
         </div>
-        <div className="h-9 w-40 bg-white/5 rounded-xl" />
+        <div className="h-9 w-40 bg-zinc-100 dark:bg-white/5 rounded-xl" />
       </div>
-      <div className="h-48 w-full bg-white/5 rounded-xl" />
+      <div className="h-48 w-full bg-zinc-100 dark:bg-white/5 rounded-xl" />
     </CardSkeleton>
   );
 }
@@ -54,25 +54,25 @@ function BudgetSkeleton() {
     <CardSkeleton className="col-span-1 md:col-span-4 p-8 flex flex-col">
       <div className="flex justify-between">
         <div>
-          <div className="h-3 w-20 bg-white/10 rounded mb-2" />
-          <div className="h-6 w-32 bg-white/10 rounded" />
+          <div className="h-3 w-20 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
+          <div className="h-6 w-32 bg-zinc-200 dark:bg-white/10 rounded" />
         </div>
-        <div className="w-12 h-12 bg-white/5 rounded-xl" />
+        <div className="w-12 h-12 bg-zinc-100 dark:bg-white/5 rounded-xl" />
       </div>
       <div className="flex-1 flex items-center justify-center py-6">
-        <div className="w-44 h-44 rounded-full border-[6px] border-white/5 flex items-center justify-center">
+        <div className="w-44 h-44 rounded-full border-[6px] border-zinc-100 dark:border-white/5 flex items-center justify-center">
           <div className="text-center">
-            <div className="h-8 w-24 bg-white/10 rounded mb-2 mx-auto" />
-            <div className="h-4 w-20 bg-white/5 rounded mx-auto" />
+            <div className="h-8 w-24 bg-zinc-200 dark:bg-white/10 rounded mb-2 mx-auto" />
+            <div className="h-4 w-20 bg-zinc-100 dark:bg-white/5 rounded mx-auto" />
           </div>
         </div>
       </div>
       <div className="space-y-2">
         <div className="flex justify-between">
-          <div className="h-3 w-24 bg-white/5 rounded" />
-          <div className="h-3 w-20 bg-white/10 rounded" />
+          <div className="h-3 w-24 bg-zinc-100 dark:bg-white/5 rounded" />
+          <div className="h-3 w-20 bg-zinc-200 dark:bg-white/10 rounded" />
         </div>
-        <div className="h-1.5 w-full bg-white/5 rounded-full" />
+        <div className="h-1.5 w-full bg-zinc-100 dark:bg-white/5 rounded-full" />
       </div>
     </CardSkeleton>
   );
@@ -85,17 +85,17 @@ function AccountCardSkeleton() {
   return (
     <CardSkeleton className="h-48 p-6">
       <div className="flex justify-between mb-6">
-        <div className="h-8 w-12 bg-white/10 rounded-lg" />
-        <div className="h-5 w-5 bg-white/5 rounded" />
+        <div className="h-8 w-12 bg-zinc-200 dark:bg-white/10 rounded-lg" />
+        <div className="h-5 w-5 bg-zinc-100 dark:bg-white/5 rounded" />
       </div>
-      <div className="h-3 w-20 bg-white/5 rounded mb-2" />
-      <div className="h-5 w-32 bg-white/10 rounded mb-6" />
+      <div className="h-3 w-20 bg-zinc-100 dark:bg-white/5 rounded mb-2" />
+      <div className="h-5 w-32 bg-zinc-200 dark:bg-white/10 rounded mb-6" />
       <div className="flex justify-between items-end">
         <div>
-          <div className="h-2 w-12 bg-white/5 rounded mb-1" />
-          <div className="h-5 w-24 bg-white/10 rounded" />
+          <div className="h-2 w-12 bg-zinc-100 dark:bg-white/5 rounded mb-1" />
+          <div className="h-5 w-24 bg-zinc-200 dark:bg-white/10 rounded" />
         </div>
-        <div className="h-8 w-8 bg-white/10 rounded-full" />
+        <div className="h-8 w-8 bg-zinc-200 dark:bg-white/10 rounded-full" />
       </div>
     </CardSkeleton>
   );
@@ -107,16 +107,16 @@ function AccountCardSkeleton() {
 function GoalSkeleton() {
   return (
     <CardSkeleton className="p-6 flex flex-col items-center justify-center text-center">
-      <div className="w-20 h-20 rounded-full bg-white/5 mb-4" />
-      <div className="h-5 w-24 bg-white/10 rounded mb-2" />
-      <div className="h-3 w-32 bg-white/5 rounded mb-6" />
+      <div className="w-20 h-20 rounded-full bg-zinc-100 dark:bg-white/5 mb-4" />
+      <div className="h-5 w-24 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
+      <div className="h-3 w-32 bg-zinc-100 dark:bg-white/5 rounded mb-6" />
       <div className="w-full space-y-2">
         <div className="flex justify-between">
-          <div className="h-2 w-16 bg-white/5 rounded" />
-          <div className="h-2 w-16 bg-white/5 rounded" />
+          <div className="h-2 w-16 bg-zinc-100 dark:bg-white/5 rounded" />
+          <div className="h-2 w-16 bg-zinc-100 dark:bg-white/5 rounded" />
         </div>
-        <div className="h-2.5 w-full bg-white/5 rounded-full" />
-        <div className="h-3 w-16 bg-white/5 rounded ml-auto" />
+        <div className="h-2.5 w-full bg-zinc-100 dark:bg-white/5 rounded-full" />
+        <div className="h-3 w-16 bg-zinc-100 dark:bg-white/5 rounded ml-auto" />
       </div>
     </CardSkeleton>
   );
@@ -127,13 +127,13 @@ function GoalSkeleton() {
  */
 function TransactionRowSkeleton() {
   return (
-    <div className="flex items-center gap-4 py-4 border-b border-white/5 last:border-0">
-      <div className="w-10 h-10 rounded-xl bg-white/5" />
+    <div className="flex items-center gap-4 py-4 border-b border-zinc-200 dark:border-white/5 last:border-0">
+      <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-white/5" />
       <div className="flex-1">
-        <div className="h-4 w-32 bg-white/10 rounded mb-2" />
-        <div className="h-3 w-20 bg-white/5 rounded" />
+        <div className="h-4 w-32 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
+        <div className="h-3 w-20 bg-zinc-100 dark:bg-white/5 rounded" />
       </div>
-      <div className="h-5 w-24 bg-white/10 rounded" />
+      <div className="h-5 w-24 bg-zinc-200 dark:bg-white/10 rounded" />
     </div>
   );
 }
@@ -160,7 +160,7 @@ function EmptyState({
       animate={{ opacity: 1, scale: 1 }}
       className="flex flex-col items-center justify-center text-center py-12"
     >
-      <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+      <div className="w-16 h-16 rounded-full bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/10 flex items-center justify-center mb-4">
         <Icon className="w-8 h-8 text-muted" />
       </div>
       <h3 className="text-lg font-bold text-primary mb-1">{title}</h3>
@@ -209,10 +209,9 @@ export default function Dashboard() {
   const showTransactionsSkeleton = loading && transactions.length === 0;
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 md:p-10 scroll-smooth pb-32">
-      <div className="max-w-7xl mx-auto space-y-8">
-        {/* Top Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+    <div className="space-y-6 md:space-y-8">
+      {/* Top Bento Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Net Worth Card (Large) */}
           <AnimatePresence mode="wait">
             {showNetWorthSkeleton ? (
@@ -261,8 +260,8 @@ export default function Dashboard() {
               {showAccountsSkeleton ? (
                 <div key="accounts-skeleton" className="col-span-1 md:col-span-2 space-y-4">
                   <div className="flex items-center justify-between px-1">
-                    <div className="h-5 w-32 bg-white/10 rounded" />
-                    <div className="h-4 w-16 bg-white/5 rounded" />
+                    <div className="h-5 w-32 bg-zinc-200 dark:bg-white/10 rounded" />
+                    <div className="h-4 w-16 bg-zinc-100 dark:bg-white/5 rounded" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <AccountCardSkeleton />
@@ -307,7 +306,7 @@ export default function Dashboard() {
               {showGoalSkeleton ? (
                 <div key="goal-skeleton" className="flex flex-col h-full">
                   <div className="flex items-center justify-between px-1 mb-4">
-                    <div className="h-5 w-24 bg-white/10 rounded" />
+                    <div className="h-5 w-24 bg-zinc-200 dark:bg-white/10 rounded" />
                   </div>
                   <GoalSkeleton />
                 </div>
@@ -355,8 +354,8 @@ export default function Dashboard() {
             {showTransactionsSkeleton ? (
               <div key="txn-skeleton" className="col-span-1 md:col-span-12 premium-card rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-6">
-                  <div className="h-5 w-48 bg-white/10 rounded" />
-                  <div className="h-9 w-40 bg-white/5 rounded-xl" />
+                  <div className="h-5 w-48 bg-zinc-200 dark:bg-white/10 rounded" />
+                  <div className="h-9 w-40 bg-zinc-100 dark:bg-white/5 rounded-xl" />
                 </div>
                 {[1, 2, 3, 4].map((i) => (
                   <TransactionRowSkeleton key={i} />
@@ -395,7 +394,6 @@ export default function Dashboard() {
             )}
           </AnimatePresence>
         </div>
-      </div>
       
       {/* FAB */}
       <QuickAddFAB accounts={accounts} onSuccess={refresh} />

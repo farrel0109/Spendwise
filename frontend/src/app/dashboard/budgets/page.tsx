@@ -115,37 +115,37 @@ function BudgetCardSkeleton() {
     <div className="premium-card p-6 rounded-3xl animate-pulse">
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-white/10" />
+          <div className="w-12 h-12 rounded-xl bg-zinc-200 dark:bg-white/10" />
           <div>
-            <div className="h-5 w-24 bg-white/10 rounded mb-2" />
-            <div className="h-3 w-32 bg-white/5 rounded" />
+            <div className="h-5 w-24 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
+            <div className="h-3 w-32 bg-zinc-100 dark:bg-white/5 rounded" />
           </div>
         </div>
-        <div className="w-8 h-8 bg-white/5 rounded-xl" />
+        <div className="w-8 h-8 bg-zinc-100 dark:bg-white/5 rounded-xl" />
       </div>
       <div className="space-y-3">
         <div className="flex justify-between">
-          <div className="h-3 w-20 bg-white/5 rounded" />
-          <div className="h-3 w-16 bg-white/10 rounded" />
+          <div className="h-3 w-20 bg-zinc-100 dark:bg-white/5 rounded" />
+          <div className="h-3 w-16 bg-zinc-200 dark:bg-white/10 rounded" />
         </div>
-        <div className="h-2.5 w-full bg-white/5 rounded-full" />
+        <div className="h-2.5 w-full bg-zinc-100 dark:bg-white/5 rounded-full" />
       </div>
     </div>
   );
 }
 
   return (
-    <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between pt-4">
         <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-primary flex items-center gap-3">
             <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
               <PieChart className="w-8 h-8 text-[var(--accent-color)]" />
             </div>
             {t('nav.budgeting')}
           </h1>
-          <p className="text-slate-400 mt-1 ml-14">Manage your monthly spending limits</p>
+          <p className="text-muted mt-1 ml-14">Manage your monthly spending limits</p>
         </div>
         <button
           onClick={() => setShowForm(true)}
@@ -171,11 +171,11 @@ function BudgetCardSkeleton() {
             animate={{ opacity: 1, scale: 1 }}
             className="premium-card rounded-3xl p-16 text-center"
           >
-            <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
-              <PieChart className="w-10 h-10 text-zinc-500" />
+            <div className="w-20 h-20 bg-zinc-100 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-200 dark:border-white/10">
+              <PieChart className="w-10 h-10 text-muted" />
             </div>
-            <h3 className="text-xl font-bold text-white mb-2">No budgets set</h3>
-            <p className="text-zinc-500 max-w-sm mx-auto mb-4">Create a budget to track your spending and save more.</p>
+            <h3 className="text-xl font-bold text-primary mb-2">No budgets set</h3>
+            <p className="text-muted max-w-sm mx-auto mb-4">Create a budget to track your spending and save more.</p>
             <button 
               onClick={() => setShowForm(true)}
               className="text-[var(--accent-color)] text-sm font-medium hover:opacity-80 transition-opacity"
@@ -200,16 +200,16 @@ function BudgetCardSkeleton() {
                 <div className="premium-card p-6 rounded-3xl relative overflow-hidden group">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-[var(--color-surface)] border border-white/5">
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl bg-[var(--color-surface)] border border-zinc-200 dark:border-white/5">
                     {budget.categories?.icon ? (
                       <span>{budget.categories.icon}</span>
                     ) : (
-                      <Banknote className="w-6 h-6 text-slate-400" />
+                      <Banknote className="w-6 h-6 text-muted" />
                     )}
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-lg">{budget.categories?.name}</h3>
-                    <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">Monthly</p>
+                    <h3 className="font-bold text-primary text-lg">{budget.categories?.name}</h3>
+                    <p className="text-xs text-secondary font-medium uppercase tracking-wider">Monthly</p>
                   </div>
                 </div>
                 <button
@@ -223,10 +223,10 @@ function BudgetCardSkeleton() {
               <div className="space-y-4">
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="text-slate-400">Spent</span>
-                    <span className="text-white font-bold">Rp {formatCurrency(budget.spent)}</span>
+                    <span className="text-secondary">Spent</span>
+                    <span className="text-primary font-bold">Rp {formatCurrency(budget.spent)}</span>
                   </div>
-                  <div className="w-full bg-[var(--color-surface)] rounded-full h-3 border border-white/5 overflow-hidden">
+                  <div className="w-full bg-[var(--color-surface)] rounded-full h-3 border border-zinc-200 dark:border-white/5 overflow-hidden">
                     <div 
                       className={`h-full rounded-full transition-all duration-500 ${
                         budget.isOverBudget ? "bg-red-500" : 
@@ -237,16 +237,16 @@ function BudgetCardSkeleton() {
                   </div>
                 </div>
 
-                <div className="flex justify-between items-end pt-2 border-t border-white/5">
+                <div className="flex justify-between items-end pt-2 border-t border-zinc-200 dark:border-white/5">
                   <div>
-                    <p className="text-xs text-slate-500 mb-1">Remaining</p>
+                    <p className="text-xs text-muted mb-1">Remaining</p>
                     <p className={`font-bold text-xl ${budget.remaining < 0 ? "text-red-500" : "text-emerald-500"}`}>
                       Rp {formatCurrency(budget.remaining)}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs text-slate-500 mb-1">Limit</p>
-                    <p className="font-bold text-white">Rp {formatCurrency(budget.amount)}</p>
+                    <p className="text-xs text-muted mb-1">Limit</p>
+                    <p className="font-bold text-primary">Rp {formatCurrency(budget.amount)}</p>
                   </div>
                 </div>
 
@@ -270,21 +270,21 @@ function BudgetCardSkeleton() {
           <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
 
           <div className="relative w-full max-w-lg bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
-              <button onClick={() => setShowForm(false)} className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors rounded-xl hover:bg-white/5">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-200 dark:border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
+              <button onClick={() => setShowForm(false)} className="p-2 -ml-2 text-muted hover:text-primary transition-colors rounded-xl hover:bg-zinc-100 dark:hover:bg-white/5">
                 <X className="w-6 h-6" />
               </button>
-              <span className="text-lg font-bold text-white">New Budget</span>
+              <span className="text-lg font-bold text-primary">New Budget</span>
               <div className="w-10" />
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
               <div>
-                <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Category</label>
+                <label className="block text-xs text-secondary mb-2 uppercase tracking-wider font-bold">Category</label>
                 <select
                   value={formData.categoryId}
                   onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all appearance-none"
+                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-primary border border-zinc-200 dark:border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all appearance-none"
                   required
                 >
                   <option value="">Select Category</option>
@@ -295,22 +295,22 @@ function BudgetCardSkeleton() {
               </div>
 
               <div>
-                <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Monthly Limit</label>
-                <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all">
-                  <span className="text-slate-500 mr-2 font-medium">Rp</span>
+                <label className="block text-xs text-secondary mb-2 uppercase tracking-wider font-bold">Monthly Limit</label>
+                <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-zinc-200 dark:border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all">
+                  <span className="text-muted mr-2 font-medium">Rp</span>
                   <input
                     type="number"
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                     placeholder="0"
-                    className="w-full bg-transparent py-3.5 text-sm text-white border-none focus:outline-none placeholder:text-slate-600"
+                    className="w-full bg-transparent py-3.5 text-sm text-primary border-none focus:outline-none placeholder:text-muted"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Alert Threshold (%)</label>
+                <label className="block text-xs text-secondary mb-2 uppercase tracking-wider font-bold">Alert Threshold (%)</label>
                 <input
                   type="range"
                   min="50"

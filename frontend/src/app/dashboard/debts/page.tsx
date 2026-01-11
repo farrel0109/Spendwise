@@ -127,10 +127,10 @@ export default function DebtsPage() {
       <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
         <div className="flex items-center justify-between pt-4">
           <div>
-            <div className="h-10 w-48 bg-white/10 rounded-xl animate-pulse mb-2" />
-            <div className="h-4 w-32 bg-white/5 rounded animate-pulse" />
+            <div className="h-10 w-48 bg-zinc-200 dark:bg-white/10 rounded-xl animate-pulse mb-2" />
+            <div className="h-4 w-32 bg-zinc-100 dark:bg-white/5 rounded animate-pulse" />
           </div>
-          <div className="h-12 w-32 bg-white/10 rounded-2xl animate-pulse" />
+          <div className="h-12 w-32 bg-zinc-200 dark:bg-white/10 rounded-2xl animate-pulse" />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           <DebtCardSkeleton />
@@ -144,17 +144,17 @@ export default function DebtsPage() {
 
 
   return (
-    <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between pt-4">
         <div>
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
+          <h1 className="text-3xl font-bold text-primary flex items-center gap-3">
             <div className="p-2 bg-[var(--accent-color)]/10 rounded-xl">
               <Banknote className="w-8 h-8 text-[var(--accent-color)]" />
             </div>
             {t('nav.debts')}
           </h1>
-          <p className="text-slate-400 mt-1 ml-14">Track who owes you and who you owe</p>
+          <p className="text-muted mt-1 ml-14">Track who owes you and who you owe</p>
         </div>
         <button
           onClick={() => setShowForm(true)}
@@ -166,13 +166,13 @@ export default function DebtsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex p-1 bg-[var(--color-surface-elevated)] rounded-2xl w-fit border border-white/5">
+      <div className="flex p-1 bg-[var(--color-surface-elevated)] rounded-2xl w-fit border border-zinc-200 dark:border-white/5">
         <button
           onClick={() => setActiveTab('owe')}
           className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
             activeTab === 'owe' 
-              ? "bg-[var(--color-surface)] text-red-400 shadow-sm border border-white/5" 
-              : "text-slate-400 hover:text-white"
+              ? "bg-[var(--color-surface)] text-red-500 shadow-sm border border-zinc-200 dark:border-white/5" 
+              : "text-muted hover:text-primary"
           }`}
         >
           I Owe (Payables)
@@ -181,8 +181,8 @@ export default function DebtsPage() {
           onClick={() => setActiveTab('owed')}
           className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${
             activeTab === 'owed' 
-              ? "bg-[var(--color-surface)] text-emerald-400 shadow-sm border border-white/5" 
-              : "text-slate-400 hover:text-white"
+              ? "bg-[var(--color-surface)] text-emerald-500 shadow-sm border border-zinc-200 dark:border-white/5" 
+              : "text-muted hover:text-primary"
           }`}
         >
           Owed to Me (Receivables)
@@ -191,19 +191,19 @@ export default function DebtsPage() {
 
       {/* Debts Grid */}
       {filteredDebts.length === 0 ? (
-        <div className="bg-[var(--color-surface-elevated)] rounded-3xl p-16 text-center border border-dashed border-white/5">
-          <div className="w-20 h-20 bg-[var(--color-surface)] rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5">
-            <CheckCircle className="w-10 h-10 text-slate-500" />
+        <div className="bg-[var(--color-surface-elevated)] rounded-3xl p-16 text-center border border-dashed border-zinc-300 dark:border-white/5">
+          <div className="w-20 h-20 bg-[var(--color-surface)] rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-200 dark:border-white/5">
+            <CheckCircle className="w-10 h-10 text-muted" />
           </div>
-          <h3 className="text-xl font-bold text-white mb-2">All clear!</h3>
-          <p className="text-slate-400 max-w-sm mx-auto">
+          <h3 className="text-xl font-bold text-primary mb-2">All clear!</h3>
+          <p className="text-muted max-w-sm mx-auto">
             {activeTab === 'owe' ? "You don't owe anyone anything." : "No one owes you anything right now."}
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredDebts.map((debt) => (
-            <div key={debt.id} className="apple-card p-6 rounded-3xl relative overflow-hidden group">
+            <div key={debt.id} className="bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-zinc-200 dark:border-white/5 hover:border-[var(--accent-color)]/50 transition-all group hover:shadow-xl hover:shadow-[var(--accent-glow)]/5 hover:-translate-y-1 relative overflow-hidden">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl border ${
@@ -214,16 +214,16 @@ export default function DebtsPage() {
                     {debt.amount < 0 ? <ArrowDownLeft className="w-6 h-6" /> : <ArrowUpRight className="w-6 h-6" />}
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-lg flex items-center gap-2">
-                      <User className="w-4 h-4 text-slate-500" />
+                    <h3 className="font-bold text-primary text-lg flex items-center gap-2">
+                      <User className="w-4 h-4 text-muted" />
                       {debt.person_name}
                     </h3>
-                    <p className="text-xs text-slate-400 font-medium">{debt.description || "No description"}</p>
+                    <p className="text-xs text-secondary font-medium">{debt.description || "No description"}</p>
                   </div>
                 </div>
                 <button
                   onClick={() => handleDelete(debt.id)}
-                  className="p-2 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors opacity-0 group-hover:opacity-100"
+                  className="p-2 text-muted hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-colors opacity-0 group-hover:opacity-100"
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
@@ -231,14 +231,14 @@ export default function DebtsPage() {
 
               <div className="space-y-4">
                 <div>
-                  <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">Amount</p>
+                  <p className="text-secondary text-xs uppercase tracking-wider mb-1">Amount</p>
                   <p className={`text-3xl font-bold ${debt.amount < 0 ? "text-red-500" : "text-emerald-500"}`}>
                     Rp {formatCurrency(debt.amount)}
                   </p>
                 </div>
 
                 {debt.due_date && (
-                  <div className="flex items-center gap-2 text-slate-400 text-sm bg-[var(--color-surface)] p-2 rounded-lg border border-white/5 w-fit">
+                  <div className="flex items-center gap-2 text-muted text-sm bg-[var(--color-surface)] p-2 rounded-lg border border-zinc-200 dark:border-white/5 w-fit">
                     <Calendar className="w-4 h-4" />
                     Due: {new Date(debt.due_date).toLocaleDateString()}
                   </div>
@@ -247,7 +247,7 @@ export default function DebtsPage() {
                 {!debt.is_settled && (
                   <button
                     onClick={() => handleSettle(debt.id)}
-                    className="w-full py-3 bg-white/5 hover:bg-[#2d3b4b] text-white rounded-xl font-semibold border border-white/5 transition-all flex items-center justify-center gap-2 mt-2"
+                    className="w-full py-3 bg-zinc-100 dark:bg-white/5 hover:bg-zinc-200 dark:hover:bg-[#2d3b4b] text-primary rounded-xl font-semibold border border-zinc-200 dark:border-white/5 transition-all flex items-center justify-center gap-2 mt-2"
                   >
                     <CheckCircle className="w-4 h-4" />
                     Mark as Settled
@@ -264,11 +264,11 @@ export default function DebtsPage() {
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
           <div className="absolute inset-0 bg-[var(--color-surface)]/80 backdrop-blur-sm transition-opacity" onClick={() => setShowForm(false)} />
           <div className="relative w-full max-w-lg bg-[var(--color-surface-elevated)] rounded-3xl overflow-hidden animate-slideUp shadow-2xl ring-1 ring-white/10">
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
-              <button onClick={() => setShowForm(false)} className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors rounded-xl hover:bg-white/5">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-zinc-200 dark:border-white/5 bg-[var(--color-surface-elevated)]/50 backdrop-blur-md">
+              <button onClick={() => setShowForm(false)} className="p-2 -ml-2 text-muted hover:text-primary transition-colors rounded-xl hover:bg-zinc-100 dark:hover:bg-white/5">
                 <X className="w-6 h-6" />
               </button>
-              <span className="text-lg font-bold text-white">Add Record</span>
+              <span className="text-lg font-bold text-primary">Add Record</span>
               <div className="w-10" />
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -279,7 +279,7 @@ export default function DebtsPage() {
                   className={`p-4 rounded-xl border text-center transition-all ${
                     formData.type === 'owe' 
                       ? "bg-red-500/10 border-red-500 text-red-500" 
-                      : "bg-[var(--color-surface)] border-white/5 text-slate-400 hover:bg-white/5"
+                      : "bg-[var(--color-surface)] border-zinc-200 dark:border-white/5 text-muted hover:bg-zinc-100 dark:hover:bg-white/5"
                   }`}
                 >
                   <p className="font-bold">I Owe</p>
@@ -291,7 +291,7 @@ export default function DebtsPage() {
                   className={`p-4 rounded-xl border text-center transition-all ${
                     formData.type === 'owed' 
                       ? "bg-emerald-500/10 border-emerald-500 text-emerald-500" 
-                      : "bg-[var(--color-surface)] border-white/5 text-slate-400 hover:bg-white/5"
+                      : "bg-[var(--color-surface)] border-zinc-200 dark:border-white/5 text-muted hover:bg-zinc-100 dark:hover:bg-white/5"
                   }`}
                 >
                   <p className="font-bold">Owed to Me</p>
@@ -300,39 +300,39 @@ export default function DebtsPage() {
               </div>
 
               <div>
-                <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Person Name</label>
+                <label className="block text-xs text-secondary mb-2 uppercase tracking-wider font-bold">Person Name</label>
                 <input
                   type="text"
                   value={formData.personName}
                   onChange={(e) => setFormData({ ...formData, personName: e.target.value })}
                   placeholder="e.g., John Doe"
-                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
+                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-primary border border-zinc-200 dark:border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Amount</label>
-                <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all">
-                  <span className="text-slate-500 mr-2 font-medium">Rp</span>
+                <label className="block text-xs text-secondary mb-2 uppercase tracking-wider font-bold">Amount</label>
+                <div className="flex items-center bg-[var(--color-surface)] rounded-xl px-4 border border-zinc-200 dark:border-white/5 focus-within:border-[var(--accent-color)] focus-within:ring-4 focus-within:ring-[var(--accent-color)]/10 transition-all">
+                  <span className="text-muted mr-2 font-medium">Rp</span>
                   <input
                     type="number"
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
                     placeholder="0"
-                    className="w-full bg-transparent py-3.5 text-sm text-white border-none focus:outline-none placeholder:text-slate-600"
+                    className="w-full bg-transparent py-3.5 text-sm text-primary border-none focus:outline-none placeholder:text-muted"
                     required
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs text-slate-400 mb-2 uppercase tracking-wider font-bold">Due Date (Optional)</label>
+                <label className="block text-xs text-secondary mb-2 uppercase tracking-wider font-bold">Due Date (Optional)</label>
                 <input
                   type="date"
                   value={formData.dueDate}
                   onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-white border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
+                  className="w-full bg-[var(--color-surface)] rounded-xl px-4 py-3.5 text-sm text-primary border border-zinc-200 dark:border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-[var(--accent-color)]/10 transition-all"
                 />
               </div>
 
@@ -356,16 +356,16 @@ function DebtCardSkeleton() {
     <div className="premium-card p-6 rounded-3xl animate-pulse">
       <div className="flex justify-between items-start mb-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-white/10" />
+          <div className="w-14 h-14 rounded-full bg-zinc-200 dark:bg-white/10" />
           <div>
-            <div className="h-5 w-28 bg-white/10 rounded mb-2" />
-            <div className="h-3 w-20 bg-white/5 rounded" />
+            <div className="h-5 w-28 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
+            <div className="h-3 w-20 bg-zinc-100 dark:bg-white/5 rounded" />
           </div>
         </div>
-        <div className="w-8 h-8 bg-white/5 rounded-xl" />
+        <div className="w-8 h-8 bg-zinc-100 dark:bg-white/5 rounded-xl" />
       </div>
-      <div className="pt-4 border-t border-white/5">
-        <div className="h-7 w-32 bg-white/10 rounded" />
+      <div className="pt-4 border-t border-zinc-200 dark:border-white/5">
+        <div className="h-7 w-32 bg-zinc-200 dark:bg-white/10 rounded" />
       </div>
     </div>
   );

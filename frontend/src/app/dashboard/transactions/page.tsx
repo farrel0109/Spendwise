@@ -126,7 +126,7 @@ export default function TransactionsPage() {
   };
 
   return (
-    <div className="space-y-8 pb-32 md:pb-12 max-w-[1600px] mx-auto px-6 md:px-10">
+    <div className="space-y-8">
       <PageHeader />
       <FilterBar 
         filters={filters} 
@@ -173,8 +173,8 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
   const TYPES = ["", "expense", "income", "transfer"] as const;
   
   return (
-    <div className="flex flex-col xl:flex-row gap-6 mb-8 bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-white/5 shadow-xl">
-      <div className="flex items-center gap-3 text-secondary text-sm font-bold uppercase tracking-wider xl:border-r border-white/5 xl:pr-6 min-w-fit">
+    <div className="flex flex-col xl:flex-row gap-6 mb-8 bg-[var(--color-surface-elevated)] p-6 rounded-3xl border border-zinc-200 dark:border-white/5 shadow-xl">
+      <div className="flex items-center gap-3 text-secondary text-sm font-bold uppercase tracking-wider xl:border-r border-zinc-200 dark:border-white/5 xl:pr-6 min-w-fit">
         <Filter className="w-5 h-5" />
         Filter By
       </div>
@@ -187,7 +187,7 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
             type="month"
             value={filters.month}
             onChange={(e) => setFilters({ ...filters, month: e.target.value })}
-            className="bg-[var(--color-surface)] text-primary text-sm rounded-2xl pl-12 pr-6 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[180px]"
+            className="bg-[var(--color-surface)] text-primary text-sm rounded-2xl pl-12 pr-6 py-3 border border-zinc-200 dark:border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-zinc-50 dark:hover:bg-white/5 transition-all min-w-[180px]"
           />
         </div>
         
@@ -197,7 +197,7 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
           <select
             value={filters.accountId}
             onChange={(e) => setFilters({ ...filters, accountId: e.target.value })}
-            className="bg-[var(--color-surface)] text-primary text-sm rounded-2xl pl-12 pr-10 py-3 border border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-white/5 transition-all min-w-[200px]"
+            className="bg-[var(--color-surface)] text-primary text-sm rounded-2xl pl-12 pr-10 py-3 border border-zinc-200 dark:border-white/5 focus:border-[var(--accent-color)] focus:ring-4 focus:ring-blue-500/10 appearance-none cursor-pointer hover:bg-zinc-50 dark:hover:bg-white/5 transition-all min-w-[200px]"
           >
             <option value="">All Accounts</option>
             {accounts.map((acc) => (
@@ -208,7 +208,7 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
         </div>
 
         {/* Type Filter */}
-        <div className="flex bg-[var(--color-surface)] p-1.5 rounded-2xl border border-white/5 ml-auto">
+        <div className="flex bg-[var(--color-surface)] p-1.5 rounded-2xl border border-zinc-200 dark:border-white/5 ml-auto">
           {TYPES.map((t) => (
             <button
               key={t}
@@ -216,7 +216,7 @@ function FilterBar({ filters, setFilters, accounts }: FilterBarProps) {
               className={`px-5 py-2 text-xs font-bold rounded-xl transition-all capitalize ${
                 filters.type === t 
                   ? "bg-[var(--accent-color)] text-primary shadow-lg shadow-[var(--accent-glow)]/20" 
-                  : "text-secondary hover:text-primary hover:bg-white/5"
+                  : "text-secondary hover:text-primary hover:bg-zinc-50 dark:hover:bg-white/5"
               }`}
             >
               {t || "All"}
@@ -241,16 +241,16 @@ function TransactionRowSkeleton() {
   return (
     <div className="flex items-center justify-between p-6 animate-pulse">
       <div className="flex items-center gap-5">
-        <div className="w-14 h-14 rounded-2xl bg-white/10" />
+        <div className="w-14 h-14 rounded-2xl bg-zinc-200 dark:bg-white/10" />
         <div>
-          <div className="h-5 w-48 bg-white/10 rounded mb-2" />
+          <div className="h-5 w-48 bg-zinc-200 dark:bg-white/10 rounded mb-2" />
           <div className="flex items-center gap-3">
-            <div className="h-4 w-24 bg-white/5 rounded" />
-            <div className="h-4 w-20 bg-white/5 rounded" />
+            <div className="h-4 w-24 bg-zinc-100 dark:bg-white/5 rounded" />
+            <div className="h-4 w-20 bg-zinc-100 dark:bg-white/5 rounded" />
           </div>
         </div>
       </div>
-      <div className="h-6 w-32 bg-white/10 rounded" />
+      <div className="h-6 w-32 bg-zinc-200 dark:bg-white/10 rounded" />
     </div>
   );
 }
@@ -259,7 +259,7 @@ function TransactionsList({ loading, transactions, onDelete }: TransactionsListP
   // Skeleton loading state
   if (loading && transactions.length === 0) {
     return (
-      <div className="premium-card rounded-3xl overflow-hidden divide-y divide-white/5">
+      <div className="premium-card rounded-3xl overflow-hidden divide-y divide-zinc-100 dark:divide-white/5">
         {[1, 2, 3, 4, 5].map((i) => (
           <TransactionRowSkeleton key={i} />
         ))}
@@ -275,7 +275,7 @@ function TransactionsList({ loading, transactions, onDelete }: TransactionsListP
         animate={{ opacity: 1, scale: 1 }}
         className="premium-card rounded-3xl p-20 text-center"
       >
-        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-white/10">
+        <div className="w-20 h-20 bg-zinc-100 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-6 border border-zinc-200 dark:border-white/10">
           <Search className="w-10 h-10 text-muted" />
         </div>
         <h3 className="text-xl font-bold text-primary mb-2">No transactions found</h3>
@@ -294,7 +294,7 @@ function TransactionsList({ loading, transactions, onDelete }: TransactionsListP
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="premium-card rounded-3xl overflow-hidden divide-y divide-white/5"
+      className="premium-card rounded-3xl overflow-hidden divide-y divide-zinc-100 dark:divide-white/5"
     >
       <AnimatePresence>
         {transactions.map((txn, index) => (
@@ -327,7 +327,7 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
   const TypeIcon = txn.type === "income" ? ArrowUpRight : txn.type === "expense" ? ArrowDownLeft : RefreshCw;
 
   return (
-    <div className="flex items-center justify-between p-6 hover:bg-[var(--color-surface)]/50 transition-all group cursor-pointer">
+    <div className="flex items-center justify-between p-6 hover:bg-zinc-50 dark:hover:bg-[var(--color-surface)]/50 transition-all group cursor-pointer">
       <div className="flex items-center gap-5">
         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg ${typeColors[txn.type]}`}>
           <TypeIcon className="w-7 h-7" />
@@ -338,7 +338,7 @@ function TransactionRow({ transaction: txn, onDelete }: TransactionRowProps) {
               {txn.description || txn.categories?.name || "Transaction"}
             </p>
             {txn.emotion && (
-              <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[var(--color-surface)] text-secondary border border-white/5 font-medium uppercase tracking-wider">
+              <span className="text-[10px] px-2.5 py-1 rounded-lg bg-[var(--color-surface)] text-secondary border border-zinc-200 dark:border-white/5 font-medium uppercase tracking-wider">
                 {txn.emotion}
               </span>
             )}
@@ -385,7 +385,7 @@ function LoadMoreButton({ onClick }: { onClick: () => void }) {
     <div className="flex justify-center pt-8">
       <button
         onClick={onClick}
-        className="px-8 py-3 bg-[var(--color-surface-elevated)] text-[var(--accent-color)] text-sm font-bold rounded-2xl hover:bg-white/5 hover:text-blue-400 transition-all shadow-lg border border-white/5"
+        className="px-8 py-3 bg-[var(--color-surface-elevated)] text-[var(--accent-color)] text-sm font-bold rounded-2xl hover:bg-zinc-50 dark:hover:bg-white/5 hover:text-blue-400 transition-all shadow-lg border border-zinc-200 dark:border-white/5"
       >
         Load More Transactions
       </button>

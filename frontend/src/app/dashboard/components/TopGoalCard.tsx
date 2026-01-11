@@ -25,7 +25,7 @@ export function TopGoalCard({ goal, formatAmount, onCreateGoal, t }: TopGoalCard
     >
       {/* Header */}
       <div className="flex items-center justify-between px-1 mb-4">
-        <h3 className="text-white font-bold text-lg">{t('dashboard.topGoal')}</h3>
+        <h3 className="text-primary font-bold text-lg">{t('dashboard.topGoal')}</h3>
       </div>
       
       {/* Goal Card */}
@@ -68,20 +68,20 @@ function GoalContent({ goal, formatAmount, t }: GoalContentProps) {
       </motion.div>
       
       {/* Goal Name */}
-      <h4 className="text-white text-xl font-bold mb-1">{goal.name}</h4>
-      <p className="text-zinc-500 text-sm mb-6">
+      <h4 className="text-primary text-xl font-bold mb-1">{goal.name}</h4>
+      <p className="text-muted text-sm mb-6">
         Keep saving! You&apos;re making great progress.
       </p>
       
       {/* Progress Section */}
       <div className="w-full space-y-3">
-        <div className="flex justify-between text-xs font-semibold text-zinc-400">
+        <div className="flex justify-between text-xs font-semibold text-secondary">
           <span>Rp {formatAmount(goal.current_amount)}</span>
           <span>Rp {formatAmount(goal.target_amount)}</span>
         </div>
         
         {/* Progress Bar */}
-        <div className="w-full bg-white/5 rounded-full h-2.5 border border-white/5 overflow-hidden">
+        <div className="w-full bg-zinc-100 dark:bg-white/5 rounded-full h-2.5 border border-zinc-200 dark:border-white/5 overflow-hidden">
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: `${progressPercent}%` }}
@@ -109,10 +109,10 @@ interface EmptyGoalStateProps {
 function EmptyGoalState({ onCreateGoal }: EmptyGoalStateProps) {
   return (
     <div className="text-center">
-      <div className="h-20 w-20 rounded-full bg-white/5 flex items-center justify-center mb-4 mx-auto border border-white/5">
-        <Target className="w-10 h-10 text-zinc-600" />
+      <div className="h-20 w-20 rounded-full bg-zinc-100 dark:bg-white/5 flex items-center justify-center mb-4 mx-auto border border-zinc-200 dark:border-white/5">
+        <Target className="w-10 h-10 text-muted" />
       </div>
-      <h4 className="text-white text-lg font-bold mb-2">No Goals Yet</h4>
+      <h4 className="text-primary text-lg font-bold mb-2">No Goals Yet</h4>
       <button 
         onClick={onCreateGoal}
         className="text-[var(--accent-color)] text-sm font-bold hover:opacity-80 transition-opacity"
